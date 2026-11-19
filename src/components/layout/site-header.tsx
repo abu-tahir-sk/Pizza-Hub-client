@@ -195,13 +195,32 @@ export function SiteHeader() {
               </Link>
             ))}
             {user ? (
-              <Link
-                href={dashboardPath(user.role)}
-                onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-[#6b4a3a] hover:bg-[#f7ead9]"
-              >
-                Dashboard
-              </Link>
+              <>
+                <Link
+                  href={dashboardPath(user.role)}
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-[#6b4a3a] hover:bg-[#f7ead9]"
+                >
+                  Dashboard ({user.role})
+                </Link>
+                <Link
+                  href="/profile"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-[#6b4a3a] hover:bg-[#f7ead9]"
+                >
+                  Profile Settings
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMobileOpen(false);
+                    void handleSignOut();
+                  }}
+                  className="text-left rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+                >
+                  Sign Out
+                </button>
+              </>
             ) : (
               <div className="mt-2 flex flex-col gap-2">
                 <Button asChild variant="outline">
@@ -216,6 +235,18 @@ export function SiteHeader() {
                 </Button>
               </div>
             )}
+
+            <div className="mt-2 pt-2 border-t border-[#f0e2d2] flex items-center justify-between px-3 py-1">
+              <span className="text-xs font-medium text-[#6b4a3a]">Theme</span>
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="flex items-center gap-1.5 text-xs font-semibold text-[#6b4a3a] px-2.5 py-1 rounded-md bg-[#f7ead9]"
+              >
+                {theme === "dark" ? <Sun className="size-3.5" /> : <Moon className="size-3.5" />}
+                <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+              </button>
+            </div>
           </nav>
         </div>
       ) : null}

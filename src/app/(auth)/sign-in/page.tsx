@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
 import { getSessionUser } from "@/lib/api";
 import { dashboardPath, type UserRole } from "@/lib/types";
@@ -132,6 +132,25 @@ function SignInForm() {
           {loading ? <Loader2 className="size-4 animate-spin" /> : null}
           {loading ? "Signing in…" : "Sign In"}
         </Button>
+
+        <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-3 text-xs text-amber-900">
+          <p className="font-semibold mb-1 flex items-center gap-1.5">
+            <Sparkles className="size-3.5 text-amber-600" />
+            Quick Test Credentials (1-Click Fill):
+          </p>
+          <div className="flex flex-wrap gap-2 pt-1">
+            <button
+              type="button"
+              onClick={() => {
+                setEmail("admin@pizzahub.com");
+                setPassword("Admin123");
+              }}
+              className="rounded-md border border-amber-300 bg-white px-2 py-1 text-[11px] font-semibold text-[#c8402b] hover:bg-amber-50"
+            >
+              Fill Admin (admin@pizzahub.com)
+            </button>
+          </div>
+        </div>
       </form>
 
       <p className="text-center text-sm text-[#7a5c4d]">
