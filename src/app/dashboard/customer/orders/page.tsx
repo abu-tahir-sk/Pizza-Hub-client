@@ -82,7 +82,7 @@ export default function CustomerOrdersPage() {
       </Tabs>
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
           {error}
         </div>
       ) : null}
@@ -94,7 +94,7 @@ export default function CustomerOrdersPage() {
           ))}
         </div>
       ) : visible.length === 0 ? (
-        <Card className="border-dashed border-[#e3cdb6]">
+        <Card className="border-dashed border-border bg-card">
           <CardContent className="py-16 text-center text-sm text-muted-foreground">
             No {filter === "all" ? "" : filter} orders yet. Browse the menu to place your first
             order.
@@ -106,9 +106,9 @@ export default function CustomerOrdersPage() {
             const item = typeof order.itemId === "object" ? order.itemId : null;
             const vendor = typeof order.vendorId === "object" ? (order.vendorId as VendorInfo) : null;
             return (
-              <Card key={order._id} className="border-[#efe1d0]">
+              <Card key={order._id} className="border-border bg-card">
                 <CardContent className="flex flex-col gap-5 p-5 lg:flex-row lg:items-center">
-                  <div className="relative h-24 w-full shrink-0 overflow-hidden rounded-lg bg-[#f7ecdf] sm:h-20 sm:w-28">
+                  <div className="relative h-24 w-full shrink-0 overflow-hidden rounded-lg bg-muted dark:bg-stone-800 sm:h-20 sm:w-28">
                     {item?.images?.[0] ? (
                       <Image src={item.images[0]} alt={item.itemName} fill sizes="112px" className="object-cover" />
                     ) : null}
@@ -116,7 +116,7 @@ export default function CustomerOrdersPage() {
 
                   <div className="min-w-0 flex-1 space-y-1.5">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="font-bold text-[#3b1c12]">{item?.itemName ?? "Menu item"}</h3>
+                      <h3 className="font-bold text-foreground">{item?.itemName ?? "Menu item"}</h3>
                       <Badge
                         variant={
                           order.status === "accepted"
@@ -132,7 +132,7 @@ export default function CustomerOrdersPage() {
                         {order.status}
                       </Badge>
                     </div>
-                    <p className="flex items-center gap-1.5 text-sm text-[#7a5c4d]">
+                    <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
                       <Store className="size-3.5" />
                       {vendor?.businessName || vendor?.name || "PizzaHub vendor"}
                     </p>
@@ -144,7 +144,7 @@ export default function CustomerOrdersPage() {
                       requested {formatDateTime(order.createdAt)}
                     </p>
                     {order.message ? (
-                      <p className="flex items-start gap-1.5 text-xs text-[#7a5c4d]">
+                      <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
                         <MessageSquare className="mt-0.5 size-3.5 shrink-0" /> {order.message}
                       </p>
                     ) : null}
@@ -158,7 +158,7 @@ export default function CustomerOrdersPage() {
                       <Button
                         size="sm"
                         variant="outline"
-                        className="border-red-200 text-red-600 hover:bg-red-50"
+                        className="border-red-500/30 text-red-600 hover:bg-red-500/10 dark:text-red-400"
                         disabled={busyId === order._id}
                         onClick={() => void handleCancel(order)}
                       >

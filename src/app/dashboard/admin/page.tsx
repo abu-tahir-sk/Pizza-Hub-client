@@ -100,9 +100,9 @@ export default function AdminOverviewPage() {
       )}
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card className="border-[#efe1d0]">
+        <Card className="border-border">
           <CardHeader>
-            <CardTitle className="text-base">Registered users</CardTitle>
+            <CardTitle className="text-base text-foreground">Registered users</CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -111,12 +111,12 @@ export default function AdminOverviewPage() {
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={userChart} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee2d4" />
-                    <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} />
-                    <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={12} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" className="text-border" />
+                    <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} stroke="currentColor" className="text-muted-foreground" />
+                    <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={12} stroke="currentColor" className="text-muted-foreground" />
                     <Tooltip
-                      contentStyle={{ borderRadius: 8, borderColor: "#efdcc9", fontSize: 12 }}
-                      cursor={{ fill: "#fbf2e7" }}
+                      contentStyle={{ borderRadius: 8, borderColor: "var(--border)", backgroundColor: "var(--card)", color: "var(--foreground)", fontSize: 12 }}
+                      cursor={{ fill: "var(--muted)", opacity: 0.5 }}
                     />
                     <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                       {userChart.map((entry) => (
@@ -130,9 +130,9 @@ export default function AdminOverviewPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-[#efe1d0]">
+        <Card className="border-border">
           <CardHeader>
-            <CardTitle className="text-base">Platform content</CardTitle>
+            <CardTitle className="text-base text-foreground">Platform content</CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -141,12 +141,12 @@ export default function AdminOverviewPage() {
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={contentChart} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee2d4" />
-                    <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={11} />
-                    <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={12} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" className="text-border" />
+                    <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={11} stroke="currentColor" className="text-muted-foreground" />
+                    <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={12} stroke="currentColor" className="text-muted-foreground" />
                     <Tooltip
-                      contentStyle={{ borderRadius: 8, borderColor: "#efdcc9", fontSize: 12 }}
-                      cursor={{ fill: "#fbf2e7" }}
+                      contentStyle={{ borderRadius: 8, borderColor: "var(--border)", backgroundColor: "var(--card)", color: "var(--foreground)", fontSize: 12 }}
+                      cursor={{ fill: "var(--muted)", opacity: 0.5 }}
                     />
                     <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                       {contentChart.map((entry) => (
@@ -161,17 +161,17 @@ export default function AdminOverviewPage() {
         </Card>
       </div>
 
-      <Card className="border-[#efe1d0]">
+      <Card className="border-border">
         <CardContent className="flex flex-wrap items-center justify-between gap-4 p-5">
           <div className="flex items-center gap-3">
-            <span className="grid size-11 place-items-center rounded-xl bg-emerald-100 text-emerald-700">
+            <span className="grid size-11 place-items-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
               <DollarSign className="size-5" />
             </span>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Premium revenue
               </p>
-              <p className="text-2xl font-extrabold text-[#3b1c12]">
+              <p className="text-2xl font-extrabold text-foreground">
                 {formatPrice(data?.totalRevenue ?? 0)}
               </p>
             </div>

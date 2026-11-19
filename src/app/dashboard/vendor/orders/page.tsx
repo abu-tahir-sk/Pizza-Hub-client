@@ -74,7 +74,7 @@ export default function VendorOrdersPage() {
       </Tabs>
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
           {error}
         </div>
       ) : null}
@@ -86,7 +86,7 @@ export default function VendorOrdersPage() {
           ))}
         </div>
       ) : visible.length === 0 ? (
-        <Card className="border-dashed border-[#e3cdb6]">
+        <Card className="border-dashed border-border bg-card">
           <CardContent className="py-16 text-center text-sm text-muted-foreground">
             No {filter === "all" ? "" : filter} orders yet.
           </CardContent>
@@ -97,9 +97,9 @@ export default function VendorOrdersPage() {
             const item = typeof order.itemId === "object" ? order.itemId : null;
             const customer = typeof order.customerId === "object" ? (order.customerId as AppUser) : null;
             return (
-              <Card key={order._id} className="border-[#efe1d0]">
+              <Card key={order._id} className="border-border bg-card">
                 <CardContent className="grid gap-5 p-5 lg:grid-cols-[auto_1.4fr_1fr_auto] lg:items-center">
-                  <div className="relative size-20 overflow-hidden rounded-lg bg-[#f7ecdf]">
+                  <div className="relative size-20 overflow-hidden rounded-lg bg-muted dark:bg-stone-800">
                     {item?.images?.[0] ? (
                       <Image src={item.images[0]} alt={item.itemName} fill sizes="80px" className="object-cover" />
                     ) : null}
@@ -107,7 +107,7 @@ export default function VendorOrdersPage() {
 
                   <div className="min-w-0 space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="font-bold text-[#3b1c12]">{item?.itemName ?? "Menu item"}</h3>
+                      <h3 className="font-bold text-foreground">{item?.itemName ?? "Menu item"}</h3>
                       <StatusBadge status={order.status} />
                     </div>
                     <p className="text-sm font-semibold text-[#c8402b]">
@@ -118,7 +118,7 @@ export default function VendorOrdersPage() {
                     </p>
                   </div>
 
-                  <div className="space-y-1.5 text-sm text-[#5d4032]">
+                  <div className="space-y-1.5 text-sm text-foreground">
                     <p className="flex items-center gap-2 font-medium">
                       {customer?.name ?? "Customer"}
                     </p>
@@ -134,8 +134,8 @@ export default function VendorOrdersPage() {
                       <CalendarDays className="size-3.5" /> Delivery {formatDate(order.deliveryDate)}
                     </p>
                     {order.message ? (
-                      <p className="flex items-start gap-1.5 rounded-md bg-[#fdf3e8] px-2 py-1.5 text-xs text-[#7a5c4d]">
-                        <MessageSquare className="mt-0.5 size-3.5 shrink-0" /> {order.message}
+                      <p className="flex items-start gap-1.5 rounded-md border border-border bg-muted/40 px-2 py-1.5 text-xs text-foreground">
+                        <MessageSquare className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" /> {order.message}
                       </p>
                     ) : null}
                   </div>
@@ -145,7 +145,7 @@ export default function VendorOrdersPage() {
                       <>
                         <Button
                           size="sm"
-                          className="flex-1 bg-emerald-600 hover:bg-emerald-700"
+                          className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
                           disabled={busyId === order._id}
                           onClick={() => void decide(order, "accepted")}
                         >
@@ -159,7 +159,7 @@ export default function VendorOrdersPage() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="flex-1 border-red-200 text-red-600 hover:bg-red-50"
+                          className="flex-1 border-red-500/30 text-red-600 hover:bg-red-500/10 dark:text-red-400"
                           disabled={busyId === order._id}
                           onClick={() => void decide(order, "rejected")}
                         >

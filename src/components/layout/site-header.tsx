@@ -46,15 +46,15 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[#f0e2d2] bg-[#fffaf3]/90 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur transition-colors">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5">
           <span className="grid size-10 place-items-center rounded-full bg-[#c8402b] text-white shadow-sm">
             <Pizza className="size-5" />
           </span>
-          <span className="text-2xl font-extrabold tracking-tight text-[#3b1c12]">
-            Pizza<span className="text-[#c8402b]">Hub</span>
+          <span className="text-2xl font-extrabold tracking-tight text-foreground">
+            Pizza<span className="text-[#f0a23c]">Hub</span>
           </span>
         </Link>
 
@@ -65,8 +65,8 @@ export function SiteHeader() {
               key={link.href}
               href={link.href}
               className={cn(
-                "rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-[#f7ead9] hover:text-[#3b1c12]",
-                pathname === link.href ? "text-[#c8402b]" : "text-[#6b4a3a]"
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground",
+                pathname === link.href ? "text-[#c8402b] font-semibold dark:text-[#f0a23c]" : "text-muted-foreground"
               )}
             >
               {link.label}
@@ -76,8 +76,8 @@ export function SiteHeader() {
             <Link
               href={dashboardPath(user.role)}
               className={cn(
-                "rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-[#f7ead9] hover:text-[#3b1c12]",
-                pathname.startsWith("/dashboard") ? "text-[#c8402b]" : "text-[#6b4a3a]"
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-foreground",
+                pathname.startsWith("/dashboard") ? "text-[#c8402b] font-semibold dark:text-[#f0a23c]" : "text-muted-foreground"
               )}
             >
               Dashboard
@@ -93,7 +93,7 @@ export function SiteHeader() {
             variant="ghost"
             size="icon"
             aria-label="View saved favorites"
-            className="relative text-[#6b4a3a] hover:text-[#c8402b]"
+            className="relative text-muted-foreground hover:text-[#c8402b]"
           >
             <Link href="/favorites">
               <Heart className="size-4" />
@@ -111,22 +111,22 @@ export function SiteHeader() {
             size="icon"
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className="hidden text-[#6b4a3a] sm:inline-flex"
+            className="hidden text-muted-foreground hover:text-foreground sm:inline-flex"
           >
             {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </Button>
 
           {isPending ? (
-            <div className="hidden h-9 w-24 animate-pulse rounded-lg bg-[#f2e4d3] sm:block" />
+            <div className="hidden h-9 w-24 animate-pulse rounded-lg bg-muted sm:block" />
           ) : user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 rounded-full border border-[#ecd9c6] bg-white p-1 pr-3 text-left transition-colors hover:border-[#d9b99e]">
+                <button className="flex items-center gap-2 rounded-full border border-border bg-card p-1 pr-3 text-left transition-colors hover:bg-muted">
                   <Avatar className="size-8">
                     <AvatarImage src={user.image ?? undefined} alt={user.name} />
                     <AvatarFallback>{initials(user.name)}</AvatarFallback>
                   </Avatar>
-                  <span className="hidden max-w-28 truncate text-sm font-semibold text-[#3b1c12] sm:block">
+                  <span className="hidden max-w-28 truncate text-sm font-semibold text-foreground sm:block">
                     {user.name}
                   </span>
                 </button>
@@ -149,7 +149,7 @@ export function SiteHeader() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onSelect={handleSignOut}
-                  className="text-red-600 focus:bg-red-50 focus:text-red-700"
+                  className="text-red-600 focus:bg-red-50 focus:text-red-700 dark:focus:bg-red-950/40"
                 >
                   Logout
                 </DropdownMenuItem>
@@ -157,7 +157,7 @@ export function SiteHeader() {
             </DropdownMenu>
           ) : (
             <div className="hidden items-center gap-2 sm:flex">
-              <Button asChild variant="ghost" className="text-[#6b4a3a]">
+              <Button asChild variant="ghost" className="text-muted-foreground hover:text-foreground">
                 <Link href="/sign-in">Sign In</Link>
               </Button>
               <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
@@ -170,7 +170,7 @@ export function SiteHeader() {
             type="button"
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="md:hidden text-foreground"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
@@ -182,14 +182,14 @@ export function SiteHeader() {
 
       {/* Mobile menu */}
       {mobileOpen ? (
-        <div className="border-t border-[#f0e2d2] bg-[#fffaf3] px-4 py-3 md:hidden">
+        <div className="border-t border-border bg-background px-4 py-3 md:hidden">
           <nav className="flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-[#6b4a3a] hover:bg-[#f7ead9]"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
               >
                 {link.label}
               </Link>
@@ -199,14 +199,14 @@ export function SiteHeader() {
                 <Link
                   href={dashboardPath(user.role)}
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-lg px-3 py-2 text-sm font-medium text-[#6b4a3a] hover:bg-[#f7ead9]"
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   Dashboard ({user.role})
                 </Link>
                 <Link
                   href="/profile"
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-lg px-3 py-2 text-sm font-medium text-[#6b4a3a] hover:bg-[#f7ead9]"
+                  className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
                 >
                   Profile Settings
                 </Link>
@@ -216,7 +216,7 @@ export function SiteHeader() {
                     setMobileOpen(false);
                     void handleSignOut();
                   }}
-                  className="text-left rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
+                  className="text-left rounded-lg px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-950/30"
                 >
                   Sign Out
                 </button>
@@ -236,8 +236,8 @@ export function SiteHeader() {
               </div>
             )}
 
-            <div className="mt-2 pt-2 border-t border-[#f0e2d2] flex items-center justify-between px-3 py-1">
-              <span className="text-xs font-medium text-[#6b4a3a]">Theme</span>
+            <div className="mt-2 pt-2 border-t border-border flex items-center justify-between px-3 py-1">
+              <span className="text-xs font-medium text-muted-foreground">Theme</span>
               <button
                 type="button"
                 onClick={toggleTheme}

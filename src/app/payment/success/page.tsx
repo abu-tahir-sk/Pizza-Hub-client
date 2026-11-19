@@ -82,13 +82,13 @@ function SuccessContent() {
   const paid = status === "paid";
 
   return (
-    <div className="min-h-screen bg-[#fffaf3] px-4 py-16 sm:px-6">
+    <div className="min-h-screen bg-background text-foreground px-4 py-16 sm:px-6 transition-colors">
       <div className="mx-auto max-w-xl">
-        <Card className="border-[#efe1d0] text-center">
+        <Card className="border-border bg-card text-center">
           <CardContent className="space-y-4 p-8 sm:p-10">
             <span
               className={`mx-auto grid size-16 place-items-center rounded-full ${
-                paid ? "bg-emerald-100 text-emerald-600" : error ? "bg-red-100 text-red-600" : "bg-amber-100 text-amber-600"
+                paid ? "bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400" : error ? "bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400" : "bg-amber-100 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400"
               }`}
             >
               {paid ? (
@@ -100,11 +100,11 @@ function SuccessContent() {
               )}
             </span>
 
-            <h1 className="text-2xl font-extrabold tracking-tight text-[#3b1c12]">
+            <h1 className="text-2xl font-extrabold tracking-tight text-foreground">
               {paid ? "Payment successful!" : error ? "We couldn't verify this payment" : "Payment processing"}
             </h1>
 
-            <p className="text-sm leading-relaxed text-[#7a5c4d]">
+            <p className="text-sm leading-relaxed text-muted-foreground">
               {paid ? (
                 <>
                   Thanks for upgrading to <strong>PizzaHub Premium</strong>. Premium activates only
@@ -122,16 +122,16 @@ function SuccessContent() {
             </p>
 
             {transaction ? (
-              <div className="mx-auto flex max-w-xs flex-col gap-2 rounded-lg bg-[#fdf3e8] p-4 text-left text-xs text-[#7a5c4d]">
+              <div className="mx-auto flex max-w-xs flex-col gap-2 rounded-lg bg-muted/60 border border-border p-4 text-left text-xs text-muted-foreground">
                 <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-1.5 font-semibold">
+                  <span className="flex items-center gap-1.5 font-semibold text-foreground">
                     <ReceiptText className="size-3.5" /> Plan
                   </span>
                   <span className="capitalize">{transaction.plan}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Amount</span>
-                  <span className="font-semibold">{formatPrice(transaction.amount)}</span>
+                  <span className="font-semibold text-foreground">{formatPrice(transaction.amount)}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Status</span>
@@ -155,14 +155,14 @@ function SuccessContent() {
               <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
                 <Link href="/dashboard/vendor/subscription">Go to subscription</Link>
               </Button>
-              <Button asChild variant="outline" className="border-[#d9b99e]">
+              <Button asChild variant="outline" className="border-border text-foreground hover:bg-muted">
                 <Link href="/dashboard/vendor">Back to dashboard</Link>
               </Button>
             </div>
           </CardContent>
         </Card>
 
-        <p className="mt-4 text-center text-xs text-[#a18573]">
+        <p className="mt-4 text-center text-xs text-muted-foreground">
           Premium is granted server-side only. If your plan still shows Free after a minute, contact
           support — no client-side action can activate it.
         </p>
@@ -174,7 +174,7 @@ function SuccessContent() {
 function PaymentSkeleton() {
   return (
     <div className="mx-auto max-w-xl px-4 py-16">
-      <div className="flex flex-col items-center gap-4 rounded-xl border bg-white p-10">
+      <div className="flex flex-col items-center gap-4 rounded-xl border border-border bg-card p-10">
         <Skeleton className="size-16 rounded-full" />
         <Skeleton className="h-8 w-2/3" />
         <Skeleton className="h-4 w-full" />

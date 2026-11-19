@@ -165,8 +165,8 @@ function ItemDetails() {
     return (
       <div className="mx-auto max-w-xl px-4 py-24 text-center">
         <p className="text-6xl">🍕</p>
-        <h1 className="mt-4 text-2xl font-extrabold text-[#3b1c12]">Menu item not found</h1>
-        <p className="mt-2 text-[#7a5c4d]">
+        <h1 className="mt-4 text-2xl font-extrabold text-foreground">Menu item not found</h1>
+        <p className="mt-2 text-muted-foreground">
           This item may have been removed, rejected, or the link is invalid.
         </p>
         <Button asChild className="mt-6 bg-[#c8402b] hover:bg-[#ad3521]">
@@ -183,9 +183,9 @@ function ItemDetails() {
   const today = new Date().toISOString().slice(0, 10);
 
   return (
-    <div className="bg-[#fffaf3]">
+    <div className="min-h-screen bg-background text-foreground transition-colors">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <Button asChild variant="ghost" className="mb-4 -ml-2 text-[#7a5c4d]">
+        <Button asChild variant="ghost" className="mb-4 -ml-2 text-muted-foreground hover:text-foreground">
           <Link href="/menu">
             <ArrowLeft className="size-4" /> Back to menu
           </Link>
@@ -194,7 +194,7 @@ function ItemDetails() {
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Gallery */}
           <div className="space-y-3">
-            <div className="relative h-80 overflow-hidden rounded-xl border border-[#efe1d0] bg-[#f7ecdf] sm:h-[420px]">
+            <div className="relative h-80 overflow-hidden rounded-xl border border-border bg-muted dark:bg-stone-800 sm:h-[420px]">
               <Image
                 src={item.images[activeImage] ?? item.images[0]}
                 alt={item.itemName}
@@ -216,7 +216,7 @@ function ItemDetails() {
                 className={`absolute right-4 top-4 grid size-10 place-items-center rounded-full backdrop-blur transition-all ${
                   isFavorite(item._id)
                     ? "bg-[#c8402b] text-white shadow"
-                    : "bg-white/80 text-[#6b4a3a] hover:bg-white hover:text-[#c8402b]"
+                    : "bg-background/80 text-foreground border border-border hover:bg-background hover:text-[#c8402b]"
                 }`}
               >
                 <Heart className={`size-5 ${isFavorite(item._id) ? "fill-current" : ""}`} />
@@ -245,10 +245,10 @@ function ItemDetails() {
           <div className="space-y-6">
             <div className="space-y-3">
               <Badge variant="secondary">{item.category}</Badge>
-              <h1 className="text-3xl font-extrabold tracking-tight text-[#3b1c12] sm:text-4xl">
+              <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
                 {item.itemName}
               </h1>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[#7a5c4d]">
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted-foreground">
                 <span className="flex items-center gap-1.5">
                   <Store className="size-4" /> {vendorName}
                 </span>
@@ -257,18 +257,18 @@ function ItemDetails() {
                 </span>
               </div>
               <p className="text-3xl font-extrabold text-[#c8402b]">{formatPrice(item.price)}</p>
-              <p className="leading-relaxed text-[#5d4032]">{item.description}</p>
+              <p className="leading-relaxed text-muted-foreground">{item.description}</p>
             </div>
 
-            <Card className="border-[#efe1d0]">
+            <Card className="border-border bg-card">
               <CardContent className="space-y-4 p-6">
                 <div className="flex items-center gap-2">
                   <CheckCircle2 className="size-5 text-[#c8402b]" />
-                  <h2 className="text-lg font-bold text-[#3b1c12]">Place your order</h2>
+                  <h2 className="text-lg font-bold text-foreground">Place your order</h2>
                 </div>
 
                 {!isCustomer ? (
-                  <div className="rounded-lg bg-amber-50 p-4 text-sm text-amber-800">
+                  <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-4 text-sm text-amber-800 dark:text-amber-300">
                     {isOwner
                       ? "This is your own menu item — vendors cannot order their own items."
                       : user?.role === "vendor"
@@ -305,7 +305,7 @@ function ItemDetails() {
 
                     <div className="space-y-1.5">
                       <Label htmlFor="message">
-                        Special Instructions <span className="font-normal text-[#a18573]">(optional)</span>
+                        Special Instructions <span className="font-normal text-muted-foreground">(optional)</span>
                       </Label>
                       <Textarea
                         id="message"
@@ -316,8 +316,8 @@ function ItemDetails() {
                       />
                     </div>
 
-                    <div className="flex items-center justify-between gap-3 rounded-lg bg-[#fdf3e8] px-4 py-3">
-                      <span className="text-sm font-medium text-[#7a5c4d]">Total (pay on delivery)</span>
+                    <div className="flex items-center justify-between gap-3 rounded-lg bg-muted/60 border border-border px-4 py-3">
+                      <span className="text-sm font-medium text-muted-foreground">Total (pay on delivery)</span>
                       <span className="text-xl font-extrabold text-[#c8402b]">
                         {formatPrice(item.price)}
                       </span>
@@ -331,7 +331,7 @@ function ItemDetails() {
                       {submitting ? <Loader2 className="size-4 animate-spin" /> : <CalendarDays className="size-4" />}
                       {submitting ? "Placing order…" : "Place Order"}
                     </Button>
-                    <p className="flex items-center justify-center gap-1.5 text-xs text-[#a18573]">
+                    <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
                       <ShieldCheck className="size-3.5" /> No online payment needed — pay on delivery.
                     </p>
                   </form>
@@ -342,20 +342,20 @@ function ItemDetails() {
         </div>
 
         {/* ─── Customer Reviews & Ratings (Optional Requirement) ─── */}
-        <section className="mt-14 space-y-6 border-t border-[#efe1d0] pt-10">
+        <section className="mt-14 space-y-6 border-t border-border pt-10">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <div className="flex items-center gap-2">
                 <Star className="size-5 fill-amber-400 text-amber-500" />
-                <h2 className="text-2xl font-bold tracking-tight text-[#3b1c12]">
+                <h2 className="text-2xl font-bold tracking-tight text-foreground">
                   Customer Reviews &amp; Ratings
                 </h2>
               </div>
-              <p className="mt-0.5 text-sm text-[#7a5c4d]">
+              <p className="mt-0.5 text-sm text-muted-foreground">
                 Read authentic feedback from fellow pizza lovers or submit your own.
               </p>
             </div>
-            <div className="flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-3.5 py-1 text-xs font-semibold text-amber-800">
+            <div className="flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-3.5 py-1 text-xs font-semibold text-amber-800 dark:border-amber-700/40 dark:bg-amber-950/40 dark:text-amber-300">
               <Star className="size-3.5 fill-current text-amber-500" /> 4.9 · Highly Rated
             </div>
           </div>
@@ -364,16 +364,16 @@ function ItemDetails() {
             {/* Reviews List */}
             <div className="space-y-4 lg:col-span-7">
               {reviews.map((rev) => (
-                <Card key={rev.id} className="border-[#efe1d0] bg-white">
+                <Card key={rev.id} className="border-border bg-card">
                   <CardContent className="space-y-2 p-5">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
-                        <span className="grid size-8 place-items-center rounded-full bg-[#f7ead9] text-xs font-bold text-[#c8402b]">
+                        <span className="grid size-8 place-items-center rounded-full bg-orange-100 text-xs font-bold text-[#c8402b] dark:bg-stone-800 dark:text-orange-400">
                           {rev.name.slice(0, 2).toUpperCase()}
                         </span>
                         <div>
-                          <p className="text-sm font-bold text-[#3b1c12]">{rev.name}</p>
-                          <p className="text-[11px] text-[#a18573]">{rev.date}</p>
+                          <p className="text-sm font-bold text-foreground">{rev.name}</p>
+                          <p className="text-[11px] text-muted-foreground">{rev.date}</p>
                         </div>
                       </div>
                       <div className="flex text-amber-400">
@@ -382,7 +382,7 @@ function ItemDetails() {
                         ))}
                       </div>
                     </div>
-                    <p className="text-sm leading-relaxed text-[#5d4032]">{rev.comment}</p>
+                    <p className="text-sm leading-relaxed text-muted-foreground">{rev.comment}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -390,11 +390,11 @@ function ItemDetails() {
 
             {/* Leave a review form */}
             <div className="lg:col-span-5">
-              <Card className="border-[#efe1d0] bg-[#fffcf8]">
+              <Card className="border-border bg-card">
                 <CardContent className="space-y-4 p-6">
                   <div className="flex items-center gap-2">
                     <MessageSquare className="size-4 text-[#c8402b]" />
-                    <h3 className="font-bold text-[#3b1c12]">Leave a Review</h3>
+                    <h3 className="font-bold text-foreground">Leave a Review</h3>
                   </div>
                   <form onSubmit={handleReviewSubmit} className="space-y-3.5">
                     <div className="space-y-1">
@@ -409,7 +409,7 @@ function ItemDetails() {
                           >
                             <Star
                               className={`size-6 ${
-                                s <= newRating ? "fill-amber-400 text-amber-400" : "text-stone-300"
+                                s <= newRating ? "fill-amber-400 text-amber-400" : "text-stone-300 dark:text-stone-600"
                               }`}
                             />
                           </button>

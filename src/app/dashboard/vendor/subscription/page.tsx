@@ -90,51 +90,51 @@ export default function VendorSubscriptionPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         {/* Free */}
-        <Card className="border-[#efe1d0]">
+        <Card className="border-border bg-card">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Free</CardTitle>
+              <CardTitle className="text-foreground">Free</CardTitle>
               {!isPremium ? <Badge variant="secondary">Current plan</Badge> : null}
             </div>
-            <p className="text-3xl font-extrabold text-[#3b1c12]">
+            <p className="text-3xl font-extrabold text-foreground">
               $0 <span className="text-sm font-medium text-muted-foreground">/ forever</span>
             </p>
           </CardHeader>
           <CardContent className="space-y-3">
             {FREE_FEATURES.map((f) => (
-              <p key={f} className="flex items-start gap-2 text-sm text-[#5d4032]">
-                <Check className="mt-0.5 size-4 shrink-0 text-emerald-600" /> {f}
+              <p key={f} className="flex items-start gap-2 text-sm text-foreground">
+                <Check className="mt-0.5 size-4 shrink-0 text-emerald-600 dark:text-emerald-400" /> {f}
               </p>
             ))}
           </CardContent>
         </Card>
 
         {/* Premium */}
-        <Card className="relative overflow-hidden border-[#c8402b]/40 ring-1 ring-[#c8402b]/20">
+        <Card className="relative overflow-hidden border-[#c8402b]/40 bg-card ring-1 ring-[#c8402b]/20">
           <div className="absolute right-0 top-0 rounded-bl-xl bg-[#c8402b] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
             Best value
           </div>
           <CardHeader>
             <div className="flex items-center gap-2">
-              <CardTitle>Premium</CardTitle>
+              <CardTitle className="text-foreground">Premium</CardTitle>
               <Star className="size-4 fill-[#f0a23c] text-[#f0a23c]" />
               {isPremium ? <Badge variant="success">Active</Badge> : null}
             </div>
-            <p className="text-3xl font-extrabold text-[#3b1c12]">
+            <p className="text-3xl font-extrabold text-foreground">
               $29.99 <span className="text-sm font-medium text-muted-foreground">/ 30 days</span>
             </p>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-3">
               {PREMIUM_FEATURES.map((f) => (
-                <p key={f} className="flex items-start gap-2 text-sm text-[#5d4032]">
+                <p key={f} className="flex items-start gap-2 text-sm text-foreground">
                   <Check className="mt-0.5 size-4 shrink-0 text-[#c8402b]" /> {f}
                 </p>
               ))}
             </div>
 
             {isPremium ? (
-              <div className="rounded-lg bg-emerald-50 p-3 text-sm text-emerald-800">
+              <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm text-emerald-800 dark:text-emerald-300">
                 <p className="font-semibold">Premium is active 🎉</p>
                 {user?.subscriptionExpiresAt ? (
                   <p className="mt-1 text-xs">
@@ -146,7 +146,7 @@ export default function VendorSubscriptionPage() {
               <Button
                 onClick={handleUpgrade}
                 disabled={upgrading}
-                className="h-11 w-full bg-[#c8402b] hover:bg-[#ad3521]"
+                className="h-11 w-full bg-[#c8402b] hover:bg-[#ad3521] text-white"
               >
                 {upgrading ? (
                   <Loader2 className="size-4 animate-spin" />
@@ -163,10 +163,10 @@ export default function VendorSubscriptionPage() {
         </Card>
       </div>
 
-      <Card className="border-[#efe1d0]">
+      <Card className="border-border bg-card">
         <CardHeader className="flex flex-row items-center gap-2">
           <CreditCard className="size-4 text-muted-foreground" />
-          <CardTitle className="text-base">Payment history</CardTitle>
+          <CardTitle className="text-base text-foreground">Payment history</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (

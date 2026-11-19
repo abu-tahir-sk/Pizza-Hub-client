@@ -9,23 +9,23 @@ export const metadata = {
 
 export default function PaymentCancelPage() {
   return (
-    <div className="min-h-screen bg-[#fffaf3] px-4 py-16 sm:px-6">
+    <div className="min-h-screen bg-background text-foreground px-4 py-16 sm:px-6 transition-colors">
       <div className="mx-auto max-w-xl">
-        <Card className="border-[#efe1d0] text-center">
+        <Card className="border-border bg-card text-center">
           <CardContent className="space-y-4 p-8 sm:p-10">
-            <span className="mx-auto grid size-16 place-items-center rounded-full bg-amber-100 text-amber-600">
+            <span className="mx-auto grid size-16 place-items-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400">
               <XCircle className="size-8" />
             </span>
 
-            <h1 className="text-2xl font-extrabold tracking-tight text-[#3b1c12]">
+            <h1 className="text-2xl font-extrabold tracking-tight text-foreground">
               Checkout cancelled
             </h1>
-            <p className="text-sm leading-relaxed text-[#7a5c4d]">
+            <p className="text-sm leading-relaxed text-muted-foreground">
               No payment was taken and your plan has not changed. You can return to the subscription
               page whenever you&apos;re ready to upgrade to Premium.
             </p>
 
-            <div className="mx-auto flex max-w-sm items-start gap-2 rounded-lg bg-[#fdf3e8] p-4 text-left text-xs leading-relaxed text-[#7a5c4d]">
+            <div className="mx-auto flex max-w-sm items-start gap-2 rounded-lg bg-muted/60 border border-border p-4 text-left text-xs leading-relaxed text-muted-foreground">
               <CreditCard className="mt-0.5 size-3.5 shrink-0 text-[#c8402b]" />
               <span>
                 Premium unlocks unlimited menu items, a Premium badge, and featured placement — it
@@ -37,7 +37,7 @@ export default function PaymentCancelPage() {
               <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
                 <Link href="/dashboard/vendor/subscription">Try again</Link>
               </Button>
-              <Button asChild variant="outline" className="border-[#d9b99e]">
+              <Button asChild variant="outline" className="border-border text-foreground hover:bg-muted">
                 <Link href="/dashboard/vendor">
                   <ArrowLeft className="size-4" /> Back to dashboard
                 </Link>

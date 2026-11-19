@@ -84,15 +84,15 @@ function MenuBrowser() {
   }, [load]);
 
   return (
-    <div className="bg-[#fffaf3]">
+    <div className="min-h-screen bg-background text-foreground transition-colors">
       {/* Page header */}
-      <section className="border-b border-[#f0e2d2] bg-[#3b1c12] py-14 text-white">
+      <section className="border-b border-border bg-muted/40 py-14 text-foreground transition-colors">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#f0a23c]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#c8402b] dark:text-[#f0a23c]">
             Freshly baked near you
           </span>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">Browse Menu</h1>
-          <p className="mt-2 max-w-2xl text-sm text-amber-50/80">
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl text-foreground">Browse Menu</h1>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
             Search by name, filter by category or location, and sort by price to find your next
             favourite slice.
           </p>
@@ -101,9 +101,9 @@ function MenuBrowser() {
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Filters */}
-        <div className="mb-8 grid gap-3 rounded-xl border border-[#efe1d0] bg-white p-4 shadow-sm md:grid-cols-[1.6fr_1fr_1fr_1fr]">
+        <div className="mb-8 grid gap-3 rounded-xl border border-border bg-card p-4 shadow-sm md:grid-cols-[1.6fr_1fr_1fr_1fr]">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#a18573]" />
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search pizzas, sides, drinks…"
               value={search}
@@ -134,7 +134,7 @@ function MenuBrowser() {
           </Select>
 
           <div className="relative">
-            <SlidersHorizontal className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#a18573]" />
+            <SlidersHorizontal className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Area / city"
               value={location}
@@ -166,7 +166,7 @@ function MenuBrowser() {
         </div>
 
         <div className="mb-5 flex items-center justify-between">
-          <p className="text-sm text-[#7a5c4d]">
+          <p className="text-sm text-muted-foreground">
             {loading ? "Loading menu…" : `${total} item${total === 1 ? "" : "s"} found`}
           </p>
           {(search || location || category !== "All") && (
@@ -189,7 +189,7 @@ function MenuBrowser() {
         {loading ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="space-y-3 rounded-xl border bg-white p-4">
+              <div key={i} className="space-y-3 rounded-xl border border-border bg-card p-4">
                 <Skeleton className="h-44 w-full" />
                 <Skeleton className="h-5 w-3/4" />
                 <Skeleton className="h-4 w-1/2" />
@@ -198,17 +198,17 @@ function MenuBrowser() {
             ))}
           </div>
         ) : error ? (
-          <div className="rounded-xl border border-red-200 bg-red-50 p-10 text-center">
-            <p className="font-medium text-red-700">{error}</p>
+          <div className="rounded-xl border border-red-200 bg-red-50 p-10 text-center dark:border-red-900/50 dark:bg-red-950/30">
+            <p className="font-medium text-red-700 dark:text-red-400">{error}</p>
             <Button onClick={() => void load()} className="mt-4 bg-[#c8402b] hover:bg-[#ad3521]">
               Try again
             </Button>
           </div>
         ) : items.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-[#e3cdb6] bg-white p-14 text-center">
+          <div className="rounded-xl border border-dashed border-border bg-card p-14 text-center">
             <Pizza className="mx-auto mb-3 size-11 text-[#c8402b]" />
-            <h2 className="text-lg font-bold text-[#3b1c12]">No pizzas match your search</h2>
-            <p className="mt-1 text-sm text-[#7a5c4d]">
+            <h2 className="text-lg font-bold text-foreground">No pizzas match your search</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
               Try a different keyword, category, or location.
             </p>
           </div>
@@ -230,7 +230,7 @@ function MenuBrowser() {
             >
               Previous
             </Button>
-            <span className="px-3 text-sm font-medium text-[#7a5c4d]">
+            <span className="px-3 text-sm font-medium text-muted-foreground">
               Page {page} of {totalPages}
             </span>
             <Button

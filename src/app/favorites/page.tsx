@@ -51,14 +51,14 @@ export default function FavoritesPage() {
   }, [ready, favorites]);
 
   return (
-    <div className="min-h-screen bg-[#fffaf3]">
-      <section className="border-b border-[#f0e2d2] bg-[#3b1c12] py-14 text-white">
+    <div className="min-h-screen bg-background text-foreground transition-colors">
+      <section className="border-b border-border bg-muted/40 py-14 text-foreground transition-colors">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#f0a23c]">
+          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#c8402b] dark:text-[#f0a23c]">
             <Heart className="size-3.5 fill-current" /> Saved for later
           </span>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl">Your Favorites</h1>
-          <p className="mt-2 max-w-2xl text-sm text-amber-50/80">
+          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl text-foreground">Your Favorites</h1>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
             {favorites.length > 0
               ? `${favorites.length} pizza${favorites.length === 1 ? "" : "s"} saved on this device.`
               : "Tap the heart on any pizza to save it here."}
@@ -74,16 +74,16 @@ export default function FavoritesPage() {
             ))}
           </div>
         ) : error ? (
-          <div className="rounded-xl border border-red-200 bg-red-50 p-10 text-center">
-            <p className="font-medium text-red-700">{error}</p>
+          <div className="rounded-xl border border-red-200 bg-red-50 p-10 text-center dark:border-red-900/50 dark:bg-red-950/30">
+            <p className="font-medium text-red-700 dark:text-red-400">{error}</p>
           </div>
         ) : items.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-[#e3cdb6] bg-white p-14 text-center">
+          <div className="rounded-xl border border-dashed border-border bg-card p-14 text-center">
             <Heart className="mx-auto mb-3 size-10 text-[#c8402b]" />
-            <h2 className="text-lg font-bold text-[#3b1c12]">
+            <h2 className="text-lg font-bold text-foreground">
               {favorites.length === 0 ? "No favorites yet" : "Your favorites are no longer available"}
             </h2>
-            <p className="mx-auto mt-1 max-w-sm text-sm text-[#7a5c4d]">
+            <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
               Browse the menu and tap the heart icon on a pizza to save it for next time.
             </p>
             <Button asChild className="mt-5 bg-[#c8402b] hover:bg-[#ad3521]">

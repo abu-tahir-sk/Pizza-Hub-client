@@ -3,60 +3,60 @@ import { Mail, MapPin, Phone, Pizza } from "lucide-react";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t border-[#3a1810] bg-[#2b120c] text-[#f6e7d7]">
+    <footer className="mt-auto border-t border-[#ebdcd0] bg-[#fdf8f3] text-[#4a2e22] transition-colors dark:border-[#3a1810] dark:bg-[#14100e] dark:text-[#f6e7d7]">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div className="space-y-4">
           <Link href="/" className="flex items-center gap-2.5">
             <span className="grid size-10 place-items-center rounded-full bg-[#c8402b] text-white">
               <Pizza className="size-5" />
             </span>
-            <span className="text-2xl font-extrabold tracking-tight">
+            <span className="text-2xl font-extrabold tracking-tight text-[#3b1c12] dark:text-white">
               Pizza<span className="text-[#f0a23c]">Hub</span>
             </span>
           </Link>
-          <p className="max-w-sm text-sm leading-relaxed text-[#d9bfae]">
+          <p className="max-w-sm text-sm leading-relaxed text-[#6b4a3a] dark:text-[#d9bfae]">
             Discover local pizza shops, explore fresh menus, and get hot &amp; delicious pizza
             delivered to your door.
           </p>
         </div>
 
         <div>
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#f0a23c]">Explore</h3>
-          <ul className="space-y-2.5 text-sm text-[#d9bfae]">
-            <li><Link href="/" className="hover:text-white">Home</Link></li>
-            <li><Link href="/menu" className="hover:text-white">Browse Menu</Link></li>
-            <li><Link href="/sign-in" className="hover:text-white">Sign In</Link></li>
-            <li><Link href="/sign-up" className="hover:text-white">Become a Vendor</Link></li>
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#c8402b] dark:text-[#f0a23c]">Explore</h3>
+          <ul className="space-y-2.5 text-sm text-[#6b4a3a] dark:text-[#d9bfae]">
+            <li><Link href="/" className="hover:text-[#3b1c12] dark:hover:text-white">Home</Link></li>
+            <li><Link href="/menu" className="hover:text-[#3b1c12] dark:hover:text-white">Browse Menu</Link></li>
+            <li><Link href="/sign-in" className="hover:text-[#3b1c12] dark:hover:text-white">Sign In</Link></li>
+            <li><Link href="/sign-up" className="hover:text-[#3b1c12] dark:hover:text-white">Become a Vendor</Link></li>
           </ul>
         </div>
 
         <div>
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#f0a23c]">Contact</h3>
-          <ul className="space-y-3 text-sm text-[#d9bfae]">
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#c8402b] dark:text-[#f0a23c]">Contact</h3>
+          <ul className="space-y-3 text-sm text-[#6b4a3a] dark:text-[#d9bfae]">
             <li className="flex items-start gap-2.5">
-              <MapPin className="mt-0.5 size-4 shrink-0 text-[#f0a23c]" />
+              <MapPin className="mt-0.5 size-4 shrink-0 text-[#c8402b] dark:text-[#f0a23c]" />
               42 Crust Street, Naples District
             </li>
             <li className="flex items-center gap-2.5">
-              <Phone className="size-4 shrink-0 text-[#f0a23c]" />
+              <Phone className="size-4 shrink-0 text-[#c8402b] dark:text-[#f0a23c]" />
               +1 (555) 010-4242
             </li>
             <li className="flex items-center gap-2.5">
-              <Mail className="size-4 shrink-0 text-[#f0a23c]" />
+              <Mail className="size-4 shrink-0 text-[#c8402b] dark:text-[#f0a23c]" />
               hello@pizzahub.com
             </li>
           </ul>
         </div>
 
         <div>
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#f0a23c]">Follow Us</h3>
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[#c8402b] dark:text-[#f0a23c]">Follow Us</h3>
           <div className="flex items-center gap-3">
             <a
               href="https://x.com"
               target="_blank"
               rel="noreferrer"
               aria-label="PizzaHub on X"
-              className="grid size-9 place-items-center rounded-full bg-white/10 transition-colors hover:bg-[#c8402b]"
+              className="grid size-9 place-items-center rounded-full bg-[#ebdcd0] text-[#3b1c12] transition-colors hover:bg-[#c8402b] hover:text-white dark:bg-white/10 dark:text-white dark:hover:bg-[#c8402b]"
             >
               {/* X (formerly Twitter) logo */}
               <svg viewBox="0 0 24 24" className="size-4 fill-current" aria-hidden="true">
@@ -68,7 +68,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="PizzaHub on Instagram"
-              className="grid size-9 place-items-center rounded-full bg-white/10 transition-colors hover:bg-[#c8402b]"
+              className="grid size-9 place-items-center rounded-full bg-[#ebdcd0] text-[#3b1c12] transition-colors hover:bg-[#c8402b] hover:text-white dark:bg-white/10 dark:text-white dark:hover:bg-[#c8402b]"
             >
               {/* Instagram glyph */}
               <svg viewBox="0 0 24 24" className="size-4 fill-current" aria-hidden="true">
@@ -80,7 +80,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="PizzaHub on YouTube"
-              className="grid size-9 place-items-center rounded-full bg-white/10 transition-colors hover:bg-[#c8402b]"
+              className="grid size-9 place-items-center rounded-full bg-[#ebdcd0] text-[#3b1c12] transition-colors hover:bg-[#c8402b] hover:text-white dark:bg-white/10 dark:text-white dark:hover:bg-[#c8402b]"
             >
               {/* YouTube glyph */}
               <svg viewBox="0 0 24 24" className="size-4 fill-current" aria-hidden="true">
@@ -88,7 +88,7 @@ export function SiteFooter() {
               </svg>
             </a>
           </div>
-          <p className="mt-5 text-xs leading-relaxed text-[#a98874]">
+          <p className="mt-5 text-xs leading-relaxed text-[#8a6856] dark:text-[#a98874]">
             Open daily: 11:00 AM – 11:00 PM
             <br />
             Delivery within 30 minutes.
@@ -96,8 +96,8 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 py-5">
-        <p className="text-center text-xs text-[#a98874]">
+      <div className="border-t border-[#ebdcd0] py-5 dark:border-white/10">
+        <p className="text-center text-xs text-[#8a6856] dark:text-[#a98874]">
           © {new Date().getFullYear()} PizzaHub. All rights reserved. Made with 🍕 and care.
         </p>
       </div>

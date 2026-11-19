@@ -103,9 +103,9 @@ export default function AdminUsersPage() {
         description="Search accounts, review roles, and block abusive users. Admins can never be blocked."
       />
 
-      <div className="grid gap-3 rounded-xl border border-[#efe1d0] bg-white p-4 shadow-sm sm:grid-cols-[1fr_220px]">
+      <div className="grid gap-3 rounded-xl border border-border bg-card p-4 shadow-sm sm:grid-cols-[1fr_220px]">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#a18573]" />
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -133,12 +133,12 @@ export default function AdminUsersPage() {
         </Select>
       </div>
 
-      <p className="text-sm text-[#7a5c4d]">
+      <p className="text-sm text-muted-foreground">
         {loading ? "Loading users…" : `${total} user${total === 1 ? "" : "s"} found`}
       </p>
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
           {error}
         </div>
       ) : null}
@@ -150,16 +150,16 @@ export default function AdminUsersPage() {
           ))}
         </div>
       ) : users.length === 0 ? (
-        <Card className="border-dashed border-[#e3cdb6]">
+        <Card className="border-dashed border-border bg-card">
           <CardContent className="flex flex-col items-center gap-2 py-16 text-center">
             <Users className="size-9 text-[#c8402b]" />
-            <p className="font-semibold text-[#3b1c12]">No users match your filters</p>
+            <p className="font-semibold text-foreground">No users match your filters</p>
             <p className="text-sm text-muted-foreground">Try a different search or role.</p>
           </CardContent>
         </Card>
       ) : (
-        <Card className="overflow-hidden border-[#efe1d0]">
-          <div className="divide-y divide-[#f3e6d8]">
+        <Card className="overflow-hidden border-border bg-card">
+          <div className="divide-y divide-border">
             {users.map((user) => {
               const id = user._id ?? user.id;
               return (
@@ -169,14 +169,14 @@ export default function AdminUsersPage() {
                 >
                   <Avatar className="size-10">
                     <AvatarImage src={user.image ?? undefined} alt={user.name} />
-                    <AvatarFallback className="bg-[#fdeade] text-[#c8402b]">
+                    <AvatarFallback className="bg-primary/10 text-primary">
                       {user.name.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
 
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <p className="truncate text-sm font-semibold text-[#3b1c12]">{user.name}</p>
+                      <p className="truncate text-sm font-semibold text-foreground">{user.name}</p>
                       <RoleBadge role={user.role} />
                       {user.isBlocked ? (
                         <Badge variant="destructive">Blocked</Badge>
@@ -190,7 +190,7 @@ export default function AdminUsersPage() {
                   </div>
 
                   {user.role === "admin" ? (
-                    <span className="flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                    <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                       <ShieldCheck className="size-3.5" /> Protected
                     </span>
                   ) : (
@@ -199,8 +199,8 @@ export default function AdminUsersPage() {
                       variant="outline"
                       className={
                         user.isBlocked
-                          ? "border-emerald-200 text-emerald-700 hover:bg-emerald-50"
-                          : "border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                          ? "border-emerald-500/30 text-emerald-600 hover:bg-emerald-500/10 dark:text-emerald-400"
+                          : "border-red-500/30 text-red-600 hover:bg-red-500/10 dark:text-red-400"
                       }
                       onClick={() => setPendingUser(user)}
                     >
@@ -227,7 +227,7 @@ export default function AdminUsersPage() {
           <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Previous
           </Button>
-          <span className="px-3 text-sm font-medium text-[#7a5c4d]">
+          <span className="px-3 text-sm font-medium text-muted-foreground">
             Page {page} of {totalPages}
           </span>
           <Button

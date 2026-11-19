@@ -95,7 +95,7 @@ export default function VendorOverviewPage() {
       />
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
           {error}
         </div>
       ) : null}
@@ -122,9 +122,9 @@ export default function VendorOverviewPage() {
       )}
 
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-        <Card className="border-[#efe1d0]">
+        <Card className="border-border bg-card">
           <CardHeader>
-            <CardTitle className="text-base">Orders by status</CardTitle>
+            <CardTitle className="text-base text-foreground">Orders by status</CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -137,12 +137,18 @@ export default function VendorOverviewPage() {
               <div className="h-64 w-full">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={chartData} margin={{ top: 8, right: 8, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee2d4" />
-                    <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} />
-                    <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={12} />
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border)" opacity={0.6} />
+                    <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} stroke="var(--muted-foreground)" />
+                    <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={12} stroke="var(--muted-foreground)" />
                     <Tooltip
-                      contentStyle={{ borderRadius: 8, borderColor: "#efdcc9", fontSize: 12 }}
-                      cursor={{ fill: "#fbf2e7" }}
+                      contentStyle={{
+                        borderRadius: 8,
+                        borderColor: "var(--border)",
+                        backgroundColor: "var(--card)",
+                        color: "var(--foreground)",
+                        fontSize: 12,
+                      }}
+                      cursor={{ fill: "var(--muted)", opacity: 0.3 }}
                     />
                     <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                       {chartData.map((entry) => (
@@ -156,35 +162,35 @@ export default function VendorOverviewPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-[#efe1d0]">
+        <Card className="border-border bg-card">
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="text-base">Subscription</CardTitle>
+            <CardTitle className="text-base text-foreground">Subscription</CardTitle>
             <CreditCard className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="rounded-lg bg-[#fdf3e8] p-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-[#a18573]">
+            <div className="rounded-lg border border-border bg-muted/50 p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Current plan
               </p>
-              <p className="mt-1 text-xl font-extrabold capitalize text-[#3b1c12]">
+              <p className="mt-1 text-xl font-extrabold capitalize text-foreground">
                 {user?.subscriptionPlan ?? "free"}
               </p>
-              <p className="mt-1 text-xs text-[#7a5c4d]">
+              <p className="mt-1 text-xs text-muted-foreground">
                 {user?.subscriptionPlan === "premium"
                   ? "Unlimited menu items, Premium badge & featured placement."
                   : "Up to 3 menu items. Upgrade for unlimited listings."}
               </p>
             </div>
-            <Button asChild variant="outline" className="w-full border-[#d9b99e]">
+            <Button asChild variant="outline" className="w-full">
               <Link href="/dashboard/vendor/subscription">Manage Subscription</Link>
             </Button>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="border-[#efe1d0]">
+      <Card className="border-border bg-card">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base">Recent orders</CardTitle>
+          <CardTitle className="text-base text-foreground">Recent orders</CardTitle>
           <Button asChild variant="ghost" size="sm" className="text-[#c8402b]">
             <Link href="/dashboard/vendor/orders">View all</Link>
           </Button>
@@ -195,13 +201,13 @@ export default function VendorOverviewPage() {
           ) : orders.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">No orders yet.</p>
           ) : (
-            <div className="divide-y divide-[#f3e6d8]">
+            <div className="divide-y divide-border">
               {orders.slice(0, 5).map((order) => {
                 const item = typeof order.itemId === "object" ? order.itemId : null;
                 return (
                   <div key={order._id} className="flex items-center justify-between gap-3 py-3">
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-[#3b1c12]">
+                      <p className="truncate text-sm font-semibold text-foreground">
                         {item?.itemName ?? "Menu item"}
                       </p>
                       <p className="text-xs text-muted-foreground">

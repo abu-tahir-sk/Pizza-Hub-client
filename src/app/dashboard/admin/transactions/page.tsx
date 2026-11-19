@@ -71,21 +71,21 @@ export default function AdminTransactionsPage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <Card className="border-[#efe1d0] sm:col-span-1">
+        <Card className="border-border bg-card sm:col-span-1">
           <CardContent className="flex items-center gap-3 p-5">
-            <span className="grid size-11 place-items-center rounded-xl bg-emerald-100 text-emerald-700">
+            <span className="grid size-11 place-items-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
               <ReceiptText className="size-5" />
             </span>
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 Total revenue
               </p>
-              <p className="text-2xl font-extrabold text-[#3b1c12]">{formatPrice(totalRevenue)}</p>
+              <p className="text-2xl font-extrabold text-foreground">{formatPrice(totalRevenue)}</p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-[#efe1d0] sm:col-span-2">
+        <Card className="border-border bg-card sm:col-span-2">
           <CardContent className="flex items-start gap-3 p-5 text-xs leading-relaxed text-muted-foreground">
             <Lock className="mt-0.5 size-4 shrink-0 text-[#c8402b]" />
             <p>
@@ -114,15 +114,15 @@ export default function AdminTransactionsPage() {
       </Tabs>
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
           {error}
         </div>
       ) : null}
 
-      <Card className="border-[#efe1d0]">
+      <Card className="border-border bg-card">
         <CardHeader className="flex flex-row items-center gap-2">
           <CreditCard className="size-4 text-muted-foreground" />
-          <CardTitle className="text-base">
+          <CardTitle className="text-base text-foreground">
             {loading ? "Loading transactions…" : `${total} transaction${total === 1 ? "" : "s"}`}
           </CardTitle>
         </CardHeader>
@@ -132,7 +132,7 @@ export default function AdminTransactionsPage() {
           ) : transactions.length === 0 ? (
             <div className="flex flex-col items-center gap-2 py-14 text-center">
               <ReceiptText className="size-9 text-[#c8402b]" />
-              <p className="font-semibold text-[#3b1c12]">No transactions yet</p>
+              <p className="font-semibold text-foreground">No transactions yet</p>
               <p className="text-sm text-muted-foreground">
                 Vendor subscription payments will appear here.
               </p>

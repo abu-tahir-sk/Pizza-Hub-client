@@ -89,7 +89,7 @@ export default function AddMenuItemPage() {
 
   return (
     <div className="space-y-6">
-      <Button asChild variant="ghost" className="-ml-2 text-[#7a5c4d]">
+      <Button asChild variant="ghost" className="-ml-2 text-muted-foreground hover:text-foreground">
         <Link href="/dashboard/vendor/items">
           <ArrowLeft className="size-4" /> Back to menu items
         </Link>
@@ -101,7 +101,7 @@ export default function AddMenuItemPage() {
       />
 
       {!isPremium ? (
-        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm text-amber-700 dark:text-amber-400">
           <strong>Free plan:</strong> you can publish a maximum of 3 active items.{" "}
           <Link href="/dashboard/vendor/subscription" className="font-semibold underline">
             Upgrade to Premium
@@ -110,7 +110,7 @@ export default function AddMenuItemPage() {
         </div>
       ) : null}
 
-      <Card className="border-[#efe1d0]">
+      <Card className="border-border bg-card">
         <CardContent className="p-6">
           <form onSubmit={handleSubmit} className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
             <div className="space-y-4">
@@ -190,13 +190,13 @@ export default function AddMenuItemPage() {
 
               <label
                 htmlFor="images"
-                className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#e3cdb6] bg-[#fdf7ef] px-4 py-10 text-center transition-colors hover:border-[#c8402b]/50 hover:bg-[#fbeede]"
+                className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-muted/30 px-4 py-10 text-center transition-colors hover:border-primary/50 hover:bg-muted/50"
               >
                 <ImagePlus className="size-9 text-[#c8402b]" />
-                <span className="text-sm font-semibold text-[#3b1c12]">
+                <span className="text-sm font-semibold text-foreground">
                   Click to upload images
                 </span>
-                <span className="text-xs text-[#a18573]">
+                <span className="text-xs text-muted-foreground">
                   PNG or JPG · uploaded securely via ImgBB
                 </span>
                 <input

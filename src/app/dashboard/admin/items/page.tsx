@@ -156,9 +156,9 @@ export default function AdminMenuItemsPage() {
         </TabsList>
       </Tabs>
 
-      <div className="grid gap-3 rounded-xl border border-[#efe1d0] bg-white p-4 shadow-sm sm:grid-cols-[1fr_240px]">
+      <div className="grid gap-3 rounded-xl border border-border bg-card p-4 shadow-sm sm:grid-cols-[1fr_240px]">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#a18573]" />
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -208,7 +208,7 @@ export default function AdminMenuItemsPage() {
         <Card className="border-dashed border-[#e3cdb6]">
           <CardContent className="flex flex-col items-center gap-2 py-16 text-center">
             <UtensilsCrossed className="size-9 text-[#c8402b]" />
-            <p className="font-semibold text-[#3b1c12]">No items match your filters</p>
+            <p className="font-semibold text-foreground">No items match your filters</p>
             <p className="text-sm text-muted-foreground">Try another search or status.</p>
           </CardContent>
         </Card>
@@ -217,8 +217,8 @@ export default function AdminMenuItemsPage() {
           {items.map((item) => {
             const vendor = typeof item.vendorId === "object" ? item.vendorId : null;
             return (
-              <Card key={item._id} className="flex flex-col overflow-hidden border-[#efe1d0]">
-                <div className="relative h-40 w-full bg-[#f7ecdf]">
+              <Card key={item._id} className="flex flex-col overflow-hidden border-border bg-card">
+                <div className="relative h-40 w-full bg-muted dark:bg-stone-800">
                   {item.images?.[0] ? (
                     <Image
                       src={item.images[0]}
@@ -235,7 +235,7 @@ export default function AdminMenuItemsPage() {
 
                 <CardContent className="flex flex-1 flex-col gap-2 p-5">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="line-clamp-1 font-bold text-[#3b1c12]">{item.itemName}</h3>
+                    <h3 className="line-clamp-1 font-bold text-foreground">{item.itemName}</h3>
                     <span className="shrink-0 font-extrabold text-[#c8402b]">
                       {formatPrice(item.price)}
                     </span>

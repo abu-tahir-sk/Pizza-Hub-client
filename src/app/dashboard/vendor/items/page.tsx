@@ -119,7 +119,7 @@ export default function VendorItemsPage() {
       />
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
           {error}
         </div>
       ) : null}
@@ -131,11 +131,11 @@ export default function VendorItemsPage() {
           ))}
         </div>
       ) : items.length === 0 ? (
-        <Card className="border-dashed border-[#e3cdb6]">
+        <Card className="border-dashed border-border bg-card">
           <CardContent className="flex flex-col items-center gap-3 py-16 text-center">
             <UtensilsCrossed className="size-10 text-[#c8402b]" />
-            <h2 className="text-lg font-bold text-[#3b1c12]">No menu items yet</h2>
-            <p className="max-w-sm text-sm text-[#7a5c4d]">
+            <h2 className="text-lg font-bold text-foreground">No menu items yet</h2>
+            <p className="max-w-sm text-sm text-muted-foreground">
               Add your first pizza — it stays pending until an admin approves it.
             </p>
             <Button asChild className="mt-2 bg-[#c8402b] hover:bg-[#ad3521]">
@@ -146,8 +146,8 @@ export default function VendorItemsPage() {
       ) : (
         <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {items.map((item) => (
-            <Card key={item._id} className="overflow-hidden border-[#efe1d0]">
-              <div className="relative h-44 w-full bg-[#f7ecdf]">
+            <Card key={item._id} className="overflow-hidden border-border bg-card">
+              <div className="relative h-44 w-full bg-muted dark:bg-stone-800">
                 <Image
                   src={item.images[0]}
                   alt={item.itemName}
@@ -161,7 +161,7 @@ export default function VendorItemsPage() {
               </div>
               <CardContent className="space-y-3 p-5">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="line-clamp-1 font-bold text-[#3b1c12]">{item.itemName}</h3>
+                  <h3 className="line-clamp-1 font-bold text-foreground">{item.itemName}</h3>
                   <span className="shrink-0 font-extrabold text-[#c8402b]">
                     {formatPrice(item.price)}
                   </span>
@@ -170,13 +170,13 @@ export default function VendorItemsPage() {
                   {item.category} · {item.location}
                 </p>
                 {item.status === "rejected" && item.rejectionReason ? (
-                  <p className="rounded-md bg-red-50 px-2 py-1.5 text-xs text-red-700">
+                  <p className="rounded-md bg-red-500/10 px-2 py-1.5 text-xs text-red-600 dark:text-red-400">
                     Rejected: {item.rejectionReason}
                   </p>
                 ) : null}
 
-                <div className="flex items-center justify-between rounded-lg bg-[#fdf3e8] px-3 py-2">
-                  <span className="text-xs font-semibold text-[#7a5c4d]">
+                <div className="flex items-center justify-between rounded-lg border border-border bg-muted/40 px-3 py-2">
+                  <span className="text-xs font-semibold text-foreground">
                     Available to order
                   </span>
                   <Switch
@@ -195,7 +195,7 @@ export default function VendorItemsPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1 border-[#d9b99e]"
+                    className="flex-1"
                     onClick={() => setEditing(item)}
                     disabled={item.status === "pending"}
                   >
@@ -204,7 +204,7 @@ export default function VendorItemsPage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="flex-1 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                    className="flex-1 border-red-500/30 text-red-600 hover:bg-red-500/10 dark:text-red-400"
                     onClick={() => setDeleting(item)}
                   >
                     <Trash2 className="size-3.5" /> Delete

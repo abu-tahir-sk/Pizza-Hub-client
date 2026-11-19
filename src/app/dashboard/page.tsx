@@ -20,8 +20,8 @@ export default function DashboardIndexPage() {
   }, [session, isPending, router]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#fffaf3]">
-      <div className="flex items-center gap-3 text-[#7a5c4d]">
+    <div className="flex min-h-screen items-center justify-center bg-background text-foreground transition-colors">
+      <div className="flex items-center gap-3 text-muted-foreground">
         <span className="size-5 animate-spin rounded-full border-2 border-[#c8402b] border-t-transparent" />
         Opening your dashboard…
       </div>
