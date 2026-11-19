@@ -1,0 +1,233 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { Heart, Menu, Moon, Pizza, Sun, X } from "lucide-react";
+import { useSession, signOut } from "@/lib/auth-client";
+import { clearToken } from "@/lib/api";
+import { dashboardPath, type AppUser } from "@/lib/types";
+import { useTheme } from "@/context/theme-context";
+import { useFavorites } from "@/context/favorites-context";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/menu", label: "Browse Menu" },
+  { href: "/favorites", label: "Favorites" },
+];
+
+export function SiteHeader() {
+  const { data: session, isPending } = useSession();
+  const user = session?.user as unknown as AppUser | undefined;
+  const pathname = usePathname();
+  const router = useRouter();
+  const { theme, toggleTheme } = useTheme();
+  const { favorites } = useFavorites();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  async function handleSignOut() {
+    await signOut();
+    clearToken();
+    toast.success("Signed out successfully");
+    router.push("/");
+    router.refresh();
+  }
+
+  return (
+    <header className="sticky top-0 z-40 border-b border-[#f0e2d2] bg-[#fffaf3]/90 backdrop-blur">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2.5">
+          <span className="grid size-10 place-items-center rounded-full bg-[#c8402b] text-white shadow-sm">
+            <Pizza className="size-5" />
+          </span>
+          <span className="text-2xl font-extrabold tracking-tight text-[#3b1c12]">
+            Pizza<span className="text-[#c8402b]">Hub</span>
+          </span>
+        </Link>
+
+        {/* Desktop nav */}
+        <nav className="hidden items-center gap-1 md:flex">
+          {NAV_LINKS.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={cn(
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-[#f7ead9] hover:text-[#3b1c12]",
+                pathname === link.href ? "text-[#c8402b]" : "text-[#6b4a3a]"
+              )}
+            >
+              {link.label}
+            </Link>
+          ))}
+          {user ? (
+            <Link
+              href={dashboardPath(user.role)}
+              className={cn(
+                "rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-[#f7ead9] hover:text-[#3b1c12]",
+                pathname.startsWith("/dashboard") ? "text-[#c8402b]" : "text-[#6b4a3a]"
+              )}
+            >
+              Dashboard
+            </Link>
+          ) : null}
+        </nav>
+
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <Button
+            asChild
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label="View saved favorites"
+            className="relative text-[#6b4a3a] hover:text-[#c8402b]"
+          >
+            <Link href="/favorites">
+              <Heart className="size-4" />
+              {favorites.length > 0 ? (
+                <span className="absolute -right-0.5 -top-0.5 grid size-4 place-items-center rounded-full bg-[#c8402b] text-[10px] font-bold text-white shadow">
+                  {favorites.length}
+                </span>
+              ) : null}
+            </Link>
+          </Button>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="hidden text-[#6b4a3a] sm:inline-flex"
+          >
+            {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+          </Button>
+
+          {isPending ? (
+            <div className="hidden h-9 w-24 animate-pulse rounded-lg bg-[#f2e4d3] sm:block" />
+          ) : user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 rounded-full border border-[#ecd9c6] bg-white p-1 pr-3 text-left transition-colors hover:border-[#d9b99e]">
+                  <Avatar className="size-8">
+                    <AvatarImage src={user.image ?? undefined} alt={user.name} />
+                    <AvatarFallback>{initials(user.name)}</AvatarFallback>
+                  </Avatar>
+                  <span className="hidden max-w-28 truncate text-sm font-semibold text-[#3b1c12] sm:block">
+                    {user.name}
+                  </span>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-normal">
+                  <p className="truncate text-sm font-semibold">{user.name}</p>
+                  <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                  <p className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-[#c8402b]">
+                    {user.role}
+                  </p>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href={dashboardPath(user.role)}>Dashboard</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">Profile Settings</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onSelect={handleSignOut}
+                  className="text-red-600 focus:bg-red-50 focus:text-red-700"
+                >
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="hidden items-center gap-2 sm:flex">
+              <Button asChild variant="ghost" className="text-[#6b4a3a]">
+                <Link href="/sign-in">Sign In</Link>
+              </Button>
+              <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
+                <Link href="/sign-up">Sign Up</Link>
+              </Button>
+            </div>
+          )}
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </Button>
+        </div>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileOpen ? (
+        <div className="border-t border-[#f0e2d2] bg-[#fffaf3] px-4 py-3 md:hidden">
+          <nav className="flex flex-col gap-1">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-[#6b4a3a] hover:bg-[#f7ead9]"
+              >
+                {link.label}
+              </Link>
+            ))}
+            {user ? (
+              <Link
+                href={dashboardPath(user.role)}
+                onClick={() => setMobileOpen(false)}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-[#6b4a3a] hover:bg-[#f7ead9]"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <div className="mt-2 flex flex-col gap-2">
+                <Button asChild variant="outline">
+                  <Link href="/sign-in" onClick={() => setMobileOpen(false)}>
+                    Sign In
+                  </Link>
+                </Button>
+                <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
+                  <Link href="/sign-up" onClick={() => setMobileOpen(false)}>
+                    Sign Up
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </nav>
+        </div>
+      ) : null}
+    </header>
+  );
+}
+
+function initials(name: string) {
+  return name
+    .split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+}
