@@ -17,7 +17,7 @@ export function GoogleButton({
       variant="outline"
       onClick={onClick}
       disabled={disabled}
-      className="h-11 w-full border-[#e2cdb8] bg-white text-sm font-semibold text-[#3b1c12] hover:bg-[#fdf6ee]"
+      className="h-11 w-full border-border bg-card text-sm font-semibold text-foreground hover:bg-muted"
     >
       <svg viewBox="0 0 24 24" className="size-4" aria-hidden="true">
         <path

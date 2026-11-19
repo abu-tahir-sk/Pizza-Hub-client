@@ -188,12 +188,12 @@ export default function AdminMenuItemsPage() {
         </Select>
       </div>
 
-      <p className="text-sm text-[#7a5c4d]">
+      <p className="text-sm text-muted-foreground">
         {loading ? "Loading items…" : `${total} item${total === 1 ? "" : "s"} found`}
       </p>
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
           {error}
         </div>
       ) : null}
@@ -205,7 +205,7 @@ export default function AdminMenuItemsPage() {
           ))}
         </div>
       ) : items.length === 0 ? (
-        <Card className="border-dashed border-[#e3cdb6]">
+        <Card className="border-dashed border-border bg-card">
           <CardContent className="flex flex-col items-center gap-2 py-16 text-center">
             <UtensilsCrossed className="size-9 text-[#c8402b]" />
             <p className="font-semibold text-foreground">No items match your filters</p>
@@ -309,7 +309,7 @@ export default function AdminMenuItemsPage() {
           <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Previous
           </Button>
-          <span className="px-3 text-sm font-medium text-[#7a5c4d]">
+          <span className="px-3 text-sm font-medium text-muted-foreground">
             Page {page} of {totalPages}
           </span>
           <Button

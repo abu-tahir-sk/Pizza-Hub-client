@@ -64,7 +64,7 @@ export default function AdminTransactionsPage() {
         title="Transactions"
         description="Read-only payment records. Premium is activated exclusively by the verified Stripe webhook."
         action={
-          <Button asChild variant="outline" className="border-[#d9b99e]">
+          <Button asChild variant="outline">
             <Link href="/dashboard/admin">Back to overview</Link>
           </Button>
         }
@@ -158,7 +158,7 @@ export default function AdminTransactionsPage() {
                         {formatDateTime(tx.createdAt)}
                       </TableCell>
                       <TableCell className="text-sm">
-                        <p className="font-medium text-[#3b1c12]">
+                        <p className="font-medium text-foreground">
                           {vendor?.businessName || vendor?.name || "Vendor"}
                         </p>
                         {vendor?.email ? (
@@ -189,7 +189,7 @@ export default function AdminTransactionsPage() {
           <Button variant="outline" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
             Previous
           </Button>
-          <span className="px-3 text-sm font-medium text-[#7a5c4d]">
+          <span className="px-3 text-sm font-medium text-muted-foreground">
             Page {page} of {totalPages}
           </span>
           <Button

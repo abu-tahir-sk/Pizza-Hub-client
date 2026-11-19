@@ -59,14 +59,14 @@ export default function AdminOverviewPage() {
         title="Platform Overview"
         description="Monitor users, menu moderation, and subscription revenue."
         action={
-          <Button asChild variant="outline" className="border-[#d9b99e]">
+          <Button asChild variant="outline">
             <Link href="/dashboard/admin/items">Review pending items</Link>
           </Button>
         }
       />
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
           {error}
         </div>
       ) : null}

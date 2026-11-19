@@ -227,7 +227,7 @@ export default function AddMenuItemPage() {
                 </div>
               ) : null}
 
-              <div className="rounded-lg bg-[#f7f1e9] p-3 text-xs leading-relaxed text-[#7a5c4d]">
+              <div className="rounded-lg border border-border bg-muted/40 p-3 text-xs leading-relaxed text-muted-foreground">
                 Item images are required. The ImgBB API key lives on the server, so it is never
                 exposed in the browser.
               </div>
