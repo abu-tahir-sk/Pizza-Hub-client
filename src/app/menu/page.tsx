@@ -23,8 +23,9 @@ const PAGE_SIZE = 9;
 function MenuBrowser() {
   const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const urlSearch = searchParams.get("search") ?? "";
+  const [search, setSearch] = useState(urlSearch);
+  const [debouncedSearch, setDebouncedSearch] = useState(urlSearch);
   const [category, setCategory] = useState(searchParams.get("category") ?? "All");
   const [location, setLocation] = useState("");
   const [sort, setSort] = useState("newest");
@@ -41,9 +42,18 @@ function MenuBrowser() {
     const t = setTimeout(() => {
       setDebouncedSearch(search);
       setPage(1);
-    }, 350);
+    }, 300);
     return () => clearTimeout(t);
   }, [search]);
+
+  useEffect(() => {
+    const q = searchParams.get("search");
+    if (q !== null && q !== search) {
+      setSearch(q);
+      setDebouncedSearch(q);
+      setPage(1);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     setCategory(searchParams.get("category") ?? "All");
