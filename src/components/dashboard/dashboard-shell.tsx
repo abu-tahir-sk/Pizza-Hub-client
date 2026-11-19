@@ -5,16 +5,19 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   BarChart3,
+  ChevronDown,
   ClipboardList,
   CreditCard,
   LayoutDashboard,
   LogOut,
   Menu,
+  Moon,
   Pizza,
   PlusCircle,
   Settings,
   ShoppingBag,
   Store,
+  Sun,
   Users,
   UtensilsCrossed,
   X,
@@ -22,9 +25,18 @@ import {
 import { signOut, useSession } from "@/lib/auth-client";
 import { clearToken } from "@/lib/api";
 import type { AppUser } from "@/lib/types";
+import { useTheme } from "@/context/theme-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -61,6 +73,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const role = user?.role ?? "customer";
   const items = NAV[role] ?? NAV.customer;
@@ -190,22 +203,106 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
         </div>
       ) : null}
 
-      <div className="lg:pl-64">
-        {/* Mobile top bar */}
-        <div className="sticky top-0 z-20 flex items-center justify-between border-b border-[#e8dccd] bg-[#f8f4ee]/95 px-4 py-3 backdrop-blur lg:hidden">
-          <Button variant="ghost" size="icon" onClick={() => setMobileOpen(true)} aria-label="Open menu">
-            <Menu className="size-5" />
-          </Button>
-          <span className="text-sm font-bold capitalize text-[#3b1c12]">{role} Dashboard</span>
-          <Avatar className="size-8">
-            <AvatarImage src={user?.image ?? undefined} alt={user?.name ?? "User"} />
-            <AvatarFallback className="bg-[#c8402b] text-xs text-white">
-              {(user?.name ?? "U").charAt(0).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-        </div>
+      <div className="flex min-h-screen flex-col lg:pl-64">
+        {/* Dedicated Dashboard Header Bar (Sticky, separate from public site header) */}
+        <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#e8dccd] bg-[#f8f4ee]/95 px-4 backdrop-blur sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+              className="lg:hidden text-[#3b1c12] hover:bg-[#e8dccd]"
+            >
+              <Menu className="size-5" />
+            </Button>
+            <div className="flex items-center gap-2">
+              <span className="text-base font-bold capitalize text-[#3b1c12]">
+                {role} Console
+              </span>
+              <Badge variant="outline" className="hidden sm:inline-flex border-[#c8402b]/30 bg-[#c8402b]/10 text-[#c8402b] text-[11px] font-semibold">
+                PizzaHub Dashboard
+              </Badge>
+            </div>
+          </div>
 
-        <main className="px-4 py-6 sm:px-6 lg:px-8 lg:py-8">{children}</main>
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Quick Browse Store button */}
+            <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex border-[#e8dccd] bg-white text-xs font-semibold text-[#3b1c12] hover:bg-[#f3ede3]">
+              <Link href="/menu">
+                <Store className="mr-1.5 size-3.5 text-[#c8402b]" />
+                Browse Menu
+              </Link>
+            </Button>
+
+            {/* Dark / Light Mode Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="text-[#3b1c12] hover:bg-[#e8dccd]"
+            >
+              {theme === "dark" ? <Sun className="size-4" /> : <Moon className="size-4" />}
+            </Button>
+
+            {/* User Profile & Actions Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  className="flex items-center gap-2 rounded-full p-1 transition-colors hover:bg-[#e8dccd] focus:outline-none"
+                  aria-label="User menu"
+                >
+                  <Avatar className="size-8 ring-2 ring-[#c8402b]/20">
+                    <AvatarImage src={user?.image ?? undefined} alt={user?.name ?? "User"} />
+                    <AvatarFallback className="bg-[#c8402b] text-xs font-bold text-white">
+                      {(user?.name ?? "U").charAt(0).toUpperCase()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <ChevronDown className="hidden size-3.5 text-[#6b584e] sm:block" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-semibold leading-none text-[#2b120c]">{user?.name ?? "Account"}</p>
+                    <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
+                    <div className="pt-1">
+                      <Badge className="bg-[#c8402b]/10 text-[#c8402b] text-[10px] capitalize">
+                        {role} Account
+                      </Badge>
+                    </div>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="cursor-pointer">
+                    <Settings className="mr-2 size-4" />
+                    Profile Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/menu" className="cursor-pointer">
+                    <Store className="mr-2 size-4" />
+                    Visit Pizza Store
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={handleSignOut}
+                  className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-600"
+                >
+                  <LogOut className="mr-2 size-4" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </header>
+
+        {/* Dashboard Main Content (NO public footer) */}
+        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">{children}</main>
       </div>
     </div>
   );
