@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Check, Eye, EyeOff, Loader2, ShieldCheck, Sparkles, Store, User, X } from "lucide-react";
 import { signIn, signUp } from "@/lib/auth-client";
-import { getSessionUser } from "@/lib/api";
+import { clearToken, getSessionUser, refreshToken } from "@/lib/api";
 import { dashboardPath, type UserRole } from "@/lib/types";
 import { validateEmail, validatePassword } from "@/lib/validators";
 import { Button } from "@/components/ui/button";
@@ -50,6 +50,7 @@ export default function SignUpPage() {
 
     setLoading(true);
     try {
+      clearToken();
       const { error: authError } = await signUp.email({
         email,
         password,
@@ -64,6 +65,7 @@ export default function SignUpPage() {
         return;
       }
 
+      await refreshToken();
       const user = await getSessionUser();
       toast.success(`Welcome to PizzaHub, ${name.split(" ")[0]}! 🍕`);
       router.replace(user ? dashboardPath(user.role as UserRole) : "/dashboard");

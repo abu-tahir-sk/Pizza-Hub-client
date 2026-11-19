@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2, ShieldCheck, Sparkles, Store, UserCheck } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
-import { getSessionUser } from "@/lib/api";
+import { clearToken, getSessionUser, refreshToken } from "@/lib/api";
 import { dashboardPath, type UserRole } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,12 +35,14 @@ function SignInForm() {
     setError(null);
     setLoading(true);
     try {
+      clearToken();
       const { error: authError } = await signIn.email({ email, password });
       if (authError) {
         setError(authError.message || "Invalid email or password.");
         return;
       }
 
+      await refreshToken();
       const user = await getSessionUser();
       if (!user) {
         setError("Signed in, but the session could not be verified. Please try again.");
