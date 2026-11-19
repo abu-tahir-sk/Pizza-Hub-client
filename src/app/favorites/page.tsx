@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { Heart, Pizza } from "lucide-react";
 import type { MenuItem } from "@/types";
 import { fetchMenuItems } from "@/lib/api";
 import { useFavorites } from "@/context/favorites-context";
@@ -87,7 +87,10 @@ export default function FavoritesPage() {
               Browse the menu and tap the heart icon on a pizza to save it for next time.
             </p>
             <Button asChild className="mt-5 bg-[#c8402b] hover:bg-[#ad3521]">
-              <Link href="/menu">Browse the menu</Link>
+              <Link href="/menu">
+                <Pizza className="size-4 mr-2" />
+                Browse the menu
+              </Link>
             </Button>
           </div>
         ) : (

@@ -2,7 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Search, SlidersHorizontal, Pizza } from "lucide-react";
+import { ArrowDownUp, Pizza, RotateCcw, Search, SlidersHorizontal, Sparkles } from "lucide-react";
 import type { MenuItem } from "@/types";
 import { MENU_CATEGORIES } from "@/lib/types";
 import { fetchMenuItems } from "@/lib/api";
@@ -121,7 +121,10 @@ function MenuBrowser() {
             }}
           >
             <SelectTrigger className="h-11" aria-label="Filter by category">
-              <SelectValue placeholder="All categories" />
+              <div className="flex items-center gap-2 truncate">
+                <Pizza className="size-4 text-muted-foreground shrink-0" />
+                <SelectValue placeholder="All categories" />
+              </div>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="All">All categories</SelectItem>
@@ -155,7 +158,10 @@ function MenuBrowser() {
             }}
           >
             <SelectTrigger className="h-11" aria-label="Sort items">
-              <SelectValue placeholder="Sort" />
+              <div className="flex items-center gap-2 truncate">
+                <ArrowDownUp className="size-4 text-muted-foreground shrink-0" />
+                <SelectValue placeholder="Sort" />
+              </div>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="newest">Newest first</SelectItem>
@@ -166,14 +172,15 @@ function MenuBrowser() {
         </div>
 
         <div className="mb-5 flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground flex items-center gap-1.5">
+            <Sparkles className="size-3.5 text-[#f0a23c]" />
             {loading ? "Loading menu…" : `${total} item${total === 1 ? "" : "s"} found`}
           </p>
           {(search || location || category !== "All") && (
             <Button
               variant="ghost"
               size="sm"
-              className="text-[#c8402b]"
+              className="text-[#c8402b] hover:text-[#ad3521] flex items-center gap-1.5 font-semibold"
               onClick={() => {
                 setSearch("");
                 setLocation("");
@@ -181,6 +188,7 @@ function MenuBrowser() {
                 setPage(1);
               }}
             >
+              <RotateCcw className="size-3.5" />
               Clear filters
             </Button>
           )}
