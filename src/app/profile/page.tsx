@@ -16,8 +16,9 @@ import {
   UserRound,
 } from "lucide-react";
 import type { AppUser } from "@/lib/types";
-import { fetchMyProfile, updateProfile, uploadMenuImage, ApiError } from "@/lib/api";
-import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { fetchMyProfile, updateProfile, uploadMenuImage, refreshToken, ApiError } from "@/lib/api";
+import { useSession, updateUser } from "@/lib/auth-client";
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { PageHeading } from "@/components/dashboard/stat-card";
 import { Badge } from "@/components/ui/badge";
@@ -41,6 +42,7 @@ export default function ProfilePage() {
 }
 
 function ProfileContent() {
+  const router = useRouter();
   const { refetch } = useSession();
 
   const [loading, setLoading] = useState(true);
@@ -106,13 +108,31 @@ function ProfileContent() {
     e.preventDefault();
     setSaving(true);
     try {
+      // 1. Update user profile in MongoDB
       await updateProfile({
         name: name.trim(),
         image,
         ...(role === "vendor" ? { businessName: businessName.trim() } : {}),
       });
+
+      // 2. Sync with Better Auth session & cookie so Navbar & Sidebar update immediately
+      try {
+        await updateUser({
+          name: name.trim(),
+          image: image || undefined,
+        });
+      } catch (authErr) {
+        console.warn("Better Auth updateUser notice:", authErr);
+      }
+
+      // 3. Re-issue fresh token
+      await refreshToken();
+
+      // 4. Trigger session refetch & router refresh across all components
+      await refetch();
+      router.refresh();
+
       toast.success("Profile updated successfully");
-      void refetch();
     } catch (err) {
       toast.error(err instanceof ApiError ? err.message : "Could not update your profile");
     } finally {
@@ -151,7 +171,7 @@ function ProfileContent() {
             <div className="flex flex-wrap items-center gap-4">
               <span className="relative size-20 overflow-hidden rounded-full border-2 border-border bg-muted">
                 {image ? (
-                  <Image src={image} alt={name || "Profile"} fill sizes="80px" className="object-cover" />
+                  <Image src={image} alt={name || "Profile"} fill sizes="80px" className="object-cover" unoptimized />
                 ) : (
                   <span className="grid size-full place-items-center text-lg font-semibold text-muted-foreground">
                     {(name || "U").charAt(0).toUpperCase()}

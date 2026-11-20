@@ -50,6 +50,8 @@ export async function createMenuItem(data: {
   price: number;
   location: string;
   images: string[];
+  vendorId?: string;
+  status?: string;
 }): Promise<MenuItem> {
   const res = await apiRequest<MenuItem>("/api/menu", {
     method: "POST",

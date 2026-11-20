@@ -2,10 +2,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { toast } from "sonner";
 import {
   Check,
   Loader2,
+  Plus,
   Search,
   Store,
   Trash2,
@@ -137,7 +139,14 @@ export default function AdminMenuItemsPage() {
     <div className="space-y-6">
       <PageHeading
         title="Manage Menu Items"
-        description="Approve or reject vendor submissions, and remove inappropriate listings."
+        description="Approve or reject vendor submissions, remove inappropriate listings, or upload new pizzas directly."
+        action={
+          <Button asChild className="bg-[#c8402b] hover:bg-[#a83422] text-white">
+            <Link href="/dashboard/admin/items/new">
+              <Plus className="size-4" /> Add New Pizza
+            </Link>
+          </Button>
+        }
       />
 
       <Tabs

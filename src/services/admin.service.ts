@@ -1,4 +1,4 @@
-import type { MenuItemStatus, Transaction, User, MenuItem } from "@/types";
+import type { MenuItemStatus, OrderStatus, Transaction, User, MenuItem, Order } from "@/types";
 import type { PaginatedResult } from "@/types/api";
 import { apiRequest } from "./http";
 
@@ -10,6 +10,7 @@ export interface AdminOverview {
   pendingMenuItems: number;
   totalTransactions: number;
   totalRevenue: number;
+  totalOrders?: number;
 }
 
 export async function fetchAdminOverview(): Promise<AdminOverview> {
@@ -105,4 +106,34 @@ export async function fetchAdminTransactions(params?: {
     totalPages: res.meta?.totalPages ?? 1,
     totalRevenue: res.meta?.totalRevenue ?? 0,
   };
+}
+
+export async function fetchAdminOrders(params?: {
+  search?: string;
+  status?: OrderStatus | "all";
+  page?: number;
+  limit?: number;
+}): Promise<PaginatedResult<Order>> {
+  const q = new URLSearchParams();
+  if (params?.search) q.set("search", params.search);
+  if (params?.status && params.status !== "all") q.set("status", params.status);
+  if (params?.page) q.set("page", String(params.page));
+  if (params?.limit) q.set("limit", String(params.limit));
+  const res = await apiRequest<Order[]>(`/api/admin/orders?${q.toString()}`);
+  return {
+    items: res.data ?? [],
+    total: res.meta?.total ?? 0,
+    totalPages: res.meta?.totalPages ?? 1,
+  };
+}
+
+export async function setAdminOrderStatus(
+  orderId: string,
+  status: OrderStatus
+): Promise<Order> {
+  const res = await apiRequest<Order>(`/api/admin/orders/${orderId}/status`, {
+    method: "PATCH",
+    body: JSON.stringify({ status }),
+  });
+  return res.data!;
 }

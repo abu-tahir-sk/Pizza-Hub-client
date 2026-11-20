@@ -63,6 +63,8 @@ const NAV: Record<string, NavItem[]> = {
     { href: "/dashboard/admin", label: "Overview", icon: BarChart3, exact: true },
     { href: "/dashboard/admin/users", label: "Manage Users", icon: Users },
     { href: "/dashboard/admin/items", label: "Manage Menu Items", icon: UtensilsCrossed },
+    { href: "/dashboard/admin/items/new", label: "Add Menu Item", icon: PlusCircle },
+    { href: "/dashboard/admin/orders", label: "Manage Orders", icon: ClipboardList },
     { href: "/dashboard/admin/transactions", label: "Transactions", icon: CreditCard },
   ],
 };
