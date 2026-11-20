@@ -176,11 +176,23 @@ export default function VendorOrdersPage() {
                           </div>
                           <div className="min-w-0">
                             <p className="line-clamp-1 font-semibold text-foreground">
-                              {item?.itemName ?? "Pizza Item"}
+                              {item?.itemName ?? "Pizza Item"}{" "}
+                              {order.quantity && order.quantity > 1 ? `(${order.quantity}x)` : ""}
                             </p>
-                            <p className="text-xs font-bold text-[#c8402b]">
-                              {formatPrice(item?.price ?? 0)}
-                            </p>
+                            <div className="flex items-center gap-1.5 mt-0.5">
+                              <p className="text-xs font-bold text-[#c8402b]">
+                                {formatPrice(order.totalAmount || (item?.price ?? 0) * (order.quantity || 1))}
+                              </p>
+                              {order.paymentMethod === "stripe" ? (
+                                <span className="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                                  💳 Paid
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-bold bg-amber-500/10 text-amber-800 dark:text-amber-400">
+                                  💵 COD
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </TableCell>
@@ -294,12 +306,22 @@ export default function VendorOrdersPage() {
                   <div className="min-w-0 space-y-1">
                     <div className="flex flex-wrap items-center gap-2">
                       <h3 className="font-bold text-foreground">
-                        {item?.itemName ?? "Menu item"}
+                        {item?.itemName ?? "Menu item"}{" "}
+                        {order.quantity && order.quantity > 1 ? `(${order.quantity}x)` : ""}
                       </h3>
                       <StatusBadge status={order.status} />
+                      {order.paymentMethod === "stripe" ? (
+                        <span className="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-bold bg-emerald-500/10 text-emerald-700 dark:text-emerald-400">
+                          💳 Paid Online
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-bold bg-amber-500/10 text-amber-800 dark:text-amber-400">
+                          💵 Cash on Delivery
+                        </span>
+                      )}
                     </div>
                     <p className="text-sm font-semibold text-[#c8402b]">
-                      {formatPrice(item?.price ?? 0)}
+                      {formatPrice(order.totalAmount || (item?.price ?? 0) * (order.quantity || 1))}
                     </p>
                     <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <Clock className="size-3.5" /> Requested {formatDateTime(order.createdAt)}

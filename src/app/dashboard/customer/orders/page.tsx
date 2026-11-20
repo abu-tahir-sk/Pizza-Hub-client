@@ -116,7 +116,10 @@ export default function CustomerOrdersPage() {
 
                   <div className="min-w-0 flex-1 space-y-1.5">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="font-bold text-foreground">{item?.itemName ?? "Menu item"}</h3>
+                      <h3 className="font-bold text-foreground">
+                        {item?.itemName ?? "Menu item"}{" "}
+                        {order.quantity && order.quantity > 1 ? `(${order.quantity}x)` : ""}
+                      </h3>
                       <Badge
                         variant={
                           order.status === "accepted"
@@ -131,6 +134,21 @@ export default function CustomerOrdersPage() {
                       >
                         {order.status}
                       </Badge>
+                      {order.paymentMethod === "stripe" ? (
+                        <Badge
+                          variant="outline"
+                          className="border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 gap-1 text-[11px] font-semibold"
+                        >
+                          💳 Paid Online (Stripe)
+                        </Badge>
+                      ) : (
+                        <Badge
+                          variant="outline"
+                          className="border-amber-500/30 bg-amber-500/10 text-amber-800 dark:text-amber-400 gap-1 text-[11px] font-semibold"
+                        >
+                          💵 Cash on Delivery
+                        </Badge>
+                      )}
                     </div>
                     <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
                       <Store className="size-3.5" />
@@ -152,7 +170,7 @@ export default function CustomerOrdersPage() {
 
                   <div className="flex shrink-0 flex-col items-start gap-3 lg:items-end">
                     <span className="text-lg font-extrabold text-[#c8402b]">
-                      {formatPrice(item?.price ?? 0)}
+                      {formatPrice(order.totalAmount || (item?.price ?? 0) * (order.quantity || 1))}
                     </span>
                     {order.status === "pending" ? (
                       <Button

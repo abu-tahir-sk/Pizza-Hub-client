@@ -8,16 +8,21 @@ import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import {
   ArrowLeft,
+  Banknote,
   CalendarDays,
   CheckCircle2,
+  CreditCard,
   Heart,
   Loader2,
   MapPin,
   MessageSquare,
+  Minus,
+  Plus,
   Send,
   ShieldCheck,
   Star,
   Store,
+  Truck,
   User,
 } from "lucide-react";
 import type { MenuItem } from "@/types";
@@ -26,7 +31,7 @@ import { fetchMenuItemById, placeOrder, ApiError } from "@/lib/api";
 import { useSession } from "@/lib/auth-client";
 import { useFavorites } from "@/context/favorites-context";
 import { AuthGuard } from "@/components/auth/auth-guard";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -58,6 +63,8 @@ function ItemDetails() {
   const [deliveryDate, setDeliveryDate] = useState("");
   const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod");
   const [submitting, setSubmitting] = useState(false);
 
   const [reviews, setReviews] = useState<{ id: string; name: string; rating: number; comment: string; date: string }[]>([
@@ -121,12 +128,21 @@ function ItemDetails() {
     if (!item) return;
     setSubmitting(true);
     try {
-      const order = await placeOrder({
+      const res = await placeOrder({
         itemId: item._id,
         deliveryDate: new Date(deliveryDate).toISOString(),
         deliveryAddress: address,
         message,
+        quantity,
+        paymentMethod,
       });
+
+      if (paymentMethod === "stripe" && res.checkoutUrl) {
+        toast.info("Redirecting to secure Stripe Checkout… 💳");
+        window.location.href = res.checkoutUrl;
+        return;
+      }
+
       try {
         confetti({
           particleCount: 85,
@@ -136,8 +152,8 @@ function ItemDetails() {
       } catch {
         // ignore
       }
-      toast.success("Order placed successfully! The vendor will review it shortly. 🍕");
-      router.push(`/dashboard/customer/orders?highlight=${order._id}`);
+      toast.success("Order placed successfully! Cash on delivery. 🍕");
+      router.push(`/dashboard/customer/orders?highlight=${res.order._id}`);
     } catch (err) {
       const msg =
         err instanceof ApiError ? err.message : "Could not place your order. Please try again.";
@@ -277,6 +293,38 @@ function ItemDetails() {
                   </div>
                 ) : (
                   <form onSubmit={handleOrder} className="space-y-4">
+                    {/* Quantity Picker */}
+                    <div className="space-y-1.5">
+                      <Label className="text-sm font-semibold">Quantity</Label>
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center rounded-lg border border-border bg-card">
+                          <button
+                            type="button"
+                            onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                            disabled={quantity <= 1}
+                            className="grid size-10 place-items-center rounded-l-lg hover:bg-muted disabled:opacity-40 transition-colors"
+                          >
+                            <Minus className="size-4" />
+                          </button>
+                          <span className="w-12 text-center text-base font-bold text-foreground">
+                            {quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setQuantity((q) => Math.min(10, q + 1))}
+                            disabled={quantity >= 10}
+                            className="grid size-10 place-items-center rounded-r-lg hover:bg-muted disabled:opacity-40 transition-colors"
+                          >
+                            <Plus className="size-4" />
+                          </button>
+                        </div>
+                        <span className="text-xs text-muted-foreground">
+                          {formatPrice(item.price)} each
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Delivery Date */}
                     <div className="space-y-1.5">
                       <Label htmlFor="deliveryDate">Delivery Date</Label>
                       <Input
@@ -290,6 +338,7 @@ function ItemDetails() {
                       />
                     </div>
 
+                    {/* Delivery Address */}
                     <div className="space-y-1.5">
                       <Label htmlFor="address">Delivery Address</Label>
                       <Input
@@ -303,6 +352,7 @@ function ItemDetails() {
                       />
                     </div>
 
+                    {/* Special Instructions */}
                     <div className="space-y-1.5">
                       <Label htmlFor="message">
                         Special Instructions <span className="font-normal text-muted-foreground">(optional)</span>
@@ -313,26 +363,121 @@ function ItemDetails() {
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         maxLength={500}
+                        rows={2}
                       />
                     </div>
 
-                    <div className="flex items-center justify-between gap-3 rounded-lg bg-muted/60 border border-border px-4 py-3">
-                      <span className="text-sm font-medium text-muted-foreground">Total (pay on delivery)</span>
-                      <span className="text-xl font-extrabold text-[#c8402b]">
-                        {formatPrice(item.price)}
-                      </span>
+                    {/* Payment Method Selector */}
+                    <div className="space-y-2 pt-1">
+                      <Label className="text-sm font-semibold">Choose Payment Method</Label>
+                      <div className="grid gap-2.5 sm:grid-cols-2">
+                        {/* Cash on Delivery Card */}
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => setPaymentMethod("cod")}
+                          className={cn(
+                            "cursor-pointer rounded-xl border p-3.5 transition-all text-left",
+                            paymentMethod === "cod"
+                              ? "border-[#c8402b] bg-[#c8402b]/5 ring-2 ring-[#c8402b]/20 dark:bg-[#c8402b]/10"
+                              : "border-border hover:bg-muted/50"
+                          )}
+                        >
+                          <div className="flex items-center justify-between mb-1.5">
+                            <div className="flex items-center gap-2">
+                              <span className="grid size-7 place-items-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                                <Banknote className="size-4" />
+                              </span>
+                              <span className="text-sm font-bold text-foreground">Cash on Delivery</span>
+                            </div>
+                            <span
+                              className={cn(
+                                "size-4 rounded-full border-2 flex items-center justify-center",
+                                paymentMethod === "cod" ? "border-[#c8402b] bg-[#c8402b]" : "border-muted-foreground/40"
+                              )}
+                            >
+                              {paymentMethod === "cod" && <span className="size-1.5 rounded-full bg-white" />}
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">Pay cash when your hot pizza is delivered.</p>
+                        </div>
+
+                        {/* Pay Online Card */}
+                        <div
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => setPaymentMethod("stripe")}
+                          className={cn(
+                            "cursor-pointer rounded-xl border p-3.5 transition-all text-left",
+                            paymentMethod === "stripe"
+                              ? "border-[#c8402b] bg-[#c8402b]/5 ring-2 ring-[#c8402b]/20 dark:bg-[#c8402b]/10"
+                              : "border-border hover:bg-muted/50"
+                          )}
+                        >
+                          <div className="flex items-center justify-between mb-1.5">
+                            <div className="flex items-center gap-2">
+                              <span className="grid size-7 place-items-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                                <CreditCard className="size-4" />
+                              </span>
+                              <span className="text-sm font-bold text-foreground">Pay Online (Stripe)</span>
+                            </div>
+                            <span
+                              className={cn(
+                                "size-4 rounded-full border-2 flex items-center justify-center",
+                                paymentMethod === "stripe" ? "border-[#c8402b] bg-[#c8402b]" : "border-muted-foreground/40"
+                              )}
+                            >
+                              {paymentMethod === "stripe" && <span className="size-1.5 rounded-full bg-white" />}
+                            </span>
+                          </div>
+                          <p className="text-xs text-muted-foreground">Credit / Debit Card, Apple Pay via Stripe.</p>
+                        </div>
+                      </div>
                     </div>
 
+                    {/* Total Price Breakdown */}
+                    <div className="rounded-xl bg-muted/60 border border-border p-3.5 space-y-1.5">
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span>Unit Price ({quantity}x)</span>
+                        <span>{formatPrice(item.price * quantity)}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs text-muted-foreground">
+                        <span>Delivery Fee</span>
+                        <span className="text-emerald-600 font-semibold">Free Delivery</span>
+                      </div>
+                      <div className="border-t border-border/70 pt-2 flex items-center justify-between">
+                        <span className="text-sm font-bold text-foreground">Total Amount</span>
+                        <span className="text-xl font-extrabold text-[#c8402b]">
+                          {formatPrice(item.price * quantity)}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Submit Button */}
                     <Button
                       type="submit"
                       disabled={submitting}
-                      className="h-12 w-full bg-[#c8402b] text-base hover:bg-[#ad3521]"
+                      className="h-12 w-full bg-[#c8402b] text-base hover:bg-[#ad3521] shadow-sm font-bold"
                     >
-                      {submitting ? <Loader2 className="size-4 animate-spin" /> : <CalendarDays className="size-4" />}
-                      {submitting ? "Placing order…" : "Place Order"}
+                      {submitting ? (
+                        <Loader2 className="size-5 animate-spin mr-2" />
+                      ) : paymentMethod === "stripe" ? (
+                        <CreditCard className="size-5 mr-2" />
+                      ) : (
+                        <Truck className="size-5 mr-2" />
+                      )}
+                      {submitting
+                        ? "Processing…"
+                        : paymentMethod === "stripe"
+                          ? `Pay ${formatPrice(item.price * quantity)} Online (Stripe)`
+                          : `Place Order (Cash on Delivery)`}
                     </Button>
-                    <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
-                      <ShieldCheck className="size-3.5" /> No online payment needed — pay on delivery.
+
+                    <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground text-center">
+                      <ShieldCheck className="size-3.5 text-emerald-600 shrink-0" />
+                      {paymentMethod === "stripe"
+                        ? "256-bit encrypted secure checkout powered by Stripe."
+                        : "No prepayment required — pay cash upon arrival."}
                     </p>
                   </form>
                 )}

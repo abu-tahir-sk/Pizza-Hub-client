@@ -1,16 +1,36 @@
-import type { Order } from "@/types";
+import type { Order, PaymentMethod } from "@/types";
 import { apiRequest } from "./http";
 
-export async function placeOrder(orderData: {
+export interface PlaceOrderInput {
   itemId: string;
   deliveryDate: string;
   deliveryAddress: string;
   message?: string;
-}): Promise<Order> {
-  const res = await apiRequest<Order>("/api/orders", {
+  quantity?: number;
+  paymentMethod?: PaymentMethod;
+}
+
+export interface PlaceOrderResult {
+  order: Order;
+  checkoutUrl?: string | null;
+}
+
+export async function placeOrder(orderData: PlaceOrderInput): Promise<PlaceOrderResult> {
+  const res = await apiRequest<PlaceOrderResult | Order>("/api/orders", {
     method: "POST",
     body: JSON.stringify(orderData),
   });
+  const data = res.data!;
+  if ("order" in data) {
+    return data as PlaceOrderResult;
+  }
+  return { order: data as Order, checkoutUrl: null };
+}
+
+export async function verifyOrderPayment(orderId: string, sessionId: string): Promise<{ order: Order; paymentStatus: string }> {
+  const res = await apiRequest<{ order: Order; paymentStatus: string }>(
+    `/api/orders/verify-payment?orderId=${encodeURIComponent(orderId)}&sessionId=${encodeURIComponent(sessionId)}`
+  );
   return res.data!;
 }
 

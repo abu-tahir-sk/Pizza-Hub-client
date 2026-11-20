@@ -59,6 +59,8 @@ export interface MenuItem {
 }
 
 export type OrderStatus = "pending" | "accepted" | "rejected" | "cancelled";
+export type PaymentMethod = "cod" | "stripe";
+export type PaymentStatus = "unpaid" | "paid" | "refunded";
 
 export interface Order {
   _id: string;
@@ -66,6 +68,11 @@ export interface Order {
   itemId: MenuItem | string;
   vendorId: User | string;
   customerId: User | string;
+  quantity?: number;
+  totalAmount?: number;
+  paymentMethod?: PaymentMethod;
+  paymentStatus?: PaymentStatus;
+  stripeSessionId?: string;
   deliveryDate: string;
   deliveryAddress: string;
   message?: string;
