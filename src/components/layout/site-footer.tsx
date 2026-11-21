@@ -1,19 +1,13 @@
 import Link from "next/link";
-import { Heart, Mail, MapPin, Phone, Pizza } from "lucide-react";
+import { Heart, Mail, MapPin, Phone } from "lucide-react";
+import { BrandLogo } from "@/components/layout/brand-logo";
 
 export function SiteFooter() {
   return (
     <footer className="mt-auto border-t border-[#ebdcd0] bg-[#fdf8f3] text-[#4a2e22] transition-colors dark:border-[#3a1810] dark:bg-[#14100e] dark:text-[#f6e7d7]">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div className="space-y-4">
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="grid size-10 place-items-center rounded-full bg-[#c8402b] text-white">
-              <Pizza className="size-5" />
-            </span>
-            <span className="text-2xl font-extrabold tracking-tight text-[#3b1c12] dark:text-white">
-              Pizza<span className="text-[#f0a23c]">Hub</span>
-            </span>
-          </Link>
+          <BrandLogo />
           <p className="max-w-sm text-sm leading-relaxed text-[#6b4a3a] dark:text-[#d9bfae]">
             Discover local pizza shops, explore fresh menus, and get hot &amp; delicious pizza
             delivered to your door.

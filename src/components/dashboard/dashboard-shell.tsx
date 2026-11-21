@@ -39,6 +39,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { BrandLogo } from "@/components/layout/brand-logo";
 
 interface NavItem {
   href: string;
@@ -88,14 +89,9 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   const sidebar = (
     <div className="flex h-full flex-col">
-      <Link href="/" className="flex items-center gap-2.5 px-5 py-5 border-b border-border/40">
-        <span className="grid size-9 place-items-center rounded-full bg-[#c8402b] text-white">
-          <Pizza className="size-5" />
-        </span>
-        <span className="text-xl font-extrabold tracking-tight text-foreground">
-          Pizza<span className="text-[#f0a23c]">Hub</span>
-        </span>
-      </Link>
+      <div className="px-5 py-4 border-b border-border/40">
+        <BrandLogo size="sm" />
+      </div>
 
       {/* Main Navigation links */}
       <nav className="flex-1 space-y-1 overflow-y-auto p-3">

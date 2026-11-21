@@ -35,6 +35,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
+import { BrandLogo } from "@/components/layout/brand-logo";
+
 export function SiteHeader() {
   const { data: session, isPending, refetch } = useSession();
   const user = session?.user as unknown as AppUser | undefined;
@@ -86,20 +88,7 @@ export function SiteHeader() {
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md shadow-xs transition-colors">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           {/* Logo / Name: PizzaHub */}
-          <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <span className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-[#c8402b] to-[#e65c47] text-white shadow-md shadow-[#c8402b]/25 transition-transform group-hover:scale-105">
-              <Pizza className="size-6 stroke-[2.2]" />
-            </span>
-            <div className="flex flex-col">
-              <div className="flex items-center text-2xl font-black tracking-tight leading-none text-foreground">
-                <span>Pizza</span>
-                <span className="text-[#f0a23c]">Hub</span>
-              </div>
-              <span className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase mt-1">
-                FRESH & FAST
-              </span>
-            </div>
-          </Link>
+          <BrandLogo />
 
           {/* Desktop Navigation Links - Same background as Navbar */}
           <nav className="hidden items-center gap-2 lg:flex">
