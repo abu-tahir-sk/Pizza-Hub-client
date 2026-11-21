@@ -281,7 +281,7 @@ export default function HomePage() {
           </AnimatePresence>
 
           {/* Price & Add To Cart Ribbon Row */}
-          <div className="flex items-center justify-center gap-3 pt-1">
+          {/* <div className="flex items-center justify-center gap-3 pt-1">
             <span className="text-xs sm:text-sm text-white/80 font-medium">Only</span>
             <span className="font-serif italic text-2xl sm:text-3xl md:text-4xl font-black text-white drop-shadow">
               {slide.price}
@@ -294,7 +294,7 @@ export default function HomePage() {
                 <span>ADD TO CART</span>
               </Link>
             </Button>
-          </div>
+          </div> */}
         </div>
 
         {/* ─── Left Slide Arrow Button (<--) ─── */}

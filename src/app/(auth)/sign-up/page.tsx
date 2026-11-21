@@ -77,8 +77,13 @@ export default function SignUpPage() {
 
       await refreshToken();
       const user = await getSessionUser();
+      if (!user) {
+        setError("Account created, but we could not start your session. Please sign in.");
+        router.replace("/sign-in");
+        return;
+      }
       toast.success(`Welcome to PizzaHub, ${name.split(" ")[0]}!`);
-      router.replace(user ? dashboardPath(user.role as UserRole) : "/dashboard");
+      router.replace(dashboardPath(user.role as UserRole));
       router.refresh();
     } catch {
       setError("Could not create your account right now. Please try again.");
@@ -110,7 +115,7 @@ export default function SignUpPage() {
           Welcome!
         </h1>
         <p className="text-neutral-400 text-sm font-normal tracking-wide pt-1">
-          Today a beautifull day.
+          Today is a beautiful day.
         </p>
       </div>
 
