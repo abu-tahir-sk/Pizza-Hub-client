@@ -206,12 +206,7 @@ export function SiteHeader() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-64 p-2 rounded-2xl shadow-xl border-border bg-card">
                   <DropdownMenuLabel className="font-normal px-3 py-2 bg-muted/50 rounded-xl mb-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="truncate text-sm font-bold text-foreground">{user.name}</p>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#c8402b]/15 text-[#c8402b]">
-                        {user.role}
-                      </span>
-                    </div>
+                    <p className="truncate text-sm font-bold text-foreground">{user.name}</p>
                     <p className="truncate text-xs text-muted-foreground mt-0.5">{user.email}</p>
                   </DropdownMenuLabel>
 

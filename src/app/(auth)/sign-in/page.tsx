@@ -24,6 +24,18 @@ function SignInForm() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    try {
+      const saved = localStorage.getItem("pizzahub:remember-email");
+      if (saved) {
+        setEmail(saved);
+        setRememberMe(true);
+      }
+    } catch {
+      // localStorage may be unavailable (private mode) — ignore.
+    }
+  }, []);
+
+  useEffect(() => {
     const errorParam = searchParams.get("error");
     if (errorParam === "account_not_linked") {
       const msg = "This email is already registered with a password. Please sign in using your email & password.";
@@ -68,6 +80,13 @@ function SignInForm() {
         return;
       }
 
+      try {
+        if (rememberMe) localStorage.setItem("pizzahub:remember-email", email);
+        else localStorage.removeItem("pizzahub:remember-email");
+      } catch {
+        // ignore storage failures
+      }
+
       toast.success(`Welcome back, ${user.name.split(" ")[0]}!`);
       router.replace(redirectTo || dashboardPath(user.role as UserRole));
       router.refresh();
@@ -101,7 +120,7 @@ function SignInForm() {
           Welcome!
         </h1>
         <p className="text-neutral-400 text-sm font-normal tracking-wide pt-1">
-          Today a beautifull day.
+          Today is a beautiful day.
         </p>
       </div>
 
@@ -187,7 +206,7 @@ function SignInForm() {
             onClick={() => toast.info("Password reset: Please sign in with your password or use Google Sign-In.")}
             className="text-xs text-neutral-400 hover:text-[#c67c4e] transition-colors cursor-pointer"
           >
-            Forgot password ?
+            Forgot password?
           </button>
         </div>
 
