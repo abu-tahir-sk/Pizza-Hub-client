@@ -12,26 +12,70 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { CheckCircle2, Clock, ShoppingBag, XCircle } from "lucide-react";
+import { CheckCircle2, Clock, Loader2, ShoppingBag, Sparkles, Store, XCircle } from "lucide-react";
 import type { Order } from "@/types";
 import type { AppUser } from "@/lib/types";
-import { fetchCustomerOrders, fetchOrderStats, type OrderStats } from "@/lib/api";
+import { fetchCustomerOrders, fetchOrderStats, becomeVendor, refreshToken, type OrderStats } from "@/lib/api";
 import { useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { PageHeading, StatCard } from "@/components/dashboard/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate, formatPrice } from "@/lib/utils";
 
 export default function CustomerOverviewPage() {
-  const { data: session } = useSession();
+  const router = useRouter();
+  const { data: session, refetch } = useSession();
   const user = session?.user as unknown as AppUser | undefined;
 
   const [stats, setStats] = useState<OrderStats | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Become a Vendor state
+  const [vendorDialogOpen, setVendorDialogOpen] = useState(false);
+  const [businessName, setBusinessName] = useState("");
+  const [upgrading, setUpgrading] = useState(false);
+
+  async function handleBecomeVendor(e: React.FormEvent) {
+    e.preventDefault();
+    if (!businessName.trim() || businessName.trim().length < 2) {
+      toast.error("Please enter a valid restaurant or business name (at least 2 characters).");
+      return;
+    }
+    setUpgrading(true);
+    try {
+      await becomeVendor(businessName.trim());
+      await refreshToken();
+      await refetch();
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("pizzahub-auth-change"));
+      }
+      toast.success("Congratulations! You are now a Vendor. Welcome to your Vendor Dashboard!");
+      setVendorDialogOpen(false);
+      router.push("/dashboard/vendor");
+      router.refresh();
+    } catch {
+      toast.error("Could not upgrade to Vendor account right now. Please try again.");
+    } finally {
+      setUpgrading(false);
+    }
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -65,7 +109,7 @@ export default function CustomerOverviewPage() {
   return (
     <div className="space-y-6">
       <PageHeading
-        title={`Hello, ${user?.name?.split(" ")[0] ?? "Pizza Lover"} 🍕`}
+        title={`Hello, ${user?.name?.split(" ")[0] ?? "Pizza Lover"}`}
         description="Track your orders and discover your next favourite slice."
         action={
           <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
@@ -196,6 +240,83 @@ export default function CustomerOverviewPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Become a Vendor Promotion Card & Upgrade Dialog */}
+      <Card className="border-[#c8402b]/20 bg-gradient-to-r from-[#c8402b]/5 via-[#f0a23c]/5 to-transparent">
+        <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6">
+          <div className="flex items-center gap-4">
+            <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#c8402b]/10 text-[#c8402b]">
+              <Store className="size-6" />
+            </div>
+            <div>
+              <h3 className="text-base font-bold text-foreground">Want to sell your pizzas on PizzaHub?</h3>
+              <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+                Switch your account to a Vendor to list artisan pizzas, receive live orders, and grow your local pizzeria.
+              </p>
+            </div>
+          </div>
+
+          <Dialog open={vendorDialogOpen} onOpenChange={setVendorDialogOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-[#c8402b] hover:bg-[#ad3521] text-white shrink-0 font-bold">
+                <Store className="size-4 mr-2" /> Become a Vendor
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <form onSubmit={handleBecomeVendor} className="space-y-4">
+                <DialogHeader>
+                  <DialogTitle className="flex items-center gap-2">
+                    <Store className="size-5 text-[#c8402b]" /> Register as a Vendor
+                  </DialogTitle>
+                  <DialogDescription>
+                    Enter your restaurant or business name to activate your vendor dashboard and begin publishing menu items.
+                  </DialogDescription>
+                </DialogHeader>
+
+                <div className="space-y-2 py-2">
+                  <Label htmlFor="business-name">Restaurant / Business Name</Label>
+                  <Input
+                    id="business-name"
+                    placeholder="e.g. Napoli Wood-Fired Pizzeria"
+                    value={businessName}
+                    onChange={(e) => setBusinessName(e.target.value)}
+                    required
+                    maxLength={80}
+                    autoFocus
+                  />
+                  <p className="text-[11px] text-muted-foreground">
+                    This name will appear on all your menu items and customer receipts.
+                  </p>
+                </div>
+
+                <DialogFooter className="gap-2 sm:gap-0">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setVendorDialogOpen(false)}
+                    disabled={upgrading}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={upgrading}
+                    className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-bold"
+                  >
+                    {upgrading ? (
+                      <>
+                        <Loader2 className="mr-2 size-4 animate-spin" /> Activating…
+                      </>
+                    ) : (
+                      "Confirm & Open Vendor Dashboard"
+                    )}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 import {
+  Banknote,
   CalendarDays,
   CheckCircle2,
   Clock,
@@ -134,21 +135,13 @@ export default function CustomerOrdersPage() {
                       >
                         {order.status}
                       </Badge>
-                      {order.paymentMethod === "stripe" ? (
-                        <Badge
-                          variant="outline"
-                          className="border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 gap-1 text-[11px] font-semibold"
-                        >
-                          💳 Paid Online (Stripe)
-                        </Badge>
-                      ) : (
-                        <Badge
-                          variant="outline"
-                          className="border-amber-500/30 bg-amber-500/10 text-amber-800 dark:text-amber-400 gap-1 text-[11px] font-semibold"
-                        >
-                          💵 Cash on Delivery
-                        </Badge>
-                      )}
+                      <Badge
+                        variant="outline"
+                        className="border-amber-500/30 bg-amber-500/10 text-amber-800 dark:text-amber-400 gap-1 text-[11px] font-semibold"
+                      >
+                        <Banknote className="size-3" />
+                        Cash on Delivery
+                      </Badge>
                     </div>
                     <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
                       <Store className="size-3.5" />
