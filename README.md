@@ -1,4 +1,4 @@
-# 🍕 PizzaHub — Client
+# PizzaHub — Client
 
 A modern pizza ordering & delivery web app built with **Next.js 16 (App Router)** and **Better Auth**.
 Customers browse local menus and place orders; vendors manage their menu and subscriptions; admins
@@ -9,7 +9,7 @@ moderate the platform.
 > - Client: `https://pizzahub-client.vercel.app`
 > - API server: `https://pizzahub-api.onrender.com`
 
-## ✨ Features
+## Features
 
 ### Authentication (Better Auth)
 - Email + password sign in / sign up with inline validation
@@ -47,7 +47,7 @@ moderate the platform.
 - Favorites saved to `localStorage` (optional feature #2)
 - Custom 404 page, payment success / cancel pages
 
-## 🧱 Tech stack
+## Tech stack
 
 | Layer | Tech |
 | --- | --- |
@@ -60,7 +60,7 @@ moderate the platform.
 | Toasts | Sonner |
 | Icons | Lucide React + inline brand SVGs |
 
-## 🚀 Getting started
+## Getting started
 
 ```bash
 # 1. install dependencies
@@ -77,13 +77,13 @@ npm run dev
 
 The API server must be running first (see the `server` repository).
 
-## 🔑 Environment variables
+## Environment variables
 
 | Name | Required | Description |
 | --- | --- | --- |
 | `NEXT_PUBLIC_API_URL` | yes | Base URL of the Express API, e.g. `http://localhost:5000` |
 
-## 👥 Roles & test accounts
+## Roles & test accounts
 
 | Role | How to get one |
 | --- | --- |
@@ -97,7 +97,7 @@ Default seed credentials (change via server env):
 admin@pizzahub.com / Admin123
 ```
 
-## 📁 Project structure
+## Project structure
 
 ```
 src/
@@ -124,7 +124,7 @@ src/
 └── types/                    # shared domain types
 ```
 
-## 🏆 Challenge Requirements Implementation
+## Challenge Requirements Implementation
 
 ### 1. Advanced Search & Sorting
 - **API Parameters Supported**:
@@ -169,7 +169,7 @@ src/
 - Interactive 5-star Customer Reviews & Ratings section on item details.
 - Confetti celebration effects on order placement and Stripe payment completion.
 
-## 🧪 Testing & Evaluation Guide
+## Testing & Evaluation Guide
 
 ### Admin Credentials
 - **Email**: `admin@pizzahub.com`
@@ -185,7 +185,7 @@ src/
 ### Customer Pizza Ordering
 - Customers can browse any approved pizza on `/menu` or the Home page, click **View Details**, and submit delivery date & address. Food orders use pay-on-delivery (no credit card needed).
 
-## 🛡️ Security notes
+## Security notes
 
 - JWTs are kept in memory only and re-issued from the Better Auth session cookie after reload.
 - Route guards are a UX convenience; the Express API independently verifies the JWT, role, block state
@@ -193,7 +193,7 @@ src/
 - Premium is never granted client-side — only the verified Stripe webhook can activate it.
 - Image uploads go through the API proxy so the ImgBB key never reaches the browser.
 
-## 📜 Scripts
+## Scripts
 
 | Script | Description |
 | --- | --- |
@@ -202,7 +202,7 @@ src/
 | `npm run start` | Start the production build |
 | `npm run lint` | Run ESLint |
 
-## ☁️ Deployment
+## Deployment
 
 1. Deploy the server first and note its public URL.
 2. Set `NEXT_PUBLIC_API_URL` in your hosting provider (Vercel → Project → Settings → Environment Variables).
