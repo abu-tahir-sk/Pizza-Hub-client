@@ -51,7 +51,6 @@ const NAV: Record<string, NavItem[]> = {
   vendor: [
     { href: "/dashboard/vendor", label: "Overview", icon: LayoutDashboard, exact: true },
     { href: "/dashboard/vendor/items", label: "My Menu Items", icon: UtensilsCrossed },
-    { href: "/dashboard/vendor/items/new", label: "Add Menu Item", icon: PlusCircle },
     { href: "/dashboard/vendor/orders", label: "Customer Orders", icon: ClipboardList },
     { href: "/dashboard/vendor/subscription", label: "Subscription", icon: CreditCard },
   ],
@@ -63,7 +62,6 @@ const NAV: Record<string, NavItem[]> = {
     { href: "/dashboard/admin", label: "Overview", icon: BarChart3, exact: true },
     { href: "/dashboard/admin/users", label: "Manage Users", icon: Users },
     { href: "/dashboard/admin/items", label: "Manage Menu Items", icon: UtensilsCrossed },
-    { href: "/dashboard/admin/items/new", label: "Add Menu Item", icon: PlusCircle },
     { href: "/dashboard/admin/orders", label: "Manage Orders", icon: ClipboardList },
     { href: "/dashboard/admin/transactions", label: "Transactions", icon: CreditCard },
   ],
@@ -143,10 +141,8 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           </Avatar>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-foreground">{user?.name ?? "Loading…"}</p>
-            <p className="truncate text-xs capitalize text-muted-foreground flex items-center gap-1.5">
-              <span>{role}</span>
-              <span>•</span>
-              <span className="text-[#c8402b] hover:underline font-medium">Settings</span>
+            <p className="truncate text-xs text-muted-foreground flex items-center gap-1.5">
+              <span className="text-[#c8402b] hover:underline font-medium">Profile Settings</span>
             </p>
           </div>
           <Settings className="size-4 text-muted-foreground shrink-0" />
@@ -265,11 +261,6 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-semibold leading-none text-foreground">{user?.name ?? "Account"}</p>
                     <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
-                    <div className="pt-1">
-                      <Badge className="bg-[#c8402b]/10 text-[#c8402b] text-[10px] capitalize">
-                        {role} Account
-                      </Badge>
-                    </div>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
