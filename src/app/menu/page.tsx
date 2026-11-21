@@ -1,9 +1,22 @@
 "use client";
 
 import { Suspense, useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
-import { ArrowDownUp, Pizza, RotateCcw, Search, SlidersHorizontal, Sparkles } from "lucide-react";
+import {
+  ArrowDownUp,
+  Clock,
+  Flame,
+  Pizza,
+  RotateCcw,
+  Search,
+  ShieldCheck,
+  SlidersHorizontal,
+  Sparkles,
+  Star,
+  Tag,
+} from "lucide-react";
 import type { MenuItem } from "@/types";
 import { MENU_CATEGORIES } from "@/lib/types";
 import { fetchMenuItems } from "@/lib/api";
@@ -96,23 +109,109 @@ function MenuBrowser() {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors">
-      {/* Page header */}
-      <section className="border-b border-border bg-muted/40 py-14 text-foreground transition-colors">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
-        >
-          <span className="text-xs font-bold uppercase tracking-widest text-[#c8402b] dark:text-[#f0a23c]">
-            Freshly baked near you
-          </span>
-          <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl text-foreground">Browse Menu</h1>
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Search by name, filter by category or location, and sort by price to find your next
-            favourite slice.
-          </p>
-        </motion.div>
+      {/* Page header & Featured Promo Banner */}
+      <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-muted/60 via-muted/30 to-background py-10 lg:py-14 text-foreground transition-colors">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-8 items-center lg:grid-cols-12">
+            {/* Left Column: Heading, description & value props */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="flex flex-col justify-center lg:col-span-7"
+            >
+              <div className="inline-flex items-center gap-2 self-start rounded-full border border-orange-500/20 bg-orange-500/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#c8402b] dark:text-[#f0a23c]">
+                <Flame className="size-3.5 text-orange-500" />
+                Freshly Baked Near You
+              </div>
+
+              <h1 className="mt-4 font-heading text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl text-foreground">
+                Browse Our Artisan Menu
+              </h1>
+
+              <p className="mt-3 max-w-xl text-sm sm:text-base text-muted-foreground leading-relaxed">
+                Explore hand-crafted sourdough pizzas, slow-simmered sauces, and fresh gourmet sides baked to golden perfection daily.
+              </p>
+
+              {/* Value proposition badges */}
+              <div className="mt-6 flex flex-wrap items-center gap-2.5 text-xs sm:text-sm font-medium">
+                <div className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/80 px-3 py-2 text-foreground shadow-xs">
+                  <Clock className="size-4 text-orange-500" />
+                  <span>30-Min Fast Delivery</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/80 px-3 py-2 text-foreground shadow-xs">
+                  <Pizza className="size-4 text-orange-500" />
+                  <span>100% Wood-Fired Crust</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/80 px-3 py-2 text-foreground shadow-xs">
+                  <ShieldCheck className="size-4 text-emerald-500" />
+                  <span>Verified Artisan Chefs</span>
+                </div>
+              </div>
+
+              {/* Promo announcement banner */}
+              <div className="mt-6 inline-flex items-center gap-3 rounded-xl border border-orange-500/30 bg-orange-500/5 px-4 py-2.5 text-xs sm:text-sm text-foreground">
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
+                  %
+                </span>
+                <p className="text-muted-foreground">
+                  <strong className="text-foreground">Today&apos;s Special:</strong> Get{" "}
+                  <span className="font-semibold text-orange-600 dark:text-orange-400">20% OFF</span> on orders above $30 with code{" "}
+                  <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs font-bold text-foreground">PIZZA20</code>
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Right Column: Visual Promotional Ad Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:col-span-5"
+            >
+              <div className="group relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-card via-card to-muted/50 p-2.5 sm:p-3 shadow-xl shadow-orange-500/5 transition-all hover:border-orange-500/40 hover:shadow-orange-500/10">
+                <div className="relative aspect-[16/10] sm:aspect-[16/9] lg:aspect-[4/3] w-full overflow-hidden rounded-xl bg-muted">
+                  <Image
+                    src="/images/menu-banner-pizza.jpg"
+                    alt="Artisan Wood-Fired Specialty Pizza"
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 480px"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+
+                  {/* Gradient shadow for text readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
+
+                  {/* Top floating promo badge */}
+                  <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-orange-600/95 backdrop-blur-md px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-md">
+                    <Sparkles className="size-3.5" />
+                    Special Deal · 20% Off
+                  </div>
+
+                  {/* Rating pill */}
+                  <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/65 backdrop-blur-md px-2.5 py-1 text-xs font-semibold text-white">
+                    <Star className="size-3.5 fill-amber-400 text-amber-400" />
+                    <span>4.9 (1.4k+)</span>
+                  </div>
+
+                  {/* Bottom description overlay */}
+                  <div className="absolute bottom-3 left-3 right-3 text-left">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-orange-400">
+                      Featured Sensation
+                    </span>
+                    <h3 className="text-base sm:text-lg font-bold text-white leading-snug drop-shadow-sm">
+                      Truffle Burrata & Wood-Fired Margherita
+                    </h3>
+                    <p className="mt-0.5 line-clamp-1 text-xs text-white/80">
+                      Slow-fermented artisan crust, San Marzano tomatoes, and fresh basil.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
