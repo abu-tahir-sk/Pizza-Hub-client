@@ -16,7 +16,10 @@ import {
 } from "recharts";
 import {
   ArrowRight,
+  Ban,
+  CheckCircle2,
   ClipboardList,
+  Clock,
   CreditCard,
   DollarSign,
   Loader2,
@@ -24,6 +27,7 @@ import {
   Store,
   Users,
   UtensilsCrossed,
+  XCircle,
 } from "lucide-react";
 import type { Order, OrderStatus, MenuItem, User } from "@/types";
 import {
@@ -300,16 +304,28 @@ export default function AdminOverviewPage() {
                               </SelectTrigger>
                               <SelectContent align="end">
                                 <SelectItem value="pending" className="text-amber-600">
-                                  ⏳ Pending
+                                  <span className="flex items-center gap-1.5">
+                                    <Clock className="size-3.5" />
+                                    <span>Pending</span>
+                                  </span>
                                 </SelectItem>
                                 <SelectItem value="accepted" className="text-emerald-600">
-                                  ✅ Accepted
+                                  <span className="flex items-center gap-1.5">
+                                    <CheckCircle2 className="size-3.5" />
+                                    <span>Accepted</span>
+                                  </span>
                                 </SelectItem>
                                 <SelectItem value="rejected" className="text-red-600">
-                                  ❌ Rejected
+                                  <span className="flex items-center gap-1.5">
+                                    <XCircle className="size-3.5" />
+                                    <span>Rejected</span>
+                                  </span>
                                 </SelectItem>
                                 <SelectItem value="cancelled" className="text-stone-500">
-                                  🚫 Cancelled
+                                  <span className="flex items-center gap-1.5">
+                                    <Ban className="size-3.5" />
+                                    <span>Cancelled</span>
+                                  </span>
                                 </SelectItem>
                               </SelectContent>
                             </Select>

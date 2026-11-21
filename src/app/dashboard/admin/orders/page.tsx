@@ -4,8 +4,10 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { toast } from "sonner";
 import {
+  Ban,
   CalendarDays,
   Check,
+  CheckCircle2,
   Clock,
   Loader2,
   Mail,
@@ -16,6 +18,7 @@ import {
   Store,
   User as UserIcon,
   X,
+  XCircle,
 } from "lucide-react";
 import type { Order, OrderStatus, MenuItem, User } from "@/types";
 import { fetchAdminOrders, setAdminOrderStatus, ApiError } from "@/lib/api";
@@ -308,16 +311,28 @@ export default function AdminOrdersPage() {
                               </SelectTrigger>
                               <SelectContent align="end">
                                 <SelectItem value="pending" className="text-amber-600 font-medium">
-                                  ⏳ Pending
+                                  <span className="flex items-center gap-1.5">
+                                    <Clock className="size-3.5" />
+                                    <span>Pending</span>
+                                  </span>
                                 </SelectItem>
                                 <SelectItem value="accepted" className="text-emerald-600 font-medium">
-                                  ✅ Accepted
+                                  <span className="flex items-center gap-1.5">
+                                    <CheckCircle2 className="size-3.5" />
+                                    <span>Accepted</span>
+                                  </span>
                                 </SelectItem>
                                 <SelectItem value="rejected" className="text-red-600 font-medium">
-                                  ❌ Rejected
+                                  <span className="flex items-center gap-1.5">
+                                    <XCircle className="size-3.5" />
+                                    <span>Rejected</span>
+                                  </span>
                                 </SelectItem>
                                 <SelectItem value="cancelled" className="text-stone-500 font-medium">
-                                  🚫 Cancelled
+                                  <span className="flex items-center gap-1.5">
+                                    <Ban className="size-3.5" />
+                                    <span>Cancelled</span>
+                                  </span>
                                 </SelectItem>
                               </SelectContent>
                             </Select>

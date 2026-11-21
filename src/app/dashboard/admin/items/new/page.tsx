@@ -9,6 +9,7 @@ import {
   ArrowLeft,
   ImagePlus,
   Loader2,
+  Pizza,
   ShieldCheck,
   Store,
   Upload,
@@ -223,13 +224,19 @@ export default function AdminAddMenuItemPage() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="admin">
-                      🍕 PizzaHub Official (Platform Admin)
+                      <span className="flex items-center gap-2">
+                        <Pizza className="size-4 text-[#c8402b]" />
+                        <span>PizzaHub Official (Platform Admin)</span>
+                      </span>
                     </SelectItem>
                     {vendors.map((v) => {
                       const vendorId = v._id || v.id;
                       return (
                         <SelectItem key={vendorId} value={vendorId}>
-                          🏪 {v.businessName || v.name} ({v.email})
+                          <span className="flex items-center gap-2">
+                            <Store className="size-4 text-muted-foreground" />
+                            <span>{v.businessName || v.name} ({v.email})</span>
+                          </span>
                         </SelectItem>
                       );
                     })}

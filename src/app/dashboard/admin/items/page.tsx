@@ -6,6 +6,8 @@ import Link from "next/link";
 import { toast } from "sonner";
 import {
   Check,
+  LayoutGrid,
+  LayoutList,
   Loader2,
   Plus,
   Search,
@@ -27,6 +29,14 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -40,9 +50,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { formatDate, formatPrice } from "@/lib/utils";
+import { cn, formatDate, formatPrice } from "@/lib/utils";
 
-const PAGE_SIZE = 9;
+const PAGE_SIZE = 10;
 type StatusFilter = "all" | MenuItemStatus;
 
 export default function AdminMenuItemsPage() {
@@ -54,6 +64,7 @@ export default function AdminMenuItemsPage() {
   const [debounced, setDebounced] = useState("");
   const [status, setStatus] = useState<StatusFilter>("all");
   const [category, setCategory] = useState("all");
+  const [viewMode, setViewMode] = useState<"table" | "grid">("table");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -197,9 +208,43 @@ export default function AdminMenuItemsPage() {
         </Select>
       </div>
 
-      <p className="text-sm text-muted-foreground">
-        {loading ? "Loading items…" : `${total} item${total === 1 ? "" : "s"} found`}
-      </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <p className="text-sm text-muted-foreground">
+          {loading ? "Loading items…" : `${total} item${total === 1 ? "" : "s"} found`}
+        </p>
+
+        {/* View Mode Toggle: Table (default) vs Grid */}
+        <div className="flex items-center gap-1 rounded-xl border border-border bg-muted/50 p-1 self-start sm:self-auto">
+          <button
+            type="button"
+            onClick={() => setViewMode("table")}
+            className={cn(
+              "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer",
+              viewMode === "table"
+                ? "bg-background text-foreground shadow-xs"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+            aria-label="Table view"
+          >
+            <LayoutList className="size-3.5" />
+            <span>Table</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode("grid")}
+            className={cn(
+              "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer",
+              viewMode === "grid"
+                ? "bg-background text-foreground shadow-xs"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+            aria-label="Grid view"
+          >
+            <LayoutGrid className="size-3.5" />
+            <span>Grid</span>
+          </button>
+        </div>
+      </div>
 
       {error ? (
         <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
@@ -208,9 +253,9 @@ export default function AdminMenuItemsPage() {
       ) : null}
 
       {loading ? (
-        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="space-y-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <Skeleton key={i} className="h-80 w-full rounded-xl" />
+            <Skeleton key={i} className="h-16 w-full rounded-xl" />
           ))}
         </div>
       ) : items.length === 0 ? (
@@ -221,7 +266,148 @@ export default function AdminMenuItemsPage() {
             <p className="text-sm text-muted-foreground">Try another search or status.</p>
           </CardContent>
         </Card>
+      ) : viewMode === "table" ? (
+        /* ─── 1. TABLE VIEW (Default) ─── */
+        <Card className="overflow-hidden border-border bg-card shadow-xs">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/40 hover:bg-muted/40">
+                  <TableHead className="w-[72px]">Image</TableHead>
+                  <TableHead>Item Details</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Vendor & Location</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Submitted</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {items.map((item) => {
+                  const vendor = typeof item.vendorId === "object" ? item.vendorId : null;
+                  return (
+                    <TableRow key={item._id} className="hover:bg-muted/30 transition-colors">
+                      {/* Image */}
+                      <TableCell className="py-3">
+                        <div className="relative size-14 rounded-xl overflow-hidden bg-muted shrink-0 border border-border/80">
+                          {item.images?.[0] ? (
+                            <Image
+                              src={item.images[0]}
+                              alt={item.itemName}
+                              fill
+                              sizes="56px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex size-full items-center justify-center text-muted-foreground">
+                              <UtensilsCrossed className="size-5" />
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+
+                      {/* Item Details */}
+                      <TableCell className="py-3">
+                        <div className="max-w-xs space-y-0.5">
+                          <p className="font-bold text-foreground text-sm line-clamp-1">{item.itemName}</p>
+                          <p className="text-xs text-muted-foreground line-clamp-1">{item.description}</p>
+                          {item.status === "rejected" && item.rejectionReason ? (
+                            <p className="text-[11px] text-red-600 bg-red-50 dark:bg-red-950/40 rounded px-1.5 py-0.5 mt-1 inline-block">
+                              Reason: {item.rejectionReason}
+                            </p>
+                          ) : null}
+                        </div>
+                      </TableCell>
+
+                      {/* Category */}
+                      <TableCell className="py-3">
+                        <span className="text-xs font-semibold text-muted-foreground bg-muted/60 px-2.5 py-1 rounded-md whitespace-nowrap border border-border/40">
+                          {item.category}
+                        </span>
+                      </TableCell>
+
+                      {/* Price */}
+                      <TableCell className="py-3 font-black text-[#c8402b] text-sm whitespace-nowrap">
+                        {formatPrice(item.price)}
+                      </TableCell>
+
+                      {/* Vendor & Location */}
+                      <TableCell className="py-3">
+                        <div className="space-y-0.5 max-w-[200px]">
+                          <p className="text-xs font-bold text-foreground flex items-center gap-1.5 truncate">
+                            <Store className="size-3.5 text-muted-foreground shrink-0" />
+                            <span className="truncate">{vendor?.businessName || vendor?.name || "Vendor"}</span>
+                          </p>
+                          <p className="text-[11px] text-muted-foreground truncate">{item.location}</p>
+                        </div>
+                      </TableCell>
+
+                      {/* Status */}
+                      <TableCell className="py-3">
+                        <StatusBadge status={item.status} />
+                      </TableCell>
+
+                      {/* Submitted Date */}
+                      <TableCell className="py-3 text-xs text-muted-foreground whitespace-nowrap">
+                        {formatDate(item.createdAt)}
+                      </TableCell>
+
+                      {/* Actions */}
+                      <TableCell className="py-3 text-right">
+                        <div className="flex items-center justify-end gap-1.5">
+                          {item.status !== "approved" ? (
+                            <Button
+                              size="sm"
+                              className="h-8 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs px-2.5"
+                              disabled={busyId === item._id}
+                              onClick={() => void updateStatus(item, "approved")}
+                            >
+                              {busyId === item._id ? (
+                                <Loader2 className="size-3.5 animate-spin" />
+                              ) : (
+                                <Check className="size-3.5 mr-1" />
+                              )}
+                              Approve
+                            </Button>
+                          ) : null}
+
+                          {item.status !== "rejected" ? (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="h-8 border-amber-200 text-amber-700 hover:bg-amber-50 dark:hover:bg-amber-950/40 text-xs px-2.5"
+                              disabled={busyId === item._id}
+                              onClick={() => {
+                                setRejecting(item);
+                                setRejectReason("");
+                              }}
+                            >
+                              <X className="size-3.5 mr-1" /> Reject
+                            </Button>
+                          ) : null}
+
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            className="size-8 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/40"
+                            disabled={busyId === item._id}
+                            onClick={() => setDeleting(item)}
+                            aria-label={`Delete ${item.itemName}`}
+                          >
+                            <Trash2 className="size-3.5" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </div>
+        </Card>
       ) : (
+        /* ─── 2. GRID VIEW (Cards) ─── */
         <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {items.map((item) => {
             const vendor = typeof item.vendorId === "object" ? item.vendorId : null;
