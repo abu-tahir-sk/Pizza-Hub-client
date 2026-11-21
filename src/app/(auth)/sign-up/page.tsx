@@ -106,10 +106,10 @@ export default function SignUpPage() {
     >
       {/* Title & Subtitle matching the reference mockup */}
       <div className="space-y-1">
-        <h1 className="text-5xl sm:text-6xl font-normal tracking-tight text-[#c67c4e]">
+        <h1 className="text-4xl sm:text-5xl font-serif font-normal tracking-tight text-[#c67c4e]">
           Welcome!
         </h1>
-        <p className="text-neutral-300 text-sm sm:text-base font-light tracking-wide pt-1">
+        <p className="text-neutral-400 text-sm font-normal tracking-wide pt-1">
           Today a beautifull day.
         </p>
       </div>
@@ -117,7 +117,7 @@ export default function SignUpPage() {
       <form onSubmit={handleSubmit} className="space-y-3.5" noValidate>
         {/* Account Role Selector */}
         <div className="space-y-1">
-          <label className="text-[11px] font-semibold uppercase tracking-wider text-neutral-400">
+          <label className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
             Account Type
           </label>
           <div className="grid grid-cols-2 gap-2">
@@ -125,10 +125,10 @@ export default function SignUpPage() {
               type="button"
               onClick={() => setRole("customer")}
               className={cn(
-                "flex items-center justify-center gap-2 h-10 rounded-md text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer",
+                "flex items-center justify-center gap-2 h-9 rounded-xs text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer",
                 role === "customer"
-                  ? "bg-[#c67c4e] border-[#c67c4e] text-white shadow-sm"
-                  : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white"
+                  ? "bg-[#c67c4e] border-[#c67c4e] text-white shadow-xs"
+                  : "bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white"
               )}
             >
               <User className="size-3.5" />
@@ -138,10 +138,10 @@ export default function SignUpPage() {
               type="button"
               onClick={() => setRole("vendor")}
               className={cn(
-                "flex items-center justify-center gap-2 h-10 rounded-md text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer",
+                "flex items-center justify-center gap-2 h-9 rounded-xs text-xs font-bold uppercase tracking-wider border transition-all cursor-pointer",
                 role === "vendor"
-                  ? "bg-[#c67c4e] border-[#c67c4e] text-white shadow-sm"
-                  : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white"
+                  ? "bg-[#c67c4e] border-[#c67c4e] text-white shadow-xs"
+                  : "bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white"
               )}
             >
               <Store className="size-3.5" />
@@ -152,7 +152,7 @@ export default function SignUpPage() {
 
         {/* Full Name */}
         <div className="space-y-1">
-          <div className="flex items-center h-11 bg-white rounded-md px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
+          <div className="flex items-center h-11 bg-white rounded-xs px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
             <User className="size-4 text-neutral-400 shrink-0" />
             <input
               id="name"
@@ -169,7 +169,7 @@ export default function SignUpPage() {
         {/* Restaurant Name (if vendor) */}
         {role === "vendor" ? (
           <div className="space-y-1">
-            <div className="flex items-center h-11 bg-white rounded-md px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
+            <div className="flex items-center h-11 bg-white rounded-xs px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
               <Store className="size-4 text-neutral-400 shrink-0" />
               <input
                 id="businessName"
@@ -185,7 +185,7 @@ export default function SignUpPage() {
 
         {/* Email */}
         <div className="space-y-1">
-          <div className="flex items-center h-11 bg-white rounded-md px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
+          <div className="flex items-center h-11 bg-white rounded-xs px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
             <Mail className="size-4 text-neutral-400 shrink-0" />
             <input
               id="email"
@@ -202,7 +202,7 @@ export default function SignUpPage() {
 
         {/* Password */}
         <div className="space-y-1">
-          <div className="flex items-center h-11 bg-white rounded-md px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
+          <div className="flex items-center h-11 bg-white rounded-xs px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
             <KeyRound className="size-4 text-neutral-400 shrink-0" />
             <input
               id="password"
@@ -270,7 +270,7 @@ export default function SignUpPage() {
 
         {/* Optional Profile Image */}
         <div className="space-y-1">
-          <div className="flex items-center h-11 bg-white rounded-md px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
+          <div className="flex items-center h-11 bg-white rounded-xs px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
             <ImageIcon className="size-4 text-neutral-400 shrink-0" />
             <input
               id="image"
@@ -283,23 +283,36 @@ export default function SignUpPage() {
           </div>
         </div>
 
+        {/* Agreement Checkbox */}
+        <div className="flex items-center justify-between pt-0.5">
+          <label className="flex items-center gap-2 cursor-pointer select-none text-xs text-neutral-400 hover:text-neutral-300">
+            <input
+              type="checkbox"
+              required
+              defaultChecked
+              className="size-3.5 rounded-xs border-neutral-600 bg-neutral-900 text-[#c67c4e] focus:ring-[#c67c4e] cursor-pointer"
+            />
+            <span>I agree to PizzaHub terms and ordering policy</span>
+          </label>
+        </div>
+
         {error ? (
           <p
             role="alert"
-            className="rounded-md bg-red-500/15 border border-red-500/30 px-3.5 py-2 text-xs font-medium text-red-400"
+            className="rounded-xs bg-red-500/15 border border-red-500/30 px-3.5 py-2 text-xs font-medium text-red-400"
           >
             {error}
           </p>
         ) : null}
 
-        {/* REGISTER Button */}
+        {/* REGISTER Button in terracotta copper */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-12 rounded-md bg-[#c67c4e] hover:bg-[#b56e42] text-white font-bold text-sm uppercase tracking-wider transition-all shadow-md active:scale-[0.99] flex items-center justify-center disabled:opacity-60 cursor-pointer mt-2"
+          className="w-full h-12 rounded-xs bg-[#c67c4e] hover:bg-[#b56e42] text-white font-bold text-xs sm:text-sm uppercase tracking-widest transition-all shadow-md active:scale-[0.99] flex items-center justify-center disabled:opacity-60 cursor-pointer mt-1"
         >
           {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-          <span>{loading ? "CREATING ACCOUNT…" : "REGISTER"}</span>
+          <span>{loading ? "CREATING ACCOUNT…" : "SIGN UP"}</span>
         </button>
 
         {/* Social Google Sign Up */}
