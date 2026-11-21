@@ -79,7 +79,7 @@ export default function VendorOverviewPage() {
   return (
     <div className="space-y-6">
       <PageHeading
-        title={`Welcome back, ${user?.name?.split(" ")[0] ?? "Chef"} 👋`}
+        title={`Welcome back, ${user?.name?.split(" ")[0] ?? "Chef"}`}
         description={
           user?.businessName
             ? `Managing ${user.businessName}`

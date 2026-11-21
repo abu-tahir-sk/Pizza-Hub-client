@@ -4,7 +4,15 @@ import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "sonner";
-import { Loader2, Pencil, PlusCircle, Trash2, UtensilsCrossed } from "lucide-react";
+import {
+  LayoutGrid,
+  LayoutList,
+  Loader2,
+  Pencil,
+  PlusCircle,
+  Trash2,
+  UtensilsCrossed,
+} from "lucide-react";
 import type { MenuItem } from "@/types";
 import { MENU_CATEGORIES } from "@/lib/types";
 import { deleteMenuItem, fetchVendorMenuItems, updateMenuItem, ApiError } from "@/lib/api";
@@ -12,6 +20,14 @@ import { PageHeading } from "@/components/dashboard/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -26,10 +42,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
-import { formatPrice } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 
 export default function VendorItemsPage() {
   const [items, setItems] = useState<MenuItem[]>([]);
+  const [viewMode, setViewMode] = useState<"table" | "grid">("table");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState<MenuItem | null>(null);
@@ -110,9 +127,9 @@ export default function VendorItemsPage() {
         title="My Menu Items"
         description="Manage your dishes, availability, and approval status."
         action={
-          <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
-            <Link href="/dashboard/vendor/items/new">
-              <PlusCircle className="size-4" /> Add Item
+          <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-bold rounded-lg px-4 shadow-sm">
+            <Link href="/dashboard/vendor/items/new" className="flex items-center gap-1.5">
+              <PlusCircle className="size-4" /> Add Menu Item
             </Link>
           </Button>
         }
@@ -124,10 +141,48 @@ export default function VendorItemsPage() {
         </div>
       ) : null}
 
+      {!loading && items.length > 0 ? (
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm text-muted-foreground">
+            {items.length} item{items.length === 1 ? "" : "s"} listed
+          </p>
+          <div className="flex items-center gap-1 rounded-xl border border-border bg-muted/50 p-1">
+            <button
+              type="button"
+              onClick={() => setViewMode("table")}
+              className={cn(
+                "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer",
+                viewMode === "table"
+                  ? "bg-background text-foreground shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+              aria-label="Table view"
+            >
+              <LayoutList className="size-3.5" />
+              <span>Table</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("grid")}
+              className={cn(
+                "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all cursor-pointer",
+                viewMode === "grid"
+                  ? "bg-background text-foreground shadow-xs"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+              aria-label="Grid view"
+            >
+              <LayoutGrid className="size-3.5" />
+              <span>Grid</span>
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       {loading ? (
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="space-y-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={i} className="h-80 w-full rounded-xl" />
+            <Skeleton key={i} className="h-16 w-full rounded-xl" />
           ))}
         </div>
       ) : items.length === 0 ? (
@@ -143,7 +198,130 @@ export default function VendorItemsPage() {
             </Button>
           </CardContent>
         </Card>
+      ) : viewMode === "table" ? (
+        /* ─── 1. TABLE VIEW (Default) ─── */
+        <Card className="overflow-hidden border-border bg-card shadow-xs">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/40 hover:bg-muted/40">
+                  <TableHead className="w-[72px]">Image</TableHead>
+                  <TableHead>Item Details</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Location</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Available</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {items.map((item) => (
+                  <TableRow key={item._id} className="hover:bg-muted/30 transition-colors">
+                    {/* Image */}
+                    <TableCell className="py-3">
+                      <div className="relative size-14 rounded-xl overflow-hidden bg-muted shrink-0 border border-border/80">
+                        {item.images?.[0] ? (
+                          <Image
+                            src={item.images[0]}
+                            alt={item.itemName}
+                            fill
+                            sizes="56px"
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="flex size-full items-center justify-center text-muted-foreground">
+                            <UtensilsCrossed className="size-5" />
+                          </div>
+                        )}
+                      </div>
+                    </TableCell>
+
+                    {/* Item Details */}
+                    <TableCell className="py-3">
+                      <div className="max-w-xs space-y-0.5">
+                        <p className="font-bold text-foreground text-sm line-clamp-1">{item.itemName}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-1">{item.description}</p>
+                        {item.status === "rejected" && item.rejectionReason ? (
+                          <p className="text-[11px] text-red-600 bg-red-50 dark:bg-red-950/40 rounded px-1.5 py-0.5 mt-1 inline-block">
+                            Rejected: {item.rejectionReason}
+                          </p>
+                        ) : null}
+                      </div>
+                    </TableCell>
+
+                    {/* Category */}
+                    <TableCell className="py-3">
+                      <span className="text-xs font-semibold text-muted-foreground bg-muted/60 px-2.5 py-1 rounded-md whitespace-nowrap border border-border/40">
+                        {item.category}
+                      </span>
+                    </TableCell>
+
+                    {/* Price */}
+                    <TableCell className="py-3 font-black text-[#c8402b] text-sm whitespace-nowrap">
+                      {formatPrice(item.price)}
+                    </TableCell>
+
+                    {/* Location */}
+                    <TableCell className="py-3 text-xs text-muted-foreground whitespace-nowrap">
+                      {item.location}
+                    </TableCell>
+
+                    {/* Status */}
+                    <TableCell className="py-3">
+                      <StatusBadge status={item.status} />
+                    </TableCell>
+
+                    {/* Availability Switch */}
+                    <TableCell className="py-3">
+                      <div className="flex items-center gap-2">
+                        <Switch
+                          checked={item.status === "approved"}
+                          disabled={
+                            busyId === item._id ||
+                            item.status === "pending" ||
+                            item.status === "rejected"
+                          }
+                          onCheckedChange={(checked) => void toggleAvailability(item, checked)}
+                          aria-label="Toggle availability"
+                        />
+                        <span className="text-xs text-muted-foreground">
+                          {item.status === "approved" ? "Active" : "Inactive"}
+                        </span>
+                      </div>
+                    </TableCell>
+
+                    {/* Actions */}
+                    <TableCell className="py-3 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-8 text-xs font-semibold"
+                          onClick={() => setEditing(item)}
+                          disabled={item.status === "pending"}
+                        >
+                          <Pencil className="size-3.5 mr-1" /> Edit
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="size-8 border-red-500/30 text-red-600 hover:bg-red-500/10 dark:text-red-400"
+                          onClick={() => setDeleting(item)}
+                          aria-label={`Delete ${item.itemName}`}
+                        >
+                          <Trash2 className="size-3.5" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </Card>
       ) : (
+        /* ─── 2. GRID VIEW (Cards) ─── */
         <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
           {items.map((item) => (
             <Card key={item._id} className="overflow-hidden border-border bg-card">

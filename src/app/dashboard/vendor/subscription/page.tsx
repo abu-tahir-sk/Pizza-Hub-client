@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Check, CreditCard, Loader2, Sparkles, Star } from "lucide-react";
+import { Check, CheckCircle2, CreditCard, Loader2, Sparkles, Star } from "lucide-react";
 import type { Transaction } from "@/types";
 import type { AppUser } from "@/lib/types";
 import { createCheckoutSession, fetchMyTransactions, ApiError } from "@/lib/api";
@@ -135,7 +135,9 @@ export default function VendorSubscriptionPage() {
 
             {isPremium ? (
               <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-3 text-sm text-emerald-800 dark:text-emerald-300">
-                <p className="font-semibold">Premium is active 🎉</p>
+                <p className="flex items-center gap-1.5 font-semibold text-emerald-800 dark:text-emerald-300">
+                  <CheckCircle2 className="size-4 text-emerald-600" /> Premium is active
+                </p>
                 {user?.subscriptionExpiresAt ? (
                   <p className="mt-1 text-xs">
                     Expires on {formatDateTime(user.subscriptionExpiresAt)}
