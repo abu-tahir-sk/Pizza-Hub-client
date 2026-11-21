@@ -17,3 +17,11 @@ export async function fetchMyProfile(): Promise<User> {
   const res = await apiRequest<User>("/api/users/me");
   return res.data!;
 }
+
+export async function becomeVendor(businessName: string): Promise<User> {
+  const res = await apiRequest<User>("/api/users/become-vendor", {
+    method: "POST",
+    body: JSON.stringify({ businessName }),
+  });
+  return res.data!;
+}

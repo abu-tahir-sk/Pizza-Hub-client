@@ -14,15 +14,6 @@ export type {
 export { MENU_CATEGORIES } from "@/types";
 export type { User } from "@/types";
 
-export const CATEGORY_EMOJI: Record<string, string> = {
-  "Classic Pizzas": "🍕",
-  "Vegetarian Pizzas": "🥬",
-  "Meat Lovers": "🥓",
-  "Specialty / Gourmet Pizzas": "⭐",
-  "Sides & Appetizers": "🧄",
-  "Beverages & Desserts": "🥤",
-};
-
 export function dashboardPath(role: "customer" | "vendor" | "admin"): string {
   switch (role) {
     case "vendor":

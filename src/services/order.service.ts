@@ -1,4 +1,4 @@
-import type { Order, PaymentMethod } from "@/types";
+import type { Order } from "@/types";
 import { apiRequest } from "./http";
 
 export interface PlaceOrderInput {
@@ -7,7 +7,6 @@ export interface PlaceOrderInput {
   deliveryAddress: string;
   message?: string;
   quantity?: number;
-  paymentMethod?: PaymentMethod;
 }
 
 export interface PlaceOrderResult {
@@ -25,13 +24,6 @@ export async function placeOrder(orderData: PlaceOrderInput): Promise<PlaceOrder
     return data as PlaceOrderResult;
   }
   return { order: data as Order, checkoutUrl: null };
-}
-
-export async function verifyOrderPayment(orderId: string, sessionId: string): Promise<{ order: Order; paymentStatus: string }> {
-  const res = await apiRequest<{ order: Order; paymentStatus: string }>(
-    `/api/orders/verify-payment?orderId=${encodeURIComponent(orderId)}&sessionId=${encodeURIComponent(sessionId)}`
-  );
-  return res.data!;
 }
 
 export async function fetchCustomerOrders(): Promise<Order[]> {
