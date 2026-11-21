@@ -135,11 +135,24 @@ function SignInForm() {
   async function handleGoogle() {
     setError(null);
     setLoading(true);
-    await signIn.social({
-      provider: "google",
-      callbackURL: `${window.location.origin}/dashboard`,
-      errorCallbackURL: `${window.location.origin}/sign-in`,
-    });
+    try {
+      const res = await signIn.social({
+        provider: "google",
+        callbackURL: `${window.location.origin}/dashboard`,
+        errorCallbackURL: `${window.location.origin}/sign-in`,
+      });
+      if (res?.error) {
+        const msg = res.error.message || "Could not initiate Google sign-in. Please try again.";
+        setError(msg);
+        toast.error("Google Sign-In Error", { description: msg });
+        setLoading(false);
+      }
+    } catch {
+      const msg = "Unable to connect to Google sign-in. Please check your connection.";
+      setError(msg);
+      toast.error("Google Sign-In Failed", { description: msg });
+      setLoading(false);
+    }
   }
 
   return (
