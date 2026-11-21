@@ -45,17 +45,31 @@ export default function SignUpPage() {
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
 
+  function handleValidationError(msg: string, title = "Validation Error") {
+    setError(msg);
+    toast.error(title, {
+      description: msg,
+      duration: 5000,
+    });
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
 
-    if (name.trim().length < 2) return setError("Please enter your full name.");
+    if (name.trim().length < 2) {
+      return handleValidationError("Please enter your full name (at least 2 characters).", "Name Required");
+    }
     const emailError = validateEmail(email);
-    if (emailError) return setError(emailError);
+    if (emailError) {
+      return handleValidationError(emailError, "Invalid Email");
+    }
     const passwordError = validatePassword(password);
-    if (passwordError) return setError(passwordError);
+    if (passwordError) {
+      return handleValidationError(passwordError, "Weak Password");
+    }
     if (role === "vendor" && businessName.trim().length < 2) {
-      return setError("Please enter your restaurant name.");
+      return handleValidationError("Please enter your restaurant or pizzeria name.", "Restaurant Name Required");
     }
 
     setLoading(true);
@@ -71,14 +85,21 @@ export default function SignUpPage() {
       } as never);
 
       if (authError) {
-        setError(authError.message || "Could not create your account. Please try again.");
+        const msg = authError.message || "Could not create your account. Please try again.";
+        setError(msg);
+        toast.error("Registration Failed", {
+          description: msg,
+          duration: 5000,
+        });
         return;
       }
 
       await refreshToken();
       const user = await getSessionUser();
       if (!user) {
-        setError("Account created, but we could not start your session. Please sign in.");
+        const msg = "Account created, but we could not start your session. Please sign in.";
+        setError(msg);
+        toast.info("Account Created", { description: msg });
         router.replace("/sign-in");
         return;
       }
@@ -86,7 +107,12 @@ export default function SignUpPage() {
       router.replace(dashboardPath(user.role as UserRole));
       router.refresh();
     } catch {
-      setError("Could not create your account right now. Please try again.");
+      const msg = "Could not create your account right now. Please check your connection and try again.";
+      setError(msg);
+      toast.error("Registration Error", {
+        description: msg,
+        duration: 5000,
+      });
     } finally {
       setLoading(false);
     }

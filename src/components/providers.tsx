@@ -13,7 +13,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
           position="top-right"
           richColors
           closeButton
-          toastOptions={{ style: { fontFamily: "inherit" } }}
+          expand={true}
+          theme="system"
+          className="z-[99999]"
+          toastOptions={{
+            style: {
+              fontFamily: "inherit",
+              fontSize: "13px",
+            },
+          }}
         />
       </FavoritesProvider>
     </ThemeProvider>

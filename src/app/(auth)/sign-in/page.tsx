@@ -37,46 +37,79 @@ function SignInForm() {
 
   useEffect(() => {
     const errorParam = searchParams.get("error");
-    if (errorParam === "account_not_linked") {
-      const msg = "This email is already registered with a password. Please sign in using your email & password.";
-      setError(msg);
-      toast.error(msg, {
-        description: "An account with this email already exists with password credentials. Please sign in using your password.",
+    if (errorParam) {
+      let title = "Sign-in Failed";
+      let desc = "Google sign-in was unsuccessful. Please sign in with your password.";
+      if (errorParam === "account_not_linked") {
+        title = "Account Already Exists";
+        desc = "This email is already registered with a password. Please sign in using your email & password.";
+      } else if (errorParam === "state_mismatch") {
+        title = "Session Expired";
+        desc = "The authentication request timed out or was blocked by browser privacy settings. Please sign in using your password.";
+      } else if (errorParam === "access_denied") {
+        title = "Access Denied";
+        desc = "Google sign-in was cancelled or access was denied.";
+      }
+      setError(desc);
+      toast.error(title, {
+        description: desc,
         duration: 6000,
       });
-      router.replace(redirectTo ? `/sign-in?redirect=${encodeURIComponent(redirectTo)}` : "/sign-in");
-    } else if (errorParam) {
-      const msg = "Google sign-in was unsuccessful. Please sign in with your password.";
-      setError(msg);
-      toast.error(msg, { duration: 5000 });
-      router.replace(redirectTo ? `/sign-in?redirect=${encodeURIComponent(redirectTo)}` : "/sign-in");
     }
 
     if (searchParams.get("blocked") === "1") {
-      toast.error("Your account has been blocked. Please contact support.");
+      const msg = "Your account has been blocked. Please contact support.";
+      setError(msg);
+      toast.error("Account Blocked", {
+        description: msg,
+        duration: 6000,
+      });
     }
-  }, [searchParams, router, redirectTo]);
+  }, [searchParams]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
+
+    if (!email.trim()) {
+      const msg = "Please enter your email address.";
+      setError(msg);
+      toast.error("Missing Email", { description: msg });
+      return;
+    }
+    if (!password) {
+      const msg = "Please enter your password.";
+      setError(msg);
+      toast.error("Missing Password", { description: msg });
+      return;
+    }
+
     setLoading(true);
     try {
       clearToken();
       const { error: authError } = await signIn.email({ email, password });
       if (authError) {
-        setError(authError.message || "Invalid email or password.");
+        const msg = authError.message || "Invalid email or password.";
+        setError(msg);
+        toast.error("Sign-in Failed", {
+          description: msg,
+          duration: 5000,
+        });
         return;
       }
 
       await refreshToken();
       const user = await getSessionUser();
       if (!user) {
-        setError("Signed in, but the session could not be verified. Please try again.");
+        const msg = "Signed in, but the session could not be verified. Please try again.";
+        setError(msg);
+        toast.error("Session Verification Failed", { description: msg });
         return;
       }
       if (user.isBlocked) {
-        setError("Your account has been blocked. Please contact support.");
+        const msg = "Your account has been blocked. Please contact support.";
+        setError(msg);
+        toast.error("Account Blocked", { description: msg });
         return;
       }
 
@@ -91,7 +124,9 @@ function SignInForm() {
       router.replace(redirectTo || dashboardPath(user.role as UserRole));
       router.refresh();
     } catch {
-      setError("Unable to sign in right now. Please try again.");
+      const msg = "Unable to sign in right now. Please check your connection and try again.";
+      setError(msg);
+      toast.error("Sign-in Error", { description: msg });
     } finally {
       setLoading(false);
     }
