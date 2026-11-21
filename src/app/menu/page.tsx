@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { motion } from "motion/react";
 import { ArrowDownUp, Pizza, RotateCcw, Search, SlidersHorizontal, Sparkles } from "lucide-react";
 import type { MenuItem } from "@/types";
 import { MENU_CATEGORIES } from "@/lib/types";
@@ -97,7 +98,12 @@ function MenuBrowser() {
     <div className="min-h-screen bg-background text-foreground transition-colors">
       {/* Page header */}
       <section className="border-b border-border bg-muted/40 py-14 text-foreground transition-colors">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+        >
           <span className="text-xs font-bold uppercase tracking-widest text-[#c8402b] dark:text-[#f0a23c]">
             Freshly baked near you
           </span>
@@ -106,12 +112,17 @@ function MenuBrowser() {
             Search by name, filter by category or location, and sort by price to find your next
             favourite slice.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Filters */}
-        <div className="mb-8 grid gap-3 rounded-xl border border-border bg-card p-4 shadow-sm md:grid-cols-[1.6fr_1fr_1fr_1fr]">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-8 grid gap-3 rounded-xl border border-border bg-card p-4 shadow-sm md:grid-cols-[1.6fr_1fr_1fr_1fr]"
+        >
           <div className="relative">
             <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input
@@ -179,7 +190,7 @@ function MenuBrowser() {
               <SelectItem value="price-desc">Price: high to low</SelectItem>
             </SelectContent>
           </Select>
-        </div>
+        </motion.div>
 
         <div className="mb-5 flex items-center justify-between">
           <p className="text-sm text-muted-foreground flex items-center gap-1.5">
@@ -232,9 +243,21 @@ function MenuBrowser() {
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((item) => (
-              <MenuItemCard key={item._id} item={item} />
-            ))}
+            {items.map((item, index) => {
+              const col = index % 3;
+              const xOffset = col === 0 ? -45 : col === 2 ? 45 : 0;
+              return (
+                <motion.div
+                  key={item._id}
+                  initial={{ opacity: 0, x: xOffset, y: 30, scale: 0.96 }}
+                  whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.5, delay: (index % 6) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <MenuItemCard item={item} index={index} />
+                </motion.div>
+              );
+            })}
           </div>
         )}
 

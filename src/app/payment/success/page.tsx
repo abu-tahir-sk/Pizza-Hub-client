@@ -8,16 +8,13 @@ import {
   CheckCircle2,
   Clock,
   Loader2,
-  Pizza,
   PlusCircle,
   ReceiptText,
-  ShoppingBag,
   Sparkles,
   XCircle,
 } from "lucide-react";
-import type { Order, Transaction } from "@/types";
+import type { Transaction } from "@/types";
 import { verifyPaymentSession, ApiError } from "@/lib/api";
-import { verifyOrderPayment } from "@/services/order.service";
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,12 +35,10 @@ export default function PaymentSuccessPage() {
 function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
-  const orderId = searchParams.get("order_id");
 
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<string | null>(null);
   const [transaction, setTransaction] = useState<Transaction | null>(null);
-  const [order, setOrder] = useState<Order | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -59,52 +54,30 @@ function SuccessContent() {
       }
 
       try {
-        if (orderId) {
-          // Pizza Order payment verification
-          const res = await verifyOrderPayment(orderId, sessionId);
-          if (cancelled) return;
-          setStatus(res.paymentStatus);
-          setOrder(res.order);
-          setError(null);
+        const res = await verifyPaymentSession(sessionId);
+        if (cancelled) return;
 
-          if (res.paymentStatus === "paid") {
-            try {
-              confetti({
-                particleCount: 110,
-                spread: 75,
-                origin: { y: 0.6 },
-              });
-            } catch {
-              // ignore
-            }
+        setStatus(res.paymentStatus);
+        setTransaction(res.transaction);
+        setError(null);
+
+        if (res.paymentStatus === "paid") {
+          try {
+            confetti({
+              particleCount: 110,
+              spread: 75,
+              origin: { y: 0.6 },
+            });
+          } catch {
+            // ignore
           }
-        } else {
-          // Vendor Subscription payment verification
-          const res = await verifyPaymentSession(sessionId);
-          if (cancelled) return;
+        }
 
-          setStatus(res.paymentStatus);
-          setTransaction(res.transaction);
-          setError(null);
-
-          if (res.paymentStatus === "paid") {
-            try {
-              confetti({
-                particleCount: 110,
-                spread: 75,
-                origin: { y: 0.6 },
-              });
-            } catch {
-              // ignore
-            }
-          }
-
-          if (res.transaction?.status === "pending" && pollCount < maxPolls) {
-            pollCount += 1;
-            setTimeout(() => {
-              if (!cancelled) void verify();
-            }, 2500);
-          }
+        if (res.transaction?.status === "pending" && pollCount < maxPolls) {
+          pollCount += 1;
+          setTimeout(() => {
+            if (!cancelled) void verify();
+          }, 2500);
         }
       } catch (err) {
         if (!cancelled) {
@@ -123,11 +96,11 @@ function SuccessContent() {
     return () => {
       cancelled = true;
     };
-  }, [sessionId, orderId]);
+  }, [sessionId]);
 
   if (loading) return <PaymentSkeleton />;
 
-  const isPaid = status === "paid" || transaction?.status === "paid" || order?.paymentStatus === "paid";
+  const isPaid = status === "paid" || transaction?.status === "paid";
 
   return (
     <div className="min-h-screen bg-background text-foreground px-4 py-16 sm:px-6 transition-colors">
@@ -155,65 +128,31 @@ function SuccessContent() {
             <div className="space-y-1">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#c8402b]">
                 <Sparkles className="size-3.5" />
-                {orderId ? "Pizza Order Confirmed" : "PizzaHub Subscription"}
+                PizzaHub Subscription
               </span>
               <h1 className="text-3xl font-extrabold tracking-tight text-foreground">
-                {isPaid
-                  ? orderId
-                    ? "Payment Received & Order Placed!"
-                    : "Payment Verified & Complete!"
-                  : error
-                    ? "Verification Issue"
-                    : "Payment Processing…"}
+                {isPaid ? "Payment Verified & Complete!" : error ? "Verification Issue" : "Payment Processing…"}
               </h1>
             </div>
 
             <p className="text-sm leading-relaxed text-muted-foreground">
               {isPaid ? (
-                orderId ? (
-                  <>
-                    Thank you! Your online payment was successful and your pizza order is now confirmed.
-                    The kitchen is notified and preparing your fresh pizza!
-                  </>
-                ) : (
-                  <>
-                    Congratulations! Your <strong>PizzaHub Premium</strong> subscription is now active.
-                    You have unlocked unlimited menu publishing, featured placement, and the verified vendor badge.
-                  </>
-                )
+                <>
+                  Congratulations! Your <strong>PizzaHub Premium</strong> subscription is now active.
+                  You have unlocked unlimited menu publishing, featured placement, and the verified
+                  vendor badge.
+                </>
               ) : error ? (
                 error
               ) : (
                 <>
-                  Stripe is finalizing your transaction. Your order will update automatically once verified.
+                  Stripe is finalizing your transaction. Your subscription will update
+                  automatically once the payment is verified by our webhook.
                 </>
               )}
             </p>
 
-            {order ? (
-              <div className="mx-auto flex max-w-sm flex-col gap-2.5 rounded-xl bg-muted/60 border border-border p-4 text-left text-xs text-muted-foreground">
-                <div className="flex items-center justify-between">
-                  <span className="flex items-center gap-1.5 font-semibold text-foreground">
-                    <Pizza className="size-3.5 text-[#c8402b]" /> Order Item
-                  </span>
-                  <span className="font-bold text-foreground">
-                    {typeof order.itemId === "object" ? order.itemId.itemName : "Pizza"} ({order.quantity || 1}x)
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Amount Paid</span>
-                  <span className="font-bold text-foreground text-sm">
-                    {formatPrice(order.totalAmount || (typeof order.itemId === "object" ? order.itemId.price : 0))}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Payment Method</span>
-                  <Badge variant="success" className="font-semibold">
-                    💳 Paid Online (Stripe)
-                  </Badge>
-                </div>
-              </div>
-            ) : transaction ? (
+            {transaction ? (
               <div className="mx-auto flex max-w-sm flex-col gap-2.5 rounded-xl bg-muted/60 border border-border p-4 text-left text-xs text-muted-foreground">
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1.5 font-semibold text-foreground">
@@ -244,37 +183,20 @@ function SuccessContent() {
             ) : null}
 
             <div className="flex flex-col gap-2.5 pt-3 sm:flex-row sm:justify-center">
-              {orderId ? (
-                <>
-                  <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-semibold">
-                    <Link href="/dashboard/customer/orders">
-                      <ShoppingBag className="size-4 mr-2" /> View My Orders
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" className="border-border text-foreground hover:bg-muted font-semibold">
-                    <Link href="/menu">Browse More Pizzas</Link>
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-semibold">
-                    <Link href="/dashboard/vendor/items/new">
-                      <PlusCircle className="size-4 mr-2" /> Publish Menu Item
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" className="border-border text-foreground hover:bg-muted font-semibold">
-                    <Link href="/dashboard/vendor/subscription">View Subscription</Link>
-                  </Button>
-                </>
-              )}
+              <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-semibold">
+                <Link href="/dashboard/vendor/items/new">
+                  <PlusCircle className="size-4 mr-2" /> Publish Menu Item
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="border-border text-foreground hover:bg-muted font-semibold">
+                <Link href="/dashboard/vendor/subscription">View Subscription</Link>
+              </Button>
             </div>
           </CardContent>
         </Card>
 
         <p className="mt-4 text-center text-xs text-muted-foreground">
-          {orderId
-            ? "Your receipt and order confirmation have been saved to your account."
-            : "Premium is granted exclusively server-side via Stripe webhooks."}
+          Premium is granted exclusively server-side via Stripe webhooks — never from this page.
         </p>
       </div>
     </div>

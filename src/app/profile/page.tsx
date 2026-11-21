@@ -17,13 +17,22 @@ import {
 } from "lucide-react";
 import type { AppUser } from "@/lib/types";
 import { useRouter } from "next/navigation";
-import { fetchMyProfile, updateProfile, uploadMenuImage, refreshToken, ApiError } from "@/lib/api";
+import { fetchMyProfile, updateProfile, uploadMenuImage, becomeVendor, refreshToken, ApiError } from "@/lib/api";
 import { useSession, updateUser } from "@/lib/auth-client";
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { PageHeading } from "@/components/dashboard/stat-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -58,6 +67,36 @@ function ProfileContent() {
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
   const [email, setEmail] = useState("");
   const [joined, setJoined] = useState<string | undefined>(undefined);
+
+  // Become a Vendor state
+  const [vendorDialogOpen, setVendorDialogOpen] = useState(false);
+  const [newVendorBusinessName, setNewVendorBusinessName] = useState("");
+  const [upgradingRole, setUpgradingRole] = useState(false);
+
+  async function handleBecomeVendor(e: React.FormEvent) {
+    e.preventDefault();
+    if (!newVendorBusinessName.trim() || newVendorBusinessName.trim().length < 2) {
+      toast.error("Please enter a valid restaurant or business name (at least 2 characters).");
+      return;
+    }
+    setUpgradingRole(true);
+    try {
+      await becomeVendor(newVendorBusinessName.trim());
+      await refreshToken();
+      await refetch();
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new Event("pizzahub-auth-change"));
+      }
+      toast.success("Congratulations! You are now a Vendor. Welcome to your Vendor Dashboard!");
+      setVendorDialogOpen(false);
+      router.push("/dashboard/vendor");
+      router.refresh();
+    } catch {
+      toast.error("Could not upgrade to Vendor account right now. Please try again.");
+    } finally {
+      setUpgradingRole(false);
+    }
+  }
 
   useEffect(() => {
     let cancelled = false;
@@ -302,6 +341,81 @@ function ProfileContent() {
                     </div>
                   ) : null}
                 </>
+              ) : null}
+
+              {role === "customer" ? (
+                <div className="pt-2">
+                  <Separator className="bg-border my-3" />
+                  <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground">
+                      Want to sell pizzas? Switch your account to a Vendor.
+                    </p>
+                    <Dialog open={vendorDialogOpen} onOpenChange={setVendorDialogOpen}>
+                      <DialogTrigger asChild>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          className="w-full border-[#c8402b]/40 text-[#c8402b] hover:bg-[#c8402b]/10 font-bold"
+                        >
+                          <Store className="size-4 mr-1.5" /> Become a Vendor
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                        <form onSubmit={handleBecomeVendor} className="space-y-4">
+                          <DialogHeader>
+                            <DialogTitle className="flex items-center gap-2">
+                              <Store className="size-5 text-[#c8402b]" /> Register as a Vendor
+                            </DialogTitle>
+                            <DialogDescription>
+                              Enter your restaurant or pizzeria name to activate your vendor dashboard and begin publishing menu items.
+                            </DialogDescription>
+                          </DialogHeader>
+
+                          <div className="space-y-2 py-2">
+                            <Label htmlFor="pv-business-name">Restaurant / Business Name</Label>
+                            <Input
+                              id="pv-business-name"
+                              placeholder="e.g. Napoli Wood-Fired Pizzeria"
+                              value={newVendorBusinessName}
+                              onChange={(e) => setNewVendorBusinessName(e.target.value)}
+                              required
+                              maxLength={80}
+                              autoFocus
+                            />
+                            <p className="text-[11px] text-muted-foreground">
+                              This name will appear on all your menu items and customer receipts.
+                            </p>
+                          </div>
+
+                          <DialogFooter className="gap-2 sm:gap-0">
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => setVendorDialogOpen(false)}
+                              disabled={upgradingRole}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              type="submit"
+                              disabled={upgradingRole}
+                              className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-bold"
+                            >
+                              {upgradingRole ? (
+                                <>
+                                  <Loader2 className="mr-2 size-4 animate-spin" /> Activating…
+                                </>
+                              ) : (
+                                "Confirm & Open Vendor Dashboard"
+                              )}
+                            </Button>
+                          </DialogFooter>
+                        </form>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </div>
               ) : null}
             </CardContent>
           </Card>

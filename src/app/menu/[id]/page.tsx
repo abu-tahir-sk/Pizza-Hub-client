@@ -4,26 +4,24 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import { motion } from "motion/react";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import {
   ArrowLeft,
-  Banknote,
-  CalendarDays,
   CheckCircle2,
-  CreditCard,
   Heart,
   Loader2,
   MapPin,
   MessageSquare,
   Minus,
+  Pizza,
   Plus,
   Send,
   ShieldCheck,
   Star,
   Store,
   Truck,
-  User,
 } from "lucide-react";
 import type { MenuItem } from "@/types";
 import type { AppUser } from "@/lib/types";
@@ -64,7 +62,6 @@ function ItemDetails() {
   const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [paymentMethod, setPaymentMethod] = useState<"cod" | "stripe">("cod");
   const [submitting, setSubmitting] = useState(false);
 
   const [reviews, setReviews] = useState<{ id: string; name: string; rating: number; comment: string; date: string }[]>([
@@ -98,7 +95,7 @@ function ItemDetails() {
     };
     setReviews([rev, ...reviews]);
     setNewComment("");
-    toast.success("Thank you for your review! 🌟");
+    toast.success("Thank you for your review!");
   }
 
   useEffect(() => {
@@ -134,14 +131,7 @@ function ItemDetails() {
         deliveryAddress: address,
         message,
         quantity,
-        paymentMethod,
       });
-
-      if (paymentMethod === "stripe" && res.checkoutUrl) {
-        toast.info("Redirecting to secure Stripe Checkout… 💳");
-        window.location.href = res.checkoutUrl;
-        return;
-      }
 
       try {
         confetti({
@@ -152,7 +142,7 @@ function ItemDetails() {
       } catch {
         // ignore
       }
-      toast.success("Order placed successfully! Cash on delivery. 🍕");
+      toast.success("Order placed successfully! Cash on delivery.");
       router.push(`/dashboard/customer/orders?highlight=${res.order._id}`);
     } catch (err) {
       const msg =
@@ -180,7 +170,9 @@ function ItemDetails() {
   if (notFound || !item) {
     return (
       <div className="mx-auto max-w-xl px-4 py-24 text-center">
-        <p className="text-6xl">🍕</p>
+        <div className="mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-orange-500/10 text-[#c8402b]">
+          <Pizza className="size-10" />
+        </div>
         <h1 className="mt-4 text-2xl font-extrabold text-foreground">Menu item not found</h1>
         <p className="mt-2 text-muted-foreground">
           This item may have been removed, rejected, or the link is invalid.
@@ -201,15 +193,26 @@ function ItemDetails() {
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <Button asChild variant="ghost" className="mb-4 -ml-2 text-muted-foreground hover:text-foreground">
-          <Link href="/menu">
-            <ArrowLeft className="size-4" /> Back to menu
-          </Link>
-        </Button>
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <Button asChild variant="ghost" className="mb-4 -ml-2 text-muted-foreground hover:text-foreground">
+            <Link href="/menu">
+              <ArrowLeft className="size-4" /> Back to menu
+            </Link>
+          </Button>
+        </motion.div>
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Gallery */}
-          <div className="space-y-3">
+          <motion.div
+            initial={{ opacity: 0, x: -60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-3"
+          >
             <div className="relative h-80 overflow-hidden rounded-xl border border-border bg-muted dark:bg-stone-800 sm:h-[420px]">
               <Image
                 src={item.images[activeImage] ?? item.images[0]}
@@ -255,10 +258,15 @@ function ItemDetails() {
                 ))}
               </div>
             ) : null}
-          </div>
+          </motion.div>
 
           {/* Info + order */}
-          <div className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="space-y-6"
+          >
             <div className="space-y-3">
               <Badge variant="secondary">{item.category}</Badge>
               <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
@@ -367,123 +375,29 @@ function ItemDetails() {
                       />
                     </div>
 
-                    {/* Payment Method Selector */}
-                    <div className="space-y-2 pt-1">
-                      <Label className="text-sm font-semibold">Choose Payment Method</Label>
-                      <div className="grid gap-2.5 sm:grid-cols-2">
-                        {/* Cash on Delivery Card */}
-                        <div
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => setPaymentMethod("cod")}
-                          className={cn(
-                            "cursor-pointer rounded-xl border p-3.5 transition-all text-left",
-                            paymentMethod === "cod"
-                              ? "border-[#c8402b] bg-[#c8402b]/5 ring-2 ring-[#c8402b]/20 dark:bg-[#c8402b]/10"
-                              : "border-border hover:bg-muted/50"
-                          )}
-                        >
-                          <div className="flex items-center justify-between mb-1.5">
-                            <div className="flex items-center gap-2">
-                              <span className="grid size-7 place-items-center rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                                <Banknote className="size-4" />
-                              </span>
-                              <span className="text-sm font-bold text-foreground">Cash on Delivery</span>
-                            </div>
-                            <span
-                              className={cn(
-                                "size-4 rounded-full border-2 flex items-center justify-center",
-                                paymentMethod === "cod" ? "border-[#c8402b] bg-[#c8402b]" : "border-muted-foreground/40"
-                              )}
-                            >
-                              {paymentMethod === "cod" && <span className="size-1.5 rounded-full bg-white" />}
-                            </span>
-                          </div>
-                          <p className="text-xs text-muted-foreground">Pay cash when your hot pizza is delivered.</p>
-                        </div>
-
-                        {/* Pay Online Card */}
-                        <div
-                          role="button"
-                          tabIndex={0}
-                          onClick={() => setPaymentMethod("stripe")}
-                          className={cn(
-                            "cursor-pointer rounded-xl border p-3.5 transition-all text-left",
-                            paymentMethod === "stripe"
-                              ? "border-[#c8402b] bg-[#c8402b]/5 ring-2 ring-[#c8402b]/20 dark:bg-[#c8402b]/10"
-                              : "border-border hover:bg-muted/50"
-                          )}
-                        >
-                          <div className="flex items-center justify-between mb-1.5">
-                            <div className="flex items-center gap-2">
-                              <span className="grid size-7 place-items-center rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                                <CreditCard className="size-4" />
-                              </span>
-                              <span className="text-sm font-bold text-foreground">Pay Online (Stripe)</span>
-                            </div>
-                            <span
-                              className={cn(
-                                "size-4 rounded-full border-2 flex items-center justify-center",
-                                paymentMethod === "stripe" ? "border-[#c8402b] bg-[#c8402b]" : "border-muted-foreground/40"
-                              )}
-                            >
-                              {paymentMethod === "stripe" && <span className="size-1.5 rounded-full bg-white" />}
-                            </span>
-                          </div>
-                          <p className="text-xs text-muted-foreground">Credit / Debit Card, Apple Pay via Stripe.</p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Total Price Breakdown */}
-                    <div className="rounded-xl bg-muted/60 border border-border p-3.5 space-y-1.5">
-                      <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <span>Unit Price ({quantity}x)</span>
-                        <span>{formatPrice(item.price * quantity)}</span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <span>Delivery Fee</span>
-                        <span className="text-emerald-600 font-semibold">Free Delivery</span>
-                      </div>
-                      <div className="border-t border-border/70 pt-2 flex items-center justify-between">
-                        <span className="text-sm font-bold text-foreground">Total Amount</span>
-                        <span className="text-xl font-extrabold text-[#c8402b]">
-                          {formatPrice(item.price * quantity)}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Submit Button */}
+                    {/* Order Button (Cash on Delivery / Order Confirmation) */}
                     <Button
                       type="submit"
                       disabled={submitting}
-                      className="h-12 w-full bg-[#c8402b] text-base hover:bg-[#ad3521] shadow-sm font-bold"
+                      className="h-12 w-full bg-[#c8402b] text-base hover:bg-[#ad3521] shadow-sm font-bold cursor-pointer"
                     >
                       {submitting ? (
                         <Loader2 className="size-5 animate-spin mr-2" />
-                      ) : paymentMethod === "stripe" ? (
-                        <CreditCard className="size-5 mr-2" />
                       ) : (
                         <Truck className="size-5 mr-2" />
                       )}
-                      {submitting
-                        ? "Processing…"
-                        : paymentMethod === "stripe"
-                          ? `Pay ${formatPrice(item.price * quantity)} Online (Stripe)`
-                          : `Place Order (Cash on Delivery)`}
+                      {submitting ? "Processing…" : `Place Order (${formatPrice(item.price * quantity)})`}
                     </Button>
 
                     <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground text-center">
                       <ShieldCheck className="size-3.5 text-emerald-600 shrink-0" />
-                      {paymentMethod === "stripe"
-                        ? "256-bit encrypted secure checkout powered by Stripe."
-                        : "No prepayment required — pay cash upon arrival."}
+                      No prepayment required — pay cash upon arrival.
                     </p>
                   </form>
                 )}
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
         </div>
 
         {/* ─── Customer Reviews & Ratings (Optional Requirement) ─── */}
@@ -507,7 +421,13 @@ function ItemDetails() {
 
           <div className="grid gap-8 lg:grid-cols-12">
             {/* Reviews List */}
-            <div className="space-y-4 lg:col-span-7">
+            <motion.div
+              initial={{ opacity: 0, x: -60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-4 lg:col-span-7"
+            >
               {reviews.map((rev) => (
                 <Card key={rev.id} className="border-border bg-card">
                   <CardContent className="space-y-2 p-5">
@@ -531,10 +451,16 @@ function ItemDetails() {
                   </CardContent>
                 </Card>
               ))}
-            </div>
+            </motion.div>
 
             {/* Leave a review form */}
-            <div className="lg:col-span-5">
+            <motion.div
+              initial={{ opacity: 0, x: 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="lg:col-span-5"
+            >
               <Card className="border-border bg-card">
                 <CardContent className="space-y-4 p-6">
                   <div className="flex items-center gap-2">
@@ -580,7 +506,7 @@ function ItemDetails() {
                   </form>
                 </CardContent>
               </Card>
-            </div>
+            </motion.div>
           </div>
         </section>
       </div>
