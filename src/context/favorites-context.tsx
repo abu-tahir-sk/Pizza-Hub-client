@@ -45,7 +45,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     if (exists) {
       toast.info(name ? `Removed ${name} from favorites` : "Removed from favorites");
     } else {
-      toast.success(name ? `Saved ${name} to favorites ❤️` : "Saved to favorites ❤️");
+      toast.success(name ? `Saved ${name} to favorites` : "Saved to favorites");
     }
   };
 

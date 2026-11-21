@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { Heart, Pizza } from "lucide-react";
 import type { MenuItem } from "@/types";
 import { fetchMenuItems } from "@/lib/api";
@@ -95,9 +96,21 @@ export default function FavoritesPage() {
           </div>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {items.map((item) => (
-              <MenuItemCard key={item._id} item={item} />
-            ))}
+            {items.map((item, index) => {
+              const col = index % 3;
+              const xOffset = col === 0 ? -40 : col === 2 ? 40 : 0;
+              return (
+                <motion.div
+                  key={item._id}
+                  initial={{ opacity: 0, x: xOffset, y: 30, scale: 0.96 }}
+                  whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.5, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <MenuItemCard item={item} index={index} />
+                </motion.div>
+              );
+            })}
           </div>
         )}
       </section>
