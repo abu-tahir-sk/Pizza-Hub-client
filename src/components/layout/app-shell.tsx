@@ -7,8 +7,9 @@ import { SiteFooter } from "@/components/layout/site-footer";
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isDashboard = pathname.startsWith("/dashboard") || pathname.startsWith("/profile");
+  const isAuth = pathname === "/sign-in" || pathname === "/sign-up";
 
-  if (isDashboard) {
+  if (isDashboard || isAuth) {
     return <div className="flex min-h-screen flex-col">{children}</div>;
   }
 
