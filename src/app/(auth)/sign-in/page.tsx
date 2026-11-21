@@ -28,7 +28,7 @@ function SignInForm() {
       const msg = "This email is already registered with a password. Please sign in using your email & password.";
       setError(msg);
       toast.error(msg, {
-        description: "এই ইমেইল দিয়ে আগে অ্যাকাউন্ট খোলা হয়েছে। দয়া করে পাসওয়ার্ড দিয়ে লগইন করুন।",
+        description: "An account with this email already exists with password credentials. Please sign in using your password.",
         duration: 6000,
       });
       router.replace(redirectTo ? `/sign-in?redirect=${encodeURIComponent(redirectTo)}` : "/sign-in");
