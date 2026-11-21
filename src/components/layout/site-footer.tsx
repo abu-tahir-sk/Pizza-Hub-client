@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, MapPin, Phone, Pizza } from "lucide-react";
+import { Heart, Mail, MapPin, Phone, Pizza } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -97,8 +97,10 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-[#ebdcd0] py-5 dark:border-white/10">
-        <p className="text-center text-xs text-[#8a6856] dark:text-[#a98874]">
-          © {new Date().getFullYear()} PizzaHub. All rights reserved. Made with 🍕 and care.
+        <p className="flex items-center justify-center gap-1.5 text-center text-xs text-[#8a6856] dark:text-[#a98874]">
+          <span>© {new Date().getFullYear()} PizzaHub. All rights reserved. Made with</span>
+          <Heart className="inline size-3.5 fill-[#c8402b] text-[#c8402b]" />
+          <span>and care.</span>
         </p>
       </div>
     </footer>

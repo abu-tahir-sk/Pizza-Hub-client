@@ -4,8 +4,6 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  BadgeDollarSign,
-  CreditCard,
   Heart,
   Home,
   LayoutDashboard,
@@ -13,12 +11,10 @@ import {
   LogOut,
   Moon,
   Pizza,
-  Receipt,
   Settings,
   ShoppingBag,
   Sun,
   UserPlus,
-  Users,
   UtensilsCrossed,
 } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
@@ -81,205 +77,155 @@ export function SiteHeader() {
     }
   }
 
-  // Determine role-specific nav items if logged in
-  const getRoleNavItems = () => {
-    if (!user) return [];
-    if (user.role === "admin") {
-      return [
-        { href: "/dashboard/admin/users", label: "Manage Users", icon: Users },
-        { href: "/dashboard/admin/items", label: "Manage Items", icon: UtensilsCrossed },
-        { href: "/dashboard/admin/orders", label: "Orders", icon: ShoppingBag },
-        { href: "/dashboard/admin/transactions", label: "Transactions", icon: BadgeDollarSign },
-      ];
-    }
-    if (user.role === "vendor") {
-      return [
-        { href: "/dashboard/vendor/items", label: "Manage Items", icon: UtensilsCrossed },
-        { href: "/dashboard/vendor/orders", label: "Orders", icon: ShoppingBag },
-        { href: "/dashboard/vendor/subscription", label: "Subscription", icon: CreditCard },
-      ];
-    }
-    // Default: Customer
-    return [
-      { href: "/dashboard/customer/orders", label: "Orders", icon: ShoppingBag },
-      { href: "/favorites", label: "Favorites", icon: Heart },
-    ];
-  };
-
-  const roleNavs = getRoleNavItems();
-
   const isHomeActive = pathname === "/";
   const isMenuActive = pathname === "/menu" || pathname.startsWith("/menu/");
+  const isDashboardActive = pathname.startsWith("/dashboard");
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-neutral-200/80 dark:border-neutral-800/80 bg-white/95 dark:bg-neutral-950/95 backdrop-blur-md shadow-xs transition-colors">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md shadow-xs transition-colors">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           {/* Logo / Name: PizzaHub */}
           <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <span className="grid size-11 place-items-center rounded-2xl bg-[#d4432d] text-white shadow-md shadow-[#d4432d]/25 transition-transform group-hover:scale-105">
+            <span className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-[#c8402b] to-[#e65c47] text-white shadow-md shadow-[#c8402b]/25 transition-transform group-hover:scale-105">
               <Pizza className="size-6 stroke-[2.2]" />
             </span>
             <div className="flex flex-col">
-              <div className="flex items-center text-2xl font-extrabold tracking-tight leading-none">
-                <span className="text-neutral-900 dark:text-white">Pizza</span>
-                <span className="text-[#f19d38]">Hub</span>
+              <div className="flex items-center text-2xl font-black tracking-tight leading-none text-foreground">
+                <span>Pizza</span>
+                <span className="text-[#f0a23c]">Hub</span>
               </div>
-              <span className="text-[10px] font-bold tracking-[0.2em] text-neutral-400 dark:text-neutral-500 uppercase mt-1">
+              <span className="text-[10px] font-bold tracking-[0.2em] text-muted-foreground uppercase mt-1">
                 FRESH & FAST
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation Pill Bar */}
-          <nav className="hidden items-center gap-1.5 lg:flex bg-[#f4f4f5] dark:bg-neutral-900/90 p-1.5 rounded-2xl border border-neutral-200/70 dark:border-neutral-800">
-            {/* Public Link: Home */}
+          {/* Desktop Navigation Links - Same background as Navbar */}
+          <nav className="hidden items-center gap-2 lg:flex">
+            {/* 1. Home */}
             <Link
               href="/"
               className={cn(
-                "group flex min-h-[40px] items-center gap-2 rounded-xl px-3.5 py-1.5 transition-all text-xs sm:text-sm",
+                "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all",
                 isHomeActive
-                  ? "bg-white dark:bg-neutral-800 text-[#d4432d] dark:text-[#ff5c47] font-bold shadow-xs"
-                  : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-neutral-800/50"
+                  ? "bg-[#c8402b]/10 text-[#c8402b] dark:text-[#f0a23c]"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
               )}
             >
-              <Home
-                className={cn(
-                  "size-4 shrink-0 transition-colors",
-                  isHomeActive
-                    ? "text-[#d4432d] dark:text-[#ff5c47]"
-                    : "text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-200"
-                )}
-              />
-              <span className="font-bold text-sm">Home</span>
+              <Home className="size-4" />
+              <span>Home</span>
             </Link>
 
-            {/* Public Link: Browse Menu */}
+            {/* 2. Browse Menu */}
             <Link
               href="/menu"
               className={cn(
-                "group flex min-h-[40px] items-center gap-2 rounded-xl px-3.5 py-1.5 transition-all text-xs sm:text-sm",
+                "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all",
                 isMenuActive
-                  ? "bg-white dark:bg-neutral-800 text-[#d4432d] dark:text-[#ff5c47] font-bold shadow-xs"
-                  : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-neutral-800/50"
+                  ? "bg-[#c8402b]/10 text-[#c8402b] dark:text-[#f0a23c]"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
               )}
             >
-              <UtensilsCrossed
-                className={cn(
-                  "size-4 shrink-0 transition-colors",
-                  isMenuActive
-                    ? "text-[#d4432d] dark:text-[#ff5c47]"
-                    : "text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-200"
-                )}
-              />
-              <div className="flex flex-col text-left leading-[1.15]">
-                <span className={cn("text-[12px]", isMenuActive ? "font-bold" : "font-semibold")}>
-                  Browse
-                </span>
-                <span className={cn("text-[12px]", isMenuActive ? "font-bold" : "font-semibold")}>
-                  Menu
-                </span>
-              </div>
+              <UtensilsCrossed className="size-4" />
+              <span>Browse Menu</span>
             </Link>
 
-            {/* Role-Specific Links when Logged In */}
-            {user &&
-              roleNavs.map((item) => {
-                const Icon = item.icon;
-                const active = pathname === item.href || pathname.startsWith(item.href + "/");
-                const parts = item.label.split(" ");
-                const isTwoWords = parts.length === 2;
+            {/* 3. Role-Relevant Dashboard Link (when logged in) */}
+            {user && (
+              <Link
+                href={dashboardPath(user.role)}
+                className={cn(
+                  "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all",
+                  isDashboardActive && !pathname.includes("/orders")
+                    ? "bg-[#c8402b]/10 text-[#c8402b] dark:text-[#f0a23c]"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                )}
+              >
+                <LayoutDashboard className="size-4" />
+                <span>Dashboard</span>
+              </Link>
+            )}
 
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={cn(
-                      "group flex min-h-[40px] items-center gap-2 rounded-xl px-3.5 py-1.5 transition-all text-xs sm:text-sm",
-                      active
-                        ? "bg-white dark:bg-neutral-800 text-[#d4432d] dark:text-[#ff5c47] font-bold shadow-xs"
-                        : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-neutral-800/50"
-                    )}
-                  >
-                    <Icon
-                      className={cn(
-                        "size-4 shrink-0 transition-colors",
-                        active
-                          ? "text-[#d4432d] dark:text-[#ff5c47]"
-                          : "text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-800 dark:group-hover:text-neutral-200"
-                      )}
-                    />
-                    {isTwoWords ? (
-                      <div className="flex flex-col text-left leading-[1.15]">
-                        <span className={cn("text-[12px]", active ? "font-bold" : "font-semibold")}>
-                          {parts[0]}
-                        </span>
-                        <span className={cn("text-[12px]", active ? "font-bold" : "font-semibold")}>
-                          {parts[1]}
-                        </span>
-                      </div>
-                    ) : (
-                      <span className={cn("text-xs sm:text-sm", active ? "font-bold" : "font-semibold")}>
-                        {item.label}
-                      </span>
-                    )}
-                  </Link>
-                );
-              })}
+            {/* 4. Customer Quick Link: My Orders */}
+            {user && user.role === "customer" && (
+              <Link
+                href="/dashboard/customer/orders"
+                className={cn(
+                  "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all",
+                  pathname.startsWith("/dashboard/customer/orders")
+                    ? "bg-[#c8402b]/10 text-[#c8402b] dark:text-[#f0a23c]"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                )}
+              >
+                <ShoppingBag className="size-4" />
+                <span>My Orders</span>
+              </Link>
+            )}
           </nav>
 
           {/* Header Right Actions */}
           <div className="flex items-center gap-3">
             {/* Wishlist / Favorites quick button */}
-            <Link
-              href="/favorites"
+            <Button
+              asChild
+              type="button"
+              variant="outline"
+              size="icon"
               aria-label="View saved favorites"
-              className="relative grid size-10 place-items-center rounded-2xl border border-neutral-200/90 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-400 hover:text-[#d4432d] dark:hover:text-[#ff5c47] hover:border-[#d4432d]/40 shadow-xs transition-colors"
+              className="relative rounded-xl size-10 border-border text-muted-foreground hover:text-[#c8402b] hover:border-[#c8402b]/40 hover:bg-muted hidden sm:inline-flex"
             >
-              <Heart className="size-4 stroke-[2]" />
-              {favorites.length > 0 ? (
-                <span className="absolute -right-1 -top-1 grid size-4.5 place-items-center rounded-full bg-[#d4432d] text-[10px] font-black text-white shadow-md animate-pulse">
-                  {favorites.length}
-                </span>
-              ) : null}
-            </Link>
+              <Link href="/favorites">
+                <Heart className="size-4" />
+                {favorites.length > 0 ? (
+                  <span className="absolute -right-1 -top-1 grid size-4.5 place-items-center rounded-full bg-[#c8402b] text-[10px] font-black text-white shadow-md animate-pulse">
+                    {favorites.length}
+                  </span>
+                ) : null}
+              </Link>
+            </Button>
 
             {/* Auth Dependent Controls */}
             {isPending ? (
-              <div className="h-10 w-28 animate-pulse rounded-full bg-neutral-200 dark:bg-neutral-800" />
+              <div className="h-10 w-28 animate-pulse rounded-full bg-muted" />
             ) : user ? (
-              /* Profile Dropdown: Pill Button with User Name & Avatar */
+              /* Profile Dropdown: User Name & Avatar */
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2.5 rounded-full border border-neutral-200/90 dark:border-neutral-800 bg-white dark:bg-neutral-900 pl-3.5 pr-1.5 py-1.5 text-left transition-all hover:border-neutral-300 dark:hover:border-neutral-700 hover:shadow-sm focus:outline-none cursor-pointer">
-                    <span className="max-w-36 truncate text-sm font-bold text-neutral-800 dark:text-neutral-100 sm:block">
+                  <button className="flex items-center gap-2.5 rounded-full border border-border bg-card pl-3.5 pr-1.5 py-1.5 text-left transition-all hover:border-[#c8402b]/40 hover:shadow-sm focus:outline-none cursor-pointer">
+                    <span className="max-w-36 truncate text-sm font-bold text-foreground sm:block">
                       {user.name}
                     </span>
-                    <Avatar className="size-8">
+                    <Avatar className="size-8 ring-2 ring-[#c8402b]/20">
                       <AvatarImage src={user.image ?? undefined} alt={user.name} />
-                      <AvatarFallback className="bg-[#d4432d] text-white text-xs font-bold">
+                      <AvatarFallback className="bg-gradient-to-br from-[#c8402b] to-[#e65c47] text-white text-xs font-black">
                         {initials(user.name)}
                       </AvatarFallback>
                     </Avatar>
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-64 p-2 rounded-2xl shadow-xl border-border">
+                <DropdownMenuContent align="end" className="w-64 p-2 rounded-2xl shadow-xl border-border bg-card">
                   <DropdownMenuLabel className="font-normal px-3 py-2 bg-muted/50 rounded-xl mb-1">
-                    <p className="truncate text-sm font-bold text-foreground">{user.name}</p>
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="truncate text-sm font-bold text-foreground">{user.name}</p>
+                      <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#c8402b]/15 text-[#c8402b]">
+                        {user.role}
+                      </span>
+                    </div>
                     <p className="truncate text-xs text-muted-foreground mt-0.5">{user.email}</p>
                   </DropdownMenuLabel>
 
                   <DropdownMenuSeparator className="my-1" />
 
-                  {/* 1. Dashboard */}
+                  {/* 1. Dashboard (Required) */}
                   <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5">
                     <Link href={dashboardPath(user.role)}>
-                      <LayoutDashboard className="size-4 mr-2 text-[#d4432d]" />
+                      <LayoutDashboard className="size-4 mr-2 text-[#c8402b]" />
                       Dashboard
                     </Link>
                   </DropdownMenuItem>
 
-                  {/* 2. Profile Settings */}
+                  {/* 2. Profile Settings (Required) */}
                   <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5">
                     <Link href="/profile">
                       <Settings className="size-4 mr-2 text-muted-foreground" />
@@ -295,7 +241,7 @@ export function SiteHeader() {
                     </Link>
                   </DropdownMenuItem>
 
-                  {/* Theme toggle */}
+                  {/* Theme appearance toggle */}
                   <DropdownMenuSeparator className="my-1" />
                   <DropdownMenuItem
                     onSelect={(e) => {
@@ -317,7 +263,7 @@ export function SiteHeader() {
                     </span>
                   </DropdownMenuItem>
 
-                  {/* 3. Logout */}
+                  {/* 3. Logout (Required) */}
                   <DropdownMenuSeparator className="my-1" />
                   <DropdownMenuItem
                     onSelect={handleSignOut}
@@ -334,7 +280,7 @@ export function SiteHeader() {
                 <Button
                   asChild
                   variant="ghost"
-                  className="font-bold rounded-xl text-neutral-700 dark:text-neutral-200 hover:text-[#d4432d] hover:bg-neutral-100 dark:hover:bg-neutral-800 text-sm px-3 sm:px-4"
+                  className="font-bold rounded-xl text-foreground hover:text-[#c8402b] hover:bg-muted text-sm px-3 sm:px-4"
                 >
                   <Link href="/sign-in">
                     <LogIn className="size-4 mr-1.5" />
@@ -343,7 +289,7 @@ export function SiteHeader() {
                 </Button>
                 <Button
                   asChild
-                  className="bg-gradient-to-r from-[#d4432d] to-[#e65c47] font-bold text-white hover:opacity-95 shadow-md shadow-[#d4432d]/20 rounded-xl px-4 sm:px-5 text-sm"
+                  className="bg-gradient-to-r from-[#c8402b] to-[#e65c47] font-bold text-white hover:opacity-95 shadow-md shadow-[#c8402b]/20 rounded-xl px-4 sm:px-5 text-sm"
                 >
                   <Link href="/sign-up">
                     <UserPlus className="size-4 mr-1.5" />
@@ -358,14 +304,14 @@ export function SiteHeader() {
 
       {/* Floating Bottom Navigation for Mobile */}
       <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center pb-3 pt-2 px-4 lg:hidden pointer-events-none bg-gradient-to-t from-background/95 via-background/80 to-transparent">
-        <nav className="pointer-events-auto flex items-center justify-around gap-1 rounded-2xl border border-neutral-200/80 dark:border-neutral-800 bg-background/95 px-4 py-2.5 shadow-2xl backdrop-blur-xl w-full max-w-md">
+        <nav className="pointer-events-auto flex items-center justify-around gap-1 rounded-2xl border border-border bg-background/95 px-4 py-2.5 shadow-2xl backdrop-blur-xl w-full max-w-md">
           {/* Home */}
           <Link
             href="/"
             className={cn(
               "flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
               pathname === "/"
-                ? "text-[#d4432d] bg-[#d4432d]/10 font-bold"
+                ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -379,7 +325,7 @@ export function SiteHeader() {
             className={cn(
               "flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
               pathname.startsWith("/menu")
-                ? "text-[#d4432d] bg-[#d4432d]/10 font-bold"
+                ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -393,14 +339,14 @@ export function SiteHeader() {
             className={cn(
               "relative flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
               pathname === "/favorites"
-                ? "text-[#d4432d] bg-[#d4432d]/10 font-bold"
+                ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
             <Heart className="size-5" />
             <span className="text-[10px] font-semibold leading-none">Favorites</span>
             {favorites.length > 0 ? (
-              <span className="absolute right-2 top-1 grid size-4 place-items-center rounded-full bg-[#d4432d] text-[9px] font-black text-white shadow">
+              <span className="absolute right-2 top-1 grid size-4 place-items-center rounded-full bg-[#c8402b] text-[9px] font-black text-white shadow">
                 {favorites.length}
               </span>
             ) : null}
@@ -413,7 +359,7 @@ export function SiteHeader() {
               className={cn(
                 "flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
                 pathname.startsWith("/dashboard")
-                  ? "text-[#d4432d] bg-[#d4432d]/10 font-bold"
+                  ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -426,7 +372,7 @@ export function SiteHeader() {
               className={cn(
                 "flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
                 pathname === "/sign-in"
-                  ? "text-[#d4432d] bg-[#d4432d]/10 font-bold"
+                  ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
