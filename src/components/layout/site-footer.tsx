@@ -63,12 +63,12 @@ function FacebookLogo({ className }: { className?: string }) {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t border-white/5 bg-[#0d0705] text-white">
+    <footer className="mt-auto border-t border-border bg-card text-card-foreground transition-colors">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
         {/* Brand & Description */}
         <div className="space-y-4">
           <BrandLogo />
-          <p className="max-w-sm text-xs sm:text-sm leading-relaxed text-neutral-400">
+          <p className="max-w-sm text-xs sm:text-sm leading-relaxed text-muted-foreground">
             Hand-tossed pizza, honest ingredients and doorstep delivery. Serving happiness
             one slice at a time.
           </p>
@@ -78,7 +78,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="PizzaHub on X"
-              className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/5 text-neutral-300 transition-colors hover:border-[#f43f5e]/50 hover:bg-[#f43f5e]/15 hover:text-white"
+              className="grid size-9 place-items-center rounded-full border border-border bg-muted/50 text-foreground transition-colors hover:border-[#f43f5e]/50 hover:bg-[#f43f5e]/15 hover:text-[#f43f5e]"
             >
               <XLogo className="size-3.5" />
             </a>
@@ -87,7 +87,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="PizzaHub on Instagram"
-              className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/5 text-neutral-300 transition-colors hover:border-[#f43f5e]/50 hover:bg-[#f43f5e]/15 hover:text-white"
+              className="grid size-9 place-items-center rounded-full border border-border bg-muted/50 text-foreground transition-colors hover:border-[#f43f5e]/50 hover:bg-[#f43f5e]/15 hover:text-[#f43f5e]"
             >
               <InstagramLogo className="size-4" />
             </a>
@@ -96,7 +96,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noreferrer"
               aria-label="PizzaHub on Facebook"
-              className="grid size-9 place-items-center rounded-full border border-white/10 bg-white/5 text-neutral-300 transition-colors hover:border-[#f43f5e]/50 hover:bg-[#f43f5e]/15 hover:text-white"
+              className="grid size-9 place-items-center rounded-full border border-border bg-muted/50 text-foreground transition-colors hover:border-[#f43f5e]/50 hover:bg-[#f43f5e]/15 hover:text-[#f43f5e]"
             >
               <FacebookLogo className="size-4" />
             </a>
@@ -108,10 +108,10 @@ export function SiteFooter() {
           <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-[#f43f5e]">
             Platform
           </h3>
-          <ul className="space-y-2.5 text-xs sm:text-sm text-neutral-400">
+          <ul className="space-y-2.5 text-xs sm:text-sm text-muted-foreground">
             {PLATFORM_LINKS.map((link) => (
               <li key={link.label}>
-                <Link href={link.href} className="transition-colors hover:text-white">
+                <Link href={link.href} className="transition-colors hover:text-foreground">
                   {link.label}
                 </Link>
               </li>
@@ -124,10 +124,10 @@ export function SiteFooter() {
           <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-[#f43f5e]">
             Company
           </h3>
-          <ul className="space-y-2.5 text-xs sm:text-sm text-neutral-400">
+          <ul className="space-y-2.5 text-xs sm:text-sm text-muted-foreground">
             {COMPANY_LINKS.map((link) => (
               <li key={link.label}>
-                <Link href={link.href} className="transition-colors hover:text-white">
+                <Link href={link.href} className="transition-colors hover:text-foreground">
                   {link.label}
                 </Link>
               </li>
@@ -140,7 +140,7 @@ export function SiteFooter() {
           <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-[#f43f5e]">
             Get in touch
           </h3>
-          <ul className="space-y-3 text-xs sm:text-sm text-neutral-400">
+          <ul className="space-y-3 text-xs sm:text-sm text-muted-foreground">
             <li className="flex items-start gap-2.5">
               <MapPin className="mt-0.5 size-4 shrink-0 text-[#f43f5e]" />
               <span>123 Crust Street, Naples, FL 34101</span>
@@ -151,7 +151,7 @@ export function SiteFooter() {
             </li>
             <li className="flex items-center gap-2.5">
               <Mail className="size-4 shrink-0 text-[#f43f5e]" />
-              <a href="mailto:hello@pizzahub.com" className="transition-colors hover:text-white">
+              <a href="mailto:hello@pizzahub.com" className="transition-colors hover:text-foreground">
                 hello@pizzahub.com
               </a>
             </li>
@@ -159,8 +159,8 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="border-t border-white/5 py-5">
-        <p className="px-4 text-center text-xs text-neutral-500">
+      <div className="border-t border-border py-5">
+        <p className="px-4 text-center text-xs text-muted-foreground">
           © {new Date().getFullYear()} PizzaHub. All rights reserved.
         </p>
       </div>

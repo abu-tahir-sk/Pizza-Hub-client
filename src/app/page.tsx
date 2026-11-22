@@ -9,7 +9,7 @@ import {
 
 export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col bg-[#120b08]">
+    <div className="flex min-h-screen flex-col bg-background text-foreground transition-colors">
       {/* 1. Hero Section matching Image 1: headline, CTA, pizza platter & 4 bottom features */}
       <HeroSection />
 

@@ -102,7 +102,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#120b08]/95 backdrop-blur-md shadow-xs">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md shadow-xs transition-colors">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           {/* Logo / Name: PizzaHub */}
           <BrandLogo />
@@ -115,8 +115,8 @@ export function SiteHeader() {
               className={cn(
                 "relative py-1 text-sm font-bold transition-all",
                 isHomeActive
-                  ? "text-white after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
-                  : "text-neutral-400 hover:text-white"
+                  ? "text-foreground after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               <span>Home</span>
@@ -128,8 +128,8 @@ export function SiteHeader() {
               className={cn(
                 "relative py-1 text-sm font-bold transition-all",
                 isMenuActive
-                  ? "text-white after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
-                  : "text-neutral-400 hover:text-white"
+                  ? "text-foreground after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               <span>Browse Menu</span>
@@ -141,8 +141,8 @@ export function SiteHeader() {
               className={cn(
                 "relative py-1 text-sm font-bold transition-all",
                 pathname === "/favorites"
-                  ? "text-white after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
-                  : "text-neutral-400 hover:text-white"
+                  ? "text-foreground after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
+                  : "text-muted-foreground hover:text-foreground"
               )}
             >
               <span>Favorites</span>
@@ -158,7 +158,7 @@ export function SiteHeader() {
               variant="outline"
               size="icon"
               aria-label="View saved favorites"
-              className="relative rounded-full size-9 border-white/10 bg-white/5 text-neutral-300 hover:text-white hover:bg-white/10 hidden sm:inline-flex cursor-pointer"
+              className="relative rounded-full size-9 border-border bg-muted/50 text-foreground hover:text-foreground hover:bg-muted hidden sm:inline-flex cursor-pointer"
             >
               <Link href="/favorites">
                 <Heart className="size-4" />
@@ -172,7 +172,7 @@ export function SiteHeader() {
 
             {/* Auth Dependent Controls */}
             {isPending ? (
-              <div className="h-10 w-28 animate-pulse rounded-full bg-white/5" />
+              <div className="h-10 w-28 animate-pulse rounded-full bg-muted" />
             ) : user ? (
               <div className="flex items-center gap-3">
                 {/* 1. Primary Highlighted Dashboard Button */}
@@ -189,61 +189,61 @@ export function SiteHeader() {
                   type="button"
                   onClick={toggleTheme}
                   aria-label="Toggle appearance"
-                  className="size-9 rounded-full border border-white/10 bg-white/5 text-neutral-300 hover:text-white hover:bg-white/10 flex items-center justify-center transition-colors cursor-pointer"
+                  className="size-9 rounded-full border border-border bg-muted/50 text-foreground hover:bg-muted flex items-center justify-center transition-colors cursor-pointer"
                 >
                   {theme === "dark" ? (
                     <Sun className="size-4 text-amber-400" />
                   ) : (
-                    <Moon className="size-4 text-neutral-300" />
+                    <Moon className="size-4 text-foreground" />
                   )}
                 </button>
 
                 {/* 3. User Avatar Pill Dropdown */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="flex items-center gap-2 rounded-full border border-white/10 bg-[#1c130d] pl-1.5 pr-3 py-1 text-left transition-all hover:border-white/25 focus:outline-none cursor-pointer">
+                    <button className="flex items-center gap-2 rounded-full border border-border bg-card pl-1.5 pr-3 py-1 text-left transition-all hover:border-border/80 focus:outline-none cursor-pointer">
                       <span className="grid size-7 place-items-center rounded-full bg-gradient-to-tr from-[#e11d48] to-[#f43f5e] text-white text-xs font-bold">
                         {initials(user.name)}
                       </span>
-                      <span className="max-w-28 truncate text-xs font-bold text-white">
+                      <span className="max-w-28 truncate text-xs font-bold text-foreground">
                         {user.name?.split(" ")[0]}
                       </span>
-                      <ChevronDown className="size-3 text-neutral-400" />
+                      <ChevronDown className="size-3 text-muted-foreground" />
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-64 p-2 rounded-2xl shadow-xl border-white/10 bg-[#1a110a] text-white">
-                    <DropdownMenuLabel className="font-normal px-3 py-2 bg-white/5 rounded-xl mb-1">
-                      <p className="truncate text-sm font-bold text-white">{user.name}</p>
-                      <p className="truncate text-xs text-neutral-400 mt-0.5">{user.email}</p>
+                  <DropdownMenuContent align="end" className="w-64 p-2 rounded-2xl shadow-xl border-border bg-popover text-popover-foreground">
+                    <DropdownMenuLabel className="font-normal px-3 py-2 bg-muted rounded-xl mb-1">
+                      <p className="truncate text-sm font-bold text-foreground">{user.name}</p>
+                      <p className="truncate text-xs text-muted-foreground mt-0.5">{user.email}</p>
                     </DropdownMenuLabel>
 
-                    <DropdownMenuSeparator className="my-1 bg-white/5" />
+                    <DropdownMenuSeparator className="my-1 bg-border" />
 
-                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-white/10 text-white">
+                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-muted text-foreground">
                       <Link href={dashboardPath(user.role)}>
                         <LayoutDashboard className="size-4 mr-2 text-[#f43f5e]" />
                         Dashboard
                       </Link>
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-white/10 text-white">
+                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-muted text-foreground">
                       <Link href="/profile">
-                        <Settings className="size-4 mr-2 text-neutral-400" />
+                        <Settings className="size-4 mr-2 text-muted-foreground" />
                         Profile Settings
                       </Link>
                     </DropdownMenuItem>
 
-                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-white/10 text-white sm:hidden">
+                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-muted text-foreground sm:hidden">
                       <Link href="/favorites">
                         <Heart className="size-4 mr-2 text-rose-500" />
                         Favorites ({favorites.length})
                       </Link>
                     </DropdownMenuItem>
 
-                    <DropdownMenuSeparator className="my-1 bg-white/5" />
+                    <DropdownMenuSeparator className="my-1 bg-border" />
                     <DropdownMenuItem
                       onSelect={handleSignOut}
-                      className="rounded-xl font-bold cursor-pointer py-2.5 text-red-400 focus:bg-red-950/40 focus:text-red-300"
+                      className="rounded-xl font-bold cursor-pointer py-2.5 text-red-600 dark:text-red-400 focus:bg-red-50 dark:focus:bg-red-950/40 focus:text-red-600 dark:focus:text-red-300"
                     >
                       <LogOut className="size-4 mr-2" />
                       Logout
@@ -258,12 +258,12 @@ export function SiteHeader() {
                   type="button"
                   onClick={toggleTheme}
                   aria-label="Toggle appearance"
-                  className="size-9 rounded-full border border-white/10 bg-white/5 text-neutral-300 hover:text-white hover:bg-white/10 flex items-center justify-center transition-colors cursor-pointer mr-1"
+                  className="size-9 rounded-full border border-border bg-muted/50 text-foreground hover:bg-muted flex items-center justify-center transition-colors cursor-pointer mr-1"
                 >
                   {theme === "dark" ? (
                     <Sun className="size-4 text-amber-400" />
                   ) : (
-                    <Moon className="size-4 text-neutral-300" />
+                    <Moon className="size-4 text-foreground" />
                   )}
                 </button>
                 <Button
@@ -278,7 +278,7 @@ export function SiteHeader() {
                 <Button
                   asChild
                   variant="outline"
-                  className="hidden rounded-full border-white/15 bg-white/5 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-white/10 sm:inline-flex cursor-pointer"
+                  className="hidden rounded-full border-border bg-muted/70 px-4 text-xs font-bold uppercase tracking-wider text-foreground hover:bg-muted sm:inline-flex cursor-pointer"
                 >
                   <Link href="/sign-up">
                     <UserPlus className="size-3.5 mr-1.5" />

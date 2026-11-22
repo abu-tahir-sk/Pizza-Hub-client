@@ -78,7 +78,7 @@ export function FeaturedMenuSection() {
   }, [load]);
 
   return (
-    <section className="bg-[#120b08] py-14 sm:py-20 border-t border-white/5 text-white">
+    <section className="bg-background py-14 sm:py-20 border-t border-border text-foreground transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -89,10 +89,10 @@ export function FeaturedMenuSection() {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f59e0b]">
               FRESH FROM THE OVEN
             </p>
-            <h2 className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
+            <h2 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
               Popular Right Now
             </h2>
-            <p className="mt-2 max-w-2xl text-xs sm:text-sm text-neutral-400">
+            <p className="mt-2 max-w-2xl text-xs sm:text-sm text-muted-foreground">
               Live dishes from approved vendor menus, with Premium kitchens placed first.
             </p>
           </div>
@@ -110,12 +110,12 @@ export function FeaturedMenuSection() {
             {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i}
-                className="space-y-3 rounded-2xl border border-white/5 bg-[#1a110a] p-3"
+                className="space-y-3 rounded-2xl border border-border bg-card p-3"
               >
-                <Skeleton className="aspect-[4/3] w-full rounded-xl bg-white/5" />
-                <Skeleton className="h-4 w-3/4 bg-white/5" />
-                <Skeleton className="h-3 w-1/2 bg-white/5" />
-                <Skeleton className="h-4 w-2/3 bg-white/5" />
+                <Skeleton className="aspect-[4/3] w-full rounded-xl" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+                <Skeleton className="h-4 w-2/3" />
               </div>
             ))}
           </div>
@@ -130,10 +130,10 @@ export function FeaturedMenuSection() {
             </Button>
           </div>
         ) : items.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-white/10 bg-[#1a110a] p-12 text-center">
+          <div className="rounded-2xl border border-dashed border-border bg-card p-12 text-center">
             <ChefHat className="mx-auto mb-3 size-12 text-[#f59e0b]" />
-            <h3 className="text-lg font-bold text-white">No pizzas available right now</h3>
-            <p className="mt-1 text-sm text-neutral-400">
+            <h3 className="text-lg font-bold text-foreground">No pizzas available right now</h3>
+            <p className="mt-1 text-sm text-muted-foreground">
               Our kitchens are restocking. Please check back in a few minutes.
             </p>
           </div>
@@ -143,9 +143,9 @@ export function FeaturedMenuSection() {
               const premium = isPremium(item);
               return (
                 <motion.div key={item._id} {...getCardMotion(index)} className="h-full">
-                  <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-[#1a110a] p-3 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-white/15 hover:shadow-2xl">
+                  <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card text-card-foreground p-3 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-border/80 hover:shadow-2xl">
                     {/* Top Badges & Food Image */}
-                    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#22160e]">
+                    <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-muted">
                       <Image
                         src={item.images?.[0] || "/images/auth-pizza.jpg"}
                         alt={item.itemName}
@@ -176,12 +176,12 @@ export function FeaturedMenuSection() {
                     {/* Card Content */}
                     <div className="flex flex-1 flex-col pt-3 px-1 pb-1">
                       {/* Pizza Name */}
-                      <h3 className="line-clamp-1 text-sm font-bold text-white group-hover:text-[#f59e0b] transition-colors">
+                      <h3 className="line-clamp-1 text-sm font-bold text-foreground group-hover:text-[#f59e0b] transition-colors">
                         {item.itemName}
                       </h3>
 
                       {/* Description */}
-                      <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-neutral-400">
+                      <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
                         {item.description || "Handcrafted artisan pizza with freshly melted mozzarella and secret tomato sauce."}
                       </p>
 
@@ -196,13 +196,13 @@ export function FeaturedMenuSection() {
                       <div className="mt-auto pt-3">
                         <Link
                           href={`/menu/${item._id}`}
-                          className="flex h-9 w-full items-center justify-between rounded-xl bg-white/5 px-3 text-xs font-semibold text-neutral-300 transition-colors hover:bg-white/10 hover:text-white"
+                          className="flex h-9 w-full items-center justify-between rounded-xl bg-muted px-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted/80"
                         >
                           <span className="inline-flex items-center gap-1.5 truncate">
                             <Store className="size-3 text-[#f59e0b]" />
                             <span className="truncate">{vendorName(item)}</span>
                           </span>
-                          <ArrowRight className="size-3.5 shrink-0 text-neutral-400" />
+                          <ArrowRight className="size-3.5 shrink-0 text-muted-foreground" />
                         </Link>
                       </div>
                     </div>

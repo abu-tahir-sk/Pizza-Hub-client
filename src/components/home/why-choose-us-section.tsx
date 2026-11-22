@@ -30,13 +30,13 @@ const PILLARS = [
 
 export function WhyChooseUsSection() {
   return (
-    <section id="why-choose" className="scroll-mt-24 bg-[#120b08] py-14 sm:py-20 border-t border-white/5 text-white">
+    <section id="why-choose" className="scroll-mt-24 bg-background py-14 sm:py-20 border-t border-border text-foreground transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div {...fadeUp} className="mb-10 max-w-2xl">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f43f5e]">
             WHY PIZZAHUB
           </p>
-          <h2 className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-4xl">
             Built for hungry people and busy kitchens
           </h2>
         </motion.div>
@@ -49,13 +49,13 @@ export function WhyChooseUsSection() {
                 key={item.title}
                 {...fadeUp}
                 transition={{ duration: 0.45, delay: index * 0.08 }}
-                className="group h-full rounded-2xl border border-white/5 bg-[#1a110a] p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-white/15 hover:shadow-2xl"
+                className="group h-full rounded-2xl border border-border bg-card text-card-foreground p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-border/80 hover:shadow-2xl"
               >
                 <span className="grid size-11 place-items-center rounded-xl bg-[#f43f5e]/15 text-[#f43f5e] transition-colors duration-300 group-hover:bg-[#f43f5e] group-hover:text-white">
                   <Icon className="size-5" />
                 </span>
-                <h3 className="mt-5 text-base font-bold text-white">{item.title}</h3>
-                <p className="mt-2 text-xs sm:text-sm leading-relaxed text-neutral-400">
+                <h3 className="mt-5 text-base font-bold text-foreground">{item.title}</h3>
+                <p className="mt-2 text-xs sm:text-sm leading-relaxed text-muted-foreground">
                   {item.desc}
                 </p>
               </motion.div>

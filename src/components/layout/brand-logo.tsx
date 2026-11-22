@@ -44,12 +44,12 @@ export function BrandLogo({
         <Pizza className={cn("text-white fill-white/20", svgSizes[size])} />
       </span>
       <div className="flex flex-col">
-        <div className={cn("flex items-center font-bold tracking-tight leading-none text-white", textSizes[size])}>
+        <div className={cn("flex items-center font-bold tracking-tight leading-none text-foreground", textSizes[size])}>
           <span>Pizza</span>
           <span className="text-[#f43f5e]">Hub</span>
         </div>
         {showSubtitle && (
-          <span className="text-[9px] font-bold tracking-[0.22em] text-neutral-400 uppercase mt-0.5 leading-none">
+          <span className="text-[9px] font-bold tracking-[0.22em] text-muted-foreground uppercase mt-0.5 leading-none">
             FRESH &amp; FAST
           </span>
         )}

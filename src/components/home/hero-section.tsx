@@ -45,7 +45,7 @@ const FEATURES = [
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[#120b08] text-white">
+    <section className="relative overflow-hidden bg-background text-foreground transition-colors">
       {/* Background ambient lighting and subtle texture */}
       <div className="pointer-events-none absolute -top-40 right-[-5%] size-[600px] rounded-full bg-[#f43f5e]/10 blur-[140px]" />
       <div className="pointer-events-none absolute -bottom-40 left-[-10%] size-[500px] rounded-full bg-[#f59e0b]/10 blur-[140px]" />
@@ -63,7 +63,7 @@ export function HeroSection() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.12]">
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.12]">
               Delicious Pizza,
               <br />
               <span className="relative inline-block text-[#f59e0b]">
@@ -87,7 +87,7 @@ export function HeroSection() {
             </h1>
 
             {/* Description */}
-            <p className="max-w-xl text-sm sm:text-base leading-relaxed text-neutral-300">
+            <p className="max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground">
               Hand-tossed dough, stone-baked crusts and generous layers of melted cheese.
               Your next favourite pizza is hot, fresh and only minutes away.
             </p>
@@ -102,8 +102,8 @@ export function HeroSection() {
                 <ArrowRight className="size-4" />
               </Link>
 
-              <div className="flex items-center gap-2.5 text-sm font-medium text-neutral-300">
-                <span className="grid size-8 place-items-center rounded-full border border-white/20 text-neutral-300">
+              <div className="flex items-center gap-2.5 text-sm font-medium text-muted-foreground">
+                <span className="grid size-8 place-items-center rounded-full border border-border text-foreground">
                   <Clock className="size-4" />
                 </span>
                 <span>30 min average delivery</span>
@@ -139,14 +139,14 @@ export function HeroSection() {
               <motion.div
                 animate={{ y: [0, -6, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute right-0 sm:-right-2 top-4 sm:top-6 flex items-center gap-3 rounded-2xl border border-white/10 bg-[#1a110a]/85 px-4 py-2.5 shadow-2xl backdrop-blur-md"
+                className="absolute right-0 sm:-right-2 top-4 sm:top-6 flex items-center gap-3 rounded-2xl border border-border bg-card/90 text-card-foreground px-4 py-2.5 shadow-2xl backdrop-blur-md"
               >
-                <span className="grid size-7 place-items-center rounded-full bg-amber-500/20 text-amber-400">
-                  <Star className="size-4 fill-amber-400 text-amber-400" />
+                <span className="grid size-7 place-items-center rounded-full bg-amber-500/20 text-amber-500">
+                  <Star className="size-4 fill-amber-500 text-amber-500" />
                 </span>
                 <div>
-                  <div className="text-sm font-black text-white">4.9 / 5</div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-neutral-400">
+                  <div className="text-sm font-black text-foreground">4.9 / 5</div>
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                     2K+ FOODIES
                   </div>
                 </div>
@@ -156,14 +156,14 @@ export function HeroSection() {
               <motion.div
                 animate={{ y: [0, 6, 0] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-2 sm:bottom-4 left-0 sm:-left-4 flex items-center gap-3 rounded-2xl border border-white/10 bg-[#1a110a]/85 p-2.5 pr-4 shadow-2xl backdrop-blur-md"
+                className="absolute -bottom-2 sm:bottom-4 left-0 sm:-left-4 flex items-center gap-3 rounded-2xl border border-border bg-card/90 text-card-foreground p-2.5 pr-4 shadow-2xl backdrop-blur-md"
               >
                 <span className="grid size-9 place-items-center rounded-full bg-[#f43f5e] text-white">
                   <Bike className="size-5" />
                 </span>
                 <div>
-                  <div className="text-xs font-bold text-white">Hot & fresh</div>
-                  <div className="text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
+                  <div className="text-xs font-bold text-foreground">Hot & fresh</div>
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                     AT YOUR DOOR IN 30 MIN
                   </div>
                 </div>
@@ -172,7 +172,7 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Bottom Feature Strip: 4 rounded dark cards matching Image 1 */}
+        {/* Bottom Feature Strip: 4 rounded cards matching Image 1 */}
         <motion.div
           {...fadeUp}
           className="mt-14 sm:mt-18 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4"
@@ -182,14 +182,14 @@ export function HeroSection() {
             return (
               <div
                 key={item.title}
-                className="flex items-center gap-3.5 rounded-2xl border border-white/5 bg-[#1a110a]/70 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-white/15 hover:bg-[#1f140d]/80"
+                className="flex items-center gap-3.5 rounded-2xl border border-border bg-card/80 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-border/80 hover:bg-muted"
               >
-                <span className="grid size-11 shrink-0 place-items-center rounded-full bg-[#f43f5e]/15 text-[#f43f5e]">
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#f43f5e]/15 text-[#f43f5e]">
                   <Icon className="size-5" />
                 </span>
                 <div>
-                  <h3 className="text-sm font-bold text-white">{item.title}</h3>
-                  <p className="mt-0.5 text-xs leading-relaxed text-neutral-400">
+                  <h3 className="text-sm font-bold text-foreground">{item.title}</h3>
+                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
                     {item.desc}
                   </p>
                 </div>

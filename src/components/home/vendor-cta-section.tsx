@@ -14,7 +14,7 @@ const fadeUp = {
 
 export function VendorCtaSection() {
   return (
-    <section className="bg-[#120b08] py-14 sm:py-20 border-t border-white/5 text-white">
+    <section className="bg-background py-14 sm:py-20 border-t border-border text-foreground transition-colors">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           {...fadeUp}
