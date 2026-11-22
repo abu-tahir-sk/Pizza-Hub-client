@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Check, CheckCircle2, CreditCard, Loader2, Sparkles, Star } from "lucide-react";
 import type { Transaction } from "@/types";
 import type { AppUser } from "@/lib/types";
-import { createCheckoutSession, fetchMyTransactions, ApiError } from "@/lib/api";
+import { createCheckoutSession, fetchMyTransactions, fetchMyProfile, ApiError } from "@/lib/api";
 import { useSession } from "@/lib/auth-client";
 import { PageHeading } from "@/components/dashboard/stat-card";
 import { Badge } from "@/components/ui/badge";
@@ -40,18 +40,37 @@ const FREE_FEATURES = [
 export default function VendorSubscriptionPage() {
   const { data: session } = useSession();
   const user = session?.user as unknown as AppUser | undefined;
-  const isPremium = user?.subscriptionPlan === "premium";
 
+  const [dbProfile, setDbProfile] = useState<{
+    subscriptionPlan?: string;
+    subscriptionExpiresAt?: string | Date | null;
+  } | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [upgrading, setUpgrading] = useState(false);
+
+  const isPremium =
+    dbProfile?.subscriptionPlan === "premium" ||
+    user?.subscriptionPlan === "premium" ||
+    transactions.some((t) => t.status === "paid");
+
+  const expiresAt =
+    dbProfile?.subscriptionExpiresAt ?? user?.subscriptionExpiresAt;
 
   useEffect(() => {
     let cancelled = false;
     async function load() {
       try {
-        const data = await fetchMyTransactions();
-        if (!cancelled) setTransactions(data);
+        const [txData, profileData] = await Promise.allSettled([
+          fetchMyTransactions(),
+          fetchMyProfile(),
+        ]);
+        if (!cancelled) {
+          if (txData.status === "fulfilled") setTransactions(txData.value);
+          if (profileData.status === "fulfilled" && profileData.value) {
+            setDbProfile(profileData.value as any);
+          }
+        }
       } catch {
         // History is non-critical; checkout still works.
       } finally {
@@ -138,9 +157,9 @@ export default function VendorSubscriptionPage() {
                 <p className="flex items-center gap-1.5 font-semibold text-emerald-800 dark:text-emerald-300">
                   <CheckCircle2 className="size-4 text-emerald-600" /> Premium is active
                 </p>
-                {user?.subscriptionExpiresAt ? (
+                {expiresAt ? (
                   <p className="mt-1 text-xs">
-                    Expires on {formatDateTime(user.subscriptionExpiresAt)}
+                    Expires on {formatDateTime(expiresAt)}
                   </p>
                 ) : null}
               </div>

@@ -168,7 +168,7 @@ function SuccessContent() {
                   <span>Payment Status</span>
                   <Badge
                     variant={
-                      transaction.status === "paid"
+                      isPaid || transaction.status === "paid"
                         ? "success"
                         : transaction.status === "pending"
                           ? "warning"
@@ -176,7 +176,7 @@ function SuccessContent() {
                     }
                     className="capitalize font-semibold"
                   >
-                    {transaction.status}
+                    {isPaid ? "paid" : transaction.status}
                   </Badge>
                 </div>
               </div>
