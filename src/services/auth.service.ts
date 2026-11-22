@@ -37,6 +37,9 @@ async function requestToken(explicitSessionToken?: string): Promise<{ token: str
       if (typeof window !== "undefined") {
         sessionStorage.setItem("pizzahub:jwt_token", json.data.token);
         sessionStorage.setItem("pizzahub:user", JSON.stringify(json.data.user));
+        localStorage.setItem("pizzahub:jwt_token", json.data.token);
+        localStorage.setItem("pizzahub:user", JSON.stringify(json.data.user));
+        window.dispatchEvent(new Event("pizzahub-auth-change"));
       }
     } catch {
       // ignore storage access errors
@@ -63,7 +66,9 @@ export async function ensureToken(): Promise<string | null> {
   if (clientToken) return clientToken;
   try {
     if (typeof window !== "undefined") {
-      const stored = sessionStorage.getItem("pizzahub:jwt_token");
+      const stored =
+        sessionStorage.getItem("pizzahub:jwt_token") ||
+        localStorage.getItem("pizzahub:jwt_token");
       if (stored) {
         clientToken = stored;
         return clientToken;
@@ -83,6 +88,7 @@ export async function refreshToken(explicitSessionToken?: string): Promise<strin
   try {
     if (typeof window !== "undefined") {
       sessionStorage.removeItem("pizzahub:jwt_token");
+      localStorage.removeItem("pizzahub:jwt_token");
     }
   } catch {
     // ignore
@@ -95,8 +101,12 @@ export async function refreshToken(explicitSessionToken?: string): Promise<strin
 export async function getSessionUser(explicitSessionToken?: string): Promise<User | null> {
   if (!explicitSessionToken && typeof window !== "undefined") {
     try {
-      const storedUser = sessionStorage.getItem("pizzahub:user");
-      const storedToken = sessionStorage.getItem("pizzahub:jwt_token");
+      const storedUser =
+        sessionStorage.getItem("pizzahub:user") ||
+        localStorage.getItem("pizzahub:user");
+      const storedToken =
+        sessionStorage.getItem("pizzahub:jwt_token") ||
+        localStorage.getItem("pizzahub:jwt_token");
       if (storedUser && storedToken) {
         clientToken = storedToken;
         return JSON.parse(storedUser) as User;
@@ -113,11 +123,16 @@ export function setApiToken(token: string | null): void {
   clientToken = token;
   try {
     if (typeof window !== "undefined") {
-      if (token) sessionStorage.setItem("pizzahub:jwt_token", token);
-      else {
+      if (token) {
+        sessionStorage.setItem("pizzahub:jwt_token", token);
+        localStorage.setItem("pizzahub:jwt_token", token);
+      } else {
         sessionStorage.removeItem("pizzahub:jwt_token");
         sessionStorage.removeItem("pizzahub:user");
+        localStorage.removeItem("pizzahub:jwt_token");
+        localStorage.removeItem("pizzahub:user");
       }
+      window.dispatchEvent(new Event("pizzahub-auth-change"));
     }
   } catch {
     // ignore
@@ -134,6 +149,9 @@ export function clearToken(): void {
     if (typeof window !== "undefined") {
       sessionStorage.removeItem("pizzahub:jwt_token");
       sessionStorage.removeItem("pizzahub:user");
+      localStorage.removeItem("pizzahub:jwt_token");
+      localStorage.removeItem("pizzahub:user");
+      window.dispatchEvent(new Event("pizzahub-auth-change"));
     }
   } catch {
     // ignore
