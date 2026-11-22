@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
 import { toast } from "sonner";
-import { Eye, EyeOff, KeyRound, Loader2, Mail, ShieldCheck, Sparkles, Store } from "lucide-react";
+import { Eye, EyeOff, KeyRound, Loader2, Mail, ShieldCheck, Sparkles, Store, User } from "lucide-react";
 import { signIn } from "@/lib/auth-client";
 import { clearToken, getSessionUser, refreshToken } from "@/lib/api";
 import { dashboardPath, type UserRole } from "@/lib/types";
@@ -22,6 +22,7 @@ function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -49,6 +50,12 @@ function SignInForm() {
       } else if (errorParam === "access_denied") {
         title = "Access Denied";
         desc = "Google sign-in was cancelled or access was denied.";
+      } else if (errorParam === "google_failed" || errorParam === "oauth_failed") {
+        title = "Google Sign-In Failed";
+        desc = "Google sign-in could not be completed. Please try again or sign in with your email and password.";
+      } else if (errorParam === "session_expired") {
+        title = "Session Required";
+        desc = "Your session expired or was not found. Please sign in to access your dashboard.";
       }
       setError(desc);
       toast.error(title, {
@@ -70,13 +77,24 @@ function SignInForm() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError(null);
+    setSuccessMsg(null);
 
-    if (!email.trim()) {
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail) {
       const msg = "Please enter your email address.";
       setError(msg);
       toast.error("Missing Email", { description: msg });
       return;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      const msg = "Please enter a valid email address.";
+      setError(msg);
+      toast.error("Invalid Email", { description: msg });
+      return;
+    }
+
     if (!password) {
       const msg = "Please enter your password.";
       setError(msg);
@@ -87,7 +105,7 @@ function SignInForm() {
     setLoading(true);
     try {
       clearToken();
-      const { error: authError } = await signIn.email({ email, password });
+      const { error: authError } = await signIn.email({ email: trimmedEmail, password });
       if (authError) {
         const msg = authError.message || "Invalid email or password.";
         setError(msg);
@@ -114,14 +132,24 @@ function SignInForm() {
       }
 
       try {
-        if (rememberMe) localStorage.setItem("pizzahub:remember-email", email);
+        if (rememberMe) localStorage.setItem("pizzahub:remember-email", trimmedEmail);
         else localStorage.removeItem("pizzahub:remember-email");
       } catch {
         // ignore storage failures
       }
 
-      toast.success(`Welcome back, ${user.name.split(" ")[0]}!`);
-      router.replace(redirectTo || dashboardPath(user.role as UserRole));
+      setSuccessMsg("Signed in successfully! Redirecting...");
+      toast.success("Signed in successfully!", {
+        description: `Welcome back, ${user.name?.split(" ")[0] || "User"}!`,
+      });
+
+      // Redirect user according to their role
+      const targetPath =
+        redirectTo && !redirectTo.startsWith("/dashboard")
+          ? redirectTo
+          : dashboardPath(user.role as UserRole);
+
+      router.replace(targetPath);
       router.refresh();
     } catch {
       const msg = "Unable to sign in right now. Please check your connection and try again.";
@@ -134,12 +162,13 @@ function SignInForm() {
 
   async function handleGoogle() {
     setError(null);
+    setSuccessMsg(null);
     setLoading(true);
     try {
       const res = await signIn.social({
         provider: "google",
         callbackURL: `${window.location.origin}/dashboard`,
-        errorCallbackURL: `${window.location.origin}/sign-in`,
+        errorCallbackURL: `${window.location.origin}/sign-in?error=google_failed`,
       });
       if (res?.error) {
         const msg = res.error.message || "Could not initiate Google sign-in. Please try again.";
@@ -162,25 +191,26 @@ function SignInForm() {
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       className="space-y-6 text-white w-full"
     >
-      {/* Title & Subtitle matching the reference mockup */}
+      {/* Title & Subtitle */}
       <div className="space-y-1">
         <h1 className="text-4xl sm:text-5xl font-serif font-normal tracking-tight text-[#c67c4e]">
-          Welcome!
+          Sign In
         </h1>
         <p className="text-neutral-400 text-sm font-normal tracking-wide pt-1">
-          Today is a beautiful day.
+          Welcome back! Please enter your details.
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        {/* Username / Email field with Mail icon and pure white background */}
+        {/* Email field */}
         <div className="space-y-1">
           <div className="flex items-center h-12 bg-white rounded-xs px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
             <Mail className="size-4 text-neutral-400 shrink-0" />
             <input
               id="email"
+              name="email"
               type="email"
-              placeholder="Username"
+              placeholder="Email"
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -190,12 +220,13 @@ function SignInForm() {
           </div>
         </div>
 
-        {/* Password field with Key icon, pure white background, and eye toggle */}
+        {/* Password field */}
         <div className="space-y-1">
           <div className="flex items-center h-12 bg-white rounded-xs px-3.5 gap-3 shadow-xs transition-all focus-within:ring-2 focus-within:ring-[#c67c4e]">
             <KeyRound className="size-4 text-neutral-400 shrink-0" />
             <input
               id="password"
+              name="password"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               autoComplete="current-password"
@@ -215,7 +246,7 @@ function SignInForm() {
           </div>
         </div>
 
-        {/* Remember my username Checkbox */}
+        {/* Remember me Checkbox */}
         <div className="flex items-center justify-between pt-1">
           <label className="flex items-center gap-2 cursor-pointer select-none text-xs text-neutral-400 hover:text-neutral-300">
             <input
@@ -224,10 +255,11 @@ function SignInForm() {
               onChange={(e) => setRememberMe(e.target.checked)}
               className="size-3.5 rounded-xs border-neutral-600 bg-neutral-900 text-[#c67c4e] focus:ring-[#c67c4e] cursor-pointer"
             />
-            <span>Remember my username</span>
+            <span>Remember me</span>
           </label>
         </div>
 
+        {/* Inline Error Message */}
         {error ? (
           <p
             role="alert"
@@ -237,14 +269,24 @@ function SignInForm() {
           </p>
         ) : null}
 
-        {/* LOGIN Button in terracotta copper */}
+        {/* Inline Success Message */}
+        {successMsg ? (
+          <p
+            role="status"
+            className="rounded-xs bg-emerald-500/15 border border-emerald-500/30 px-3.5 py-2.5 text-xs font-medium text-emerald-400"
+          >
+            {successMsg}
+          </p>
+        ) : null}
+
+        {/* SIGN IN Button */}
         <button
           type="submit"
           disabled={loading}
           className="w-full h-12 rounded-xs bg-[#c67c4e] hover:bg-[#b56e42] text-white font-bold text-xs sm:text-sm uppercase tracking-widest transition-all shadow-md active:scale-[0.99] flex items-center justify-center disabled:opacity-60 cursor-pointer"
         >
           {loading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}
-          <span>{loading ? "LOGGING IN…" : "LOGIN"}</span>
+          <span>{loading ? "SIGNING IN…" : "SIGN IN"}</span>
         </button>
 
         {/* Forgot password link */}
@@ -265,38 +307,6 @@ function SignInForm() {
             disabled={loading}
             label="Continue with Google"
           />
-        </div>
-
-        {/* 1-Click Fast Fill for Recruiters */}
-        <div className="rounded-xl border border-[#c67c4e]/30 bg-[#c67c4e]/10 p-3.5 text-xs text-neutral-300">
-          <p className="font-bold mb-2 flex items-center gap-1.5 text-[#f5c29f]">
-            <Sparkles className="size-3.5 text-[#c67c4e]" />
-            Recruiter &amp; Evaluator Quick-Login:
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-0.5">
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("admin@pizzahub.com");
-                setPassword("Admin123");
-              }}
-              className="flex items-center justify-center gap-1.5 rounded-xs border border-[#c67c4e]/40 bg-neutral-900/80 px-2.5 py-1.5 text-[11px] font-semibold text-[#f5c29f] transition-colors hover:bg-[#c67c4e]/20 cursor-pointer"
-            >
-              <ShieldCheck className="size-3.5 text-[#c67c4e]" />
-              Fill Admin
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail("napoli@pizzahub.com");
-                setPassword("Napoli123");
-              }}
-              className="flex items-center justify-center gap-1.5 rounded-xs border border-[#c67c4e]/40 bg-neutral-900/80 px-2.5 py-1.5 text-[11px] font-semibold text-[#f5c29f] transition-colors hover:bg-[#c67c4e]/20 cursor-pointer"
-            >
-              <Store className="size-3.5 text-[#c67c4e]" />
-              Fill Vendor
-            </button>
-          </div>
         </div>
       </form>
 

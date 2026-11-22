@@ -125,7 +125,7 @@ export default function SignUpPage() {
       const res = await signIn.social({
         provider: "google",
         callbackURL: `${window.location.origin}/dashboard`,
-        errorCallbackURL: `${window.location.origin}/sign-in`,
+        errorCallbackURL: `${window.location.origin}/sign-in?error=google_failed`,
       });
       if (res?.error) {
         const msg = res.error.message || "Could not initiate Google sign-in. Please try again.";
