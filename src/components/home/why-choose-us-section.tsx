@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Bike, Flame, ShieldCheck, Store } from "lucide-react";
+import { BadgeCheck, Bike, MapPin } from "lucide-react";
 
 const fadeUp = {
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.15 },
   transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
@@ -12,66 +12,53 @@ const fadeUp = {
 
 const BENEFITS = [
   {
-    icon: Flame,
-    title: "Artisan Quality",
-    desc: "Woodfired, slow-fermented 48-hour crusts topped with authentic San Marzano tomatoes and fior di latte mozzarella.",
+    icon: MapPin,
+    title: "Local discovery, zero guesswork",
+    desc: "Browse real neighbourhood kitchens with live menus, honest prices and photos of exactly what lands at your door.",
   },
   {
-    icon: Store,
-    title: "Local Pizzerias",
-    desc: "Support independent neighbourhood pizza masters and discover exclusive local recipe secrets.",
+    icon: BadgeCheck,
+    title: "Transparent reviews & prices",
+    desc: "Every item is admin-approved and every review comes from a verified order. No hidden fees, no inflated markups.",
   },
   {
     icon: Bike,
-    title: "Rapid Hot Delivery",
-    desc: "Thermal-insulated temperature-controlled delivery bags keep every slice bubbling hot and crisp upon arrival.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "100% Satisfaction",
-    desc: "Real-time kitchen order tracking, instant cancellation for pending orders, and guaranteed food quality.",
+    title: "Track every order",
+    desc: "Follow your pizza from the oven to your doorstep with clear status updates at every step of the journey.",
   },
 ];
 
 export function WhyChooseUsSection() {
   return (
-    <section className="border-t border-border bg-muted/20 py-20 sm:py-24 transition-colors">
+    <section id="why-choose" className="scroll-mt-24 bg-background py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Uniform Section Heading */}
-        <motion.div {...fadeUp} className="mb-14 text-center space-y-2.5">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#d4432d]">
-            Why Choose Us
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-foreground">
-            The PizzaHub Difference
+        <motion.div {...fadeUp} className="mb-8 max-w-2xl">
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#d4432d]">
+            Why Choose PizzaHub
+          </p>
+          <h2 className="mt-2 text-2xl font-black tracking-tight text-foreground sm:text-3xl">
+            Built for hungry people and busy kitchens
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            Connecting passionate pizza lovers directly with master pizzaiolos in your city.
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+            We connect passionate pizza lovers directly with the master pizzaiolos of their city.
           </p>
         </motion.div>
 
-        {/* Benefits Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {BENEFITS.map((item, idx) => {
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {BENEFITS.map((item, index) => {
             const Icon = item.icon;
             return (
               <motion.div
                 key={item.title}
                 {...fadeUp}
-                transition={{ duration: 0.45, delay: idx * 0.1 }}
-                className="group flex flex-col justify-between rounded-[24px] border border-border/80 bg-card p-6 text-center shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl hover:border-[#d4432d]/40"
+                transition={{ duration: 0.45, delay: index * 0.08 }}
+                className="group h-full rounded-2xl border border-border bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#d4432d]/40 hover:shadow-xl"
               >
-                <div>
-                  <div className="mx-auto mb-5 grid size-16 place-items-center rounded-2xl bg-[#d4432d]/10 text-[#d4432d] transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#d4432d] group-hover:text-white">
-                    <Icon className="size-8" />
-                  </div>
-                  <h3 className="text-lg font-black uppercase tracking-tight text-foreground mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
-                    {item.desc}
-                  </p>
-                </div>
+                <span className="grid size-11 place-items-center rounded-xl bg-[#d4432d]/10 text-[#d4432d] transition-colors duration-300 group-hover:bg-[#d4432d] group-hover:text-white">
+                  <Icon className="size-5" />
+                </span>
+                <h3 className="mt-4 text-base font-bold text-foreground">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.desc}</p>
               </motion.div>
             );
           })}

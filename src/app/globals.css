@@ -58,25 +58,25 @@
   }
 
   .dark {
-    --background: #0c0a09;
-    --foreground: #fafaf9;
-    --card: #1c1917;
-    --card-foreground: #fafaf9;
-    --popover: #1c1917;
-    --popover-foreground: #fafaf9;
-    --primary: #ef4444;
+    --background: #140f0c;
+    --foreground: #f7efe7;
+    --card: #1e1713;
+    --card-foreground: #f7efe7;
+    --popover: #1e1713;
+    --popover-foreground: #f7efe7;
+    --primary: #e2374a;
     --primary-foreground: #ffffff;
-    --secondary: #292524;
-    --secondary-foreground: #fdba74;
-    --muted: #292524;
-    --muted-foreground: #a8a29e;
-    --accent: #f97316;
-    --accent-foreground: #ffffff;
+    --secondary: #261d18;
+    --secondary-foreground: #f5c29f;
+    --muted: #261d18;
+    --muted-foreground: #b3a094;
+    --accent: #f0a23c;
+    --accent-foreground: #2b1508;
     --destructive: #7f1d1d;
     --destructive-foreground: #fecaca;
-    --border: #292524;
-    --input: #292524;
-    --ring: #ef4444;
+    --border: #2e241e;
+    --input: #2e241e;
+    --ring: #e2374a;
   }
 }
 
@@ -100,7 +100,7 @@ body {
   border-radius: 9999px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #44403c;
+  background: #3a2d26;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #a8a29e;

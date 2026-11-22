@@ -17,7 +17,7 @@ const ThemeContext = createContext<ThemeContextType>({
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("light");
+  const [theme, setThemeState] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -26,11 +26,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (stored === "dark" || stored === "light") {
       setThemeState(stored);
       applyTheme(stored);
-    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    } else {
+      // The public site is designed around the warm dark palette; light mode
+      // remains available through the profile menu toggle.
       setThemeState("dark");
       applyTheme("dark");
-    } else {
-      applyTheme("light");
     }
   }, []);
 

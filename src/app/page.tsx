@@ -1,31 +1,31 @@
 import {
   HeroSection,
-  FeaturedMenuSection,
   CategoriesSection,
+  FeaturedMenuSection,
   WhyChooseUsSection,
-  TestimonialsSection,
+  HowItWorksSection,
   VendorCtaSection,
 } from "@/components/home";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* 1. Hero Showcase Banner */}
+    <div className="flex min-h-screen flex-col">
+      {/* 1. Banner: headline, description, CTA + pizza visual */}
       <HeroSection />
 
-      {/* 2. Dynamic Section 1: Featured Menu Items (Approved & Active) */}
-      <FeaturedMenuSection />
-
-      {/* 3. Dynamic Section 2: Pizza Categories Showcase (6 Signature Categories) */}
+      {/* 2. Dynamic Section 2: Pizza Categories (6 categories) */}
       <CategoriesSection />
+
+      {/* 3. Dynamic Section 1: Featured / popular approved menu items */}
+      <FeaturedMenuSection />
 
       {/* 4. Extra Section 1 (Required): Why Choose PizzaHub */}
       <WhyChooseUsSection />
 
-      {/* 5. Extra Section 2: Customer Testimonials */}
-      <TestimonialsSection />
+      {/* 5. Extra Section 2: How PizzaHub Works */}
+      <HowItWorksSection />
 
-      {/* 6. Partner with PizzaHub Vendor CTA */}
+      {/* 6. Vendor CTA */}
       <VendorCtaSection />
     </div>
   );

@@ -1,55 +1,79 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { motion } from "motion/react";
 import { ArrowRight, Store, UtensilsCrossed } from "lucide-react";
-import { Button } from "@/components/ui/button";
+
+const fadeUp = {
+  initial: { opacity: 0, y: 22 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
+};
 
 export function VendorCtaSection() {
   return (
-    <section className="border-t border-border bg-gradient-to-br from-[#1c0a06] via-[#2d120a] to-[#1a0805] text-white py-20 sm:py-24 transition-colors relative overflow-hidden">
-      {/* Warm ambient pizza oven glows */}
-      <div className="absolute top-0 right-1/4 size-96 rounded-full bg-[#f0a23c]/15 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-1/4 size-96 rounded-full bg-[#d4432d]/20 blur-3xl pointer-events-none" />
+    <section className="bg-background pb-16 sm:pb-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <motion.div
+          {...fadeUp}
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#e2374a] via-[#d01f3a] to-[#9f1029] px-6 py-10 shadow-2xl shadow-[#d4432d]/25 sm:px-10 sm:py-12 lg:px-14"
+        >
+          {/* Ambient glows */}
+          <div className="pointer-events-none absolute -right-10 -top-16 size-72 rounded-full bg-white/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 left-1/3 size-72 rounded-full bg-[#f0a23c]/25 blur-3xl" />
 
-      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 text-center space-y-6">
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-[#f0a23c] border border-white/15 backdrop-blur-md">
-          <Store className="size-3.5" />
-          <span>Partner with PizzaHub</span>
-        </span>
+          <div className="relative z-10 grid items-center gap-10 lg:grid-cols-[1.5fr_1fr]">
+            <div className="space-y-4">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur">
+                <Store className="size-3.5" />
+                Partner with PizzaHub
+              </span>
 
-        <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white leading-tight">
-          Are You a Pizzeria Owner?<br />
-          <span className="text-[#f0a23c]">Grow Your Orders</span> Today
-        </h2>
+              <h2 className="max-w-xl text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
+                Put your kitchen on the PizzaHub menu
+              </h2>
 
-        <p className="text-sm sm:text-base text-neutral-300 max-w-2xl mx-auto leading-relaxed">
-          Join PizzaHub as a verified vendor. Publish your signature artisan pizzas, accept real-time orders, and upgrade anytime to our Premium plan for unlimited items and featured placement.
-        </p>
+              <p className="max-w-xl text-sm leading-relaxed text-white/80">
+                Create a free vendor account, publish your signature dishes and start receiving
+                orders from hungry customers across your city today.
+              </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
-          <Button
-            asChild
-            size="lg"
-            className="rounded-full bg-[#d4432d] hover:bg-[#b83320] text-white font-bold uppercase px-8 py-6 text-xs sm:text-sm tracking-wider shadow-xl shadow-red-950/60 transition-all hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            <Link href="/sign-up" className="flex items-center gap-2">
-              <Store className="size-4" />
-              <span>Register as Vendor</span>
-            </Link>
-          </Button>
+              <div className="flex flex-wrap items-center gap-3 pt-2">
+                <Link
+                  href="/sign-up"
+                  className="inline-flex h-11 items-center gap-2 rounded-full bg-white px-6 text-xs font-bold uppercase tracking-wider text-[#b8142c] shadow-lg transition-all hover:bg-[#fff5f2] active:scale-[0.98]"
+                >
+                  Become a Vendor
+                  <ArrowRight className="size-4" />
+                </Link>
+                <Link
+                  href="/menu"
+                  className="inline-flex h-11 items-center gap-2 rounded-full border border-white/40 px-6 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-white/10"
+                >
+                  <UtensilsCrossed className="size-4" />
+                  Explore Menu
+                </Link>
+              </div>
+            </div>
 
-          <Button
-            asChild
-            variant="outline"
-            size="lg"
-            className="rounded-full border border-white/40 bg-white/10 hover:bg-white hover:text-neutral-900 text-white font-bold uppercase px-8 py-6 text-xs sm:text-sm tracking-wider backdrop-blur-sm transition-all hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            <Link href="/menu" className="flex items-center gap-2">
-              <UtensilsCrossed className="size-4" />
-              <span>Explore Pizza Menu</span>
-            </Link>
-          </Button>
-        </div>
+            <div className="relative mx-auto hidden size-48 shrink-0 sm:block lg:size-56">
+              <div className="relative size-full overflow-hidden rounded-full ring-4 ring-white/20">
+                <Image
+                  src="/images/auth/auth-pizza-woodfired.jpg"
+                  alt="Signature wood-fired pizza"
+                  fill
+                  sizes="224px"
+                  className="object-cover"
+                />
+              </div>
+              <span className="absolute -bottom-2 -right-2 grid size-14 place-items-center rounded-full border-4 border-[#c01c36] bg-[#f0a23c] text-center text-sm font-black leading-none text-[#3b1c12] shadow-xl">
+                3+
+              </span>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -13,12 +13,12 @@ export function BrandLogo({
   href = "/",
   className,
   size = "md",
-  showSubtitle = true,
+  showSubtitle = false,
 }: BrandLogoProps) {
   const iconSizes = {
-    sm: "size-9 rounded-xl",
-    md: "size-11 rounded-2xl",
-    lg: "size-12 rounded-2xl",
+    sm: "size-8 rounded-full",
+    md: "size-9 rounded-full",
+    lg: "size-10 rounded-full",
   };
 
   const svgSizes = {
@@ -45,7 +45,7 @@ export function BrandLogo({
       </span>
       <div className="flex flex-col">
         <div className={cn("flex items-center font-extrabold tracking-tight leading-none", textSizes[size])}>
-          <span className="text-neutral-900 dark:text-white">Pizza</span>
+          <span className="text-foreground">Pizza</span>
           <span className="text-[#f19d38]">Hub</span>
         </div>
         {showSubtitle && (

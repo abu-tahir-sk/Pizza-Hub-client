@@ -279,8 +279,7 @@ export function SiteHeader() {
               <div className="flex items-center gap-2">
                 <Button
                   asChild
-                  variant="ghost"
-                  className="font-bold rounded-xl text-foreground hover:text-[#c8402b] hover:bg-muted text-sm px-3 sm:px-4"
+                  className="rounded-full bg-[#d4432d] px-4 text-sm font-bold text-white shadow-md shadow-[#d4432d]/25 hover:bg-[#b83320] sm:px-5"
                 >
                   <Link href="/sign-in">
                     <LogIn className="size-4 mr-1.5" />
@@ -289,7 +288,8 @@ export function SiteHeader() {
                 </Button>
                 <Button
                   asChild
-                  className="bg-gradient-to-r from-[#c8402b] to-[#e65c47] font-bold text-white hover:opacity-95 shadow-md shadow-[#c8402b]/20 rounded-xl px-4 sm:px-5 text-sm"
+                  variant="outline"
+                  className="hidden rounded-full border-border bg-card px-4 text-sm font-bold text-foreground hover:border-[#d4432d]/40 hover:text-[#d4432d] sm:inline-flex sm:px-5"
                 >
                   <Link href="/sign-up">
                     <UserPlus className="size-4 mr-1.5" />
