@@ -30,9 +30,9 @@ interface FallingIngredient {
 interface SlideData {
   id: number;
   tag: string;
-  titleTop: string;
+  titlePrefix: string;
   titleHighlight: string;
-  titleEnd: string;
+  titleSuffix?: string;
   subtitle: string;
   desc: string;
   pizzaSrc: string;
@@ -46,14 +46,14 @@ const SLIDES: SlideData[] = [
   {
     id: 1,
     tag: "100% HANDMADE & WOOD-FIRED",
-    titleTop: "QUALITY",
-    titleHighlight: "OO",
-    titleEnd: "DS",
+    titlePrefix: "HOT & FRESH",
+    titleHighlight: "PIZZA",
+    titleSuffix: "DELIVERY",
     subtitle: "HEALTHY FOOD FOR HEALTHY BODY",
     desc: "Slow-fermented sourdough crust, sun-ripened San Marzano tomato sauce, and rich melted mozzarella baked to golden perfection in 450°C stone oven.",
     pizzaSrc: "/images/slider/pizza-supreme.png",
     pizzaAlt: "Artisan Supreme Pizza with Olives, Salami and Mozzarella",
-    ctaText: "ORDER NOW",
+    ctaText: "EXPLORE PIZZA MENU",
     ctaLink: "/menu",
     ingredients: [
       {
@@ -131,14 +131,14 @@ const SLIDES: SlideData[] = [
   {
     id: 2,
     tag: "CHEF SIGNATURE SPECIAL",
-    titleTop: "WOOD-FIRED",
-    titleHighlight: "OO",
-    titleEnd: "MPHS",
+    titlePrefix: "WOOD-FIRED",
+    titleHighlight: "ARTISAN",
+    titleSuffix: "CRUST",
     subtitle: "AUTHENTIC NEAPOLITAN TASTE",
     desc: "Loaded with pan-roasted portobello mushrooms, fresh whole-milk mozzarella pearls, and fragrant sweet garden basil leaves.",
     pizzaSrc: "/images/slider/pizza-mushroom.png",
     pizzaAlt: "Portobello Mushroom and Mozzarella Pizza",
-    ctaText: "EXPLORE MENU",
+    ctaText: "EXPLORE PIZZA MENU",
     ctaLink: "/menu",
     ingredients: [
       {
@@ -206,14 +206,14 @@ const SLIDES: SlideData[] = [
   {
     id: 3,
     tag: "CRISPY & CHEESY CRUST",
-    titleTop: "DELICIOUS",
-    titleHighlight: "OO",
-    titleEnd: "ZING",
+    titlePrefix: "DELICIOUS &",
+    titleHighlight: "CRISPY",
+    titleSuffix: "SLICE",
     subtitle: "FRESH HOT PIZZA AT YOUR DOOR",
     desc: "Fresh vegetables, creamy mozzarella, rich tomato sauce, and crunchy crust seasoned with Mediterranean herbs delivered hot in 30 minutes.",
     pizzaSrc: "/images/slider/pizza-veggie.png",
     pizzaAlt: "Gourmet Artisan Veggie Pizza",
-    ctaText: "VIEW ALL PIZZAS",
+    ctaText: "EXPLORE PIZZA MENU",
     ctaLink: "/menu",
     ingredients: [
       {
@@ -389,26 +389,22 @@ export function HeroSection() {
                 <span>{slide.tag}</span>
               </motion.div>
 
-              {/* Main Typography Header (Matching Quality Foods Mockup) */}
+              {/* Main Typography Header */}
               <motion.div
-                initial={{ opacity: 0, x: -40 }}
+                initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="space-y-2"
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="space-y-3"
               >
-                <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight text-white leading-[0.95]">
-                  <span>{slide.titleTop}</span>
-                  <br />
-                  <span className="inline-flex items-center">
-                    <span>F</span>
-                    <span className="text-[#fb923c] font-black drop-shadow-[0_0_25px_rgba(251,146,60,0.45)]">
-                      {slide.titleHighlight}
-                    </span>
-                    <span>{slide.titleEnd}</span>
+                <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-white leading-tight">
+                  <span>{slide.titlePrefix}</span>{" "}
+                  <span className="text-[#fb923c] drop-shadow-[0_0_20px_rgba(251,146,60,0.45)]">
+                    {slide.titleHighlight}
                   </span>
+                  {slide.titleSuffix ? <span> {slide.titleSuffix}</span> : null}
                 </h1>
 
-                <p className="text-xs sm:text-sm font-bold tracking-[0.25em] uppercase text-[#fb923c] pt-2">
+                <p className="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-[#fb923c]">
                   {slide.subtitle}
                 </p>
               </motion.div>
@@ -551,36 +547,22 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Organic Up-and-Down Grunge Brush Splatter Wave matching uploaded reference */}
-      <div className="relative w-full overflow-hidden -mt-6 sm:-mt-10 lg:-mt-14 z-20 pointer-events-none select-none">
-        <div className="relative w-full h-16 sm:h-24 md:h-32 lg:h-36">
-          <Image
-            src="/images/slider/brush-divider.png"
-            alt="Artistic Paint Brush Splatter Wave"
-            fill
-            sizes="100vw"
-            priority
-            className="object-fill object-bottom"
-          />
-        </div>
-      </div>
-
-      {/* Bottom Feature Strip on vibrant orange brush base matching reference */}
-      <div className="relative z-10 w-full bg-[#fa9b4b] text-neutral-900 px-4 pt-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Bottom Feature Strip: 4 High-Contrast Sleek Cards */}
+      <div className="relative z-10 w-full border-t border-white/10 bg-[#141218]/90 backdrop-blur-md px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="flex items-center gap-3.5 rounded-2xl border border-black/10 bg-black/10 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:bg-black/15 hover:border-black/20 shadow-sm"
+                className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-orange-500/50 hover:bg-white/10 shadow-lg"
               >
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-black/15 text-black">
-                  <Icon className="size-5 stroke-[2.2]" />
+                <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-orange-500/20 text-[#fb923c] border border-orange-500/30">
+                  <Icon className="size-6 stroke-[2]" />
                 </span>
                 <div>
-                  <h3 className="text-sm font-black text-black">{item.title}</h3>
-                  <p className="mt-0.5 text-xs font-medium leading-relaxed text-neutral-900/80">
+                  <h3 className="text-sm sm:text-base font-bold text-white">{item.title}</h3>
+                  <p className="mt-1 text-xs sm:text-sm font-normal text-neutral-300 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
