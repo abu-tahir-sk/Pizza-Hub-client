@@ -5,7 +5,6 @@ import { BrandLogo } from "@/components/layout/brand-logo";
 const PLATFORM_LINKS = [
   { label: "Home", href: "/" },
   { label: "Browse Menu", href: "/menu" },
-  { label: "Favorites", href: "/favorites" },
   { label: "Dashboard", href: "/dashboard" },
 ];
 

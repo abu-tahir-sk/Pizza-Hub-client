@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   ChevronDown,
-  Heart,
   Home,
   LayoutDashboard,
   LogIn,
@@ -22,7 +21,6 @@ import { useSession, signOut } from "@/lib/auth-client";
 import { clearToken, getSessionUser } from "@/lib/api";
 import { dashboardPath, type AppUser } from "@/lib/types";
 import { useTheme } from "@/context/theme-context";
-import { useFavorites } from "@/context/favorites-context";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -45,7 +43,6 @@ export function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
-  const { favorites } = useFavorites();
 
   useEffect(() => {
     if (session?.user) {
@@ -134,57 +131,16 @@ export function SiteHeader() {
             >
               <span>Browse Menu</span>
             </Link>
-
-            {/* 3. Favorites */}
-            <Link
-              href="/favorites"
-              className={cn(
-                "relative py-1 text-sm font-bold transition-all",
-                pathname === "/favorites"
-                  ? "text-foreground after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <span>Favorites</span>
-            </Link>
           </nav>
 
           {/* Header Right Actions */}
           <div className="flex items-center gap-3">
-            {/* Wishlist / Favorites quick button */}
-            <Button
-              asChild
-              type="button"
-              variant="outline"
-              size="icon"
-              aria-label="View saved favorites"
-              className="relative rounded-full size-9 border-border bg-muted/50 text-foreground hover:text-foreground hover:bg-muted hidden sm:inline-flex cursor-pointer"
-            >
-              <Link href="/favorites">
-                <Heart className="size-4" />
-                {favorites.length > 0 ? (
-                  <span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-[#f43f5e] text-[9px] font-black text-white shadow-md">
-                    {favorites.length}
-                  </span>
-                ) : null}
-              </Link>
-            </Button>
-
             {/* Auth Dependent Controls */}
             {isPending ? (
               <div className="h-10 w-28 animate-pulse rounded-full bg-muted" />
             ) : user ? (
               <div className="flex items-center gap-3">
-                {/* 1. Primary Highlighted Dashboard Button */}
-                <Link
-                  href={dashboardPath(user.role)}
-                  className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#f43f5e] to-[#e11d48] px-5 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_18px_rgba(244,63,94,0.4)] hover:shadow-[0_0_26px_rgba(244,63,94,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                >
-                  <LayoutDashboard className="size-3.5" />
-                  <span>Dashboard</span>
-                </Link>
-
-                {/* 2. Theme Appearance Toggle */}
+                {/* 1. Theme Appearance Toggle */}
                 <button
                   type="button"
                   onClick={toggleTheme}
@@ -198,7 +154,7 @@ export function SiteHeader() {
                   )}
                 </button>
 
-                {/* 3. User Avatar Pill Dropdown */}
+                {/* 2. User Avatar Pill Dropdown (Includes Dashboard, Profile Settings, Logout) */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className="flex items-center gap-2 rounded-full border border-border bg-card pl-1.5 pr-3 py-1 text-left transition-all hover:border-border/80 focus:outline-none cursor-pointer">
@@ -230,13 +186,6 @@ export function SiteHeader() {
                       <Link href="/profile">
                         <Settings className="size-4 mr-2 text-muted-foreground" />
                         Profile Settings
-                      </Link>
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-muted text-foreground sm:hidden">
-                      <Link href="/favorites">
-                        <Heart className="size-4 mr-2 text-rose-500" />
-                        Favorites ({favorites.length})
                       </Link>
                     </DropdownMenuItem>
 
@@ -312,7 +261,7 @@ export function SiteHeader() {
           <Link
             href="/menu"
             className={cn(
-              "flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
+              "flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-all",
               pathname.startsWith("/menu")
                 ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
                 : "text-muted-foreground hover:text-foreground"
@@ -322,31 +271,12 @@ export function SiteHeader() {
             <span className="text-[10px] font-semibold leading-none">Menu</span>
           </Link>
 
-          {/* Favorites */}
-          <Link
-            href="/favorites"
-            className={cn(
-              "relative flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
-              pathname === "/favorites"
-                ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
-                : "text-muted-foreground hover:text-foreground"
-            )}
-          >
-            <Heart className="size-5" />
-            <span className="text-[10px] font-semibold leading-none">Favorites</span>
-            {favorites.length > 0 ? (
-              <span className="absolute right-2 top-1 grid size-4 place-items-center rounded-full bg-[#c8402b] text-[9px] font-black text-white shadow">
-                {favorites.length}
-              </span>
-            ) : null}
-          </Link>
-
           {/* If Logged In: Role-relevant Dashboard, If Logged Out: Sign In */}
           {user ? (
             <Link
               href={dashboardPath(user.role)}
               className={cn(
-                "flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
+                "flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-all",
                 pathname.startsWith("/dashboard")
                   ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
                   : "text-muted-foreground hover:text-foreground"
@@ -359,7 +289,7 @@ export function SiteHeader() {
             <Link
               href="/sign-in"
               className={cn(
-                "flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
+                "flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-all",
                 pathname === "/sign-in"
                   ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
                   : "text-muted-foreground hover:text-foreground"
