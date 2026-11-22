@@ -6,15 +6,11 @@ import { useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
 import {
   ArrowDownUp,
-  Clock,
-  Flame,
   Pizza,
   RotateCcw,
   Search,
-  ShieldCheck,
   SlidersHorizontal,
   Sparkles,
-  Star,
   Tag,
 } from "lucide-react";
 import type { MenuItem } from "@/types";
@@ -132,51 +128,14 @@ function MenuBrowser() {
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40 pointer-events-none" />
 
           {/* Ad Content Container */}
-          <div className="relative z-10 flex flex-col justify-between p-6 sm:p-10 lg:p-14 max-w-2xl text-white space-y-4 sm:space-y-6">
-            {/* Top Floating Promo Badge & Rating */}
-            <div className="flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#e11d48] to-[#f43f5e] px-3.5 py-1 text-xs font-black uppercase tracking-wider text-white shadow-lg shadow-rose-500/30">
-                <Flame className="size-3.5" />
-                Special Offer · Limited Time
+          <div className="relative z-10 flex flex-col justify-center p-6 sm:p-10 lg:p-16 max-w-3xl text-white">
+            <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white drop-shadow-2xl">
+              Fresh, Hot &amp; Wood-Fired
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fde047] via-[#fbbf24] to-[#f59e0b]">
+                Get 20% OFF Today!
               </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-xs font-bold text-white border border-white/10">
-                <Star className="size-3.5 fill-amber-400 text-amber-400" />
-                4.9 / 5 (2.5k+ Reviews)
-              </span>
-            </div>
-
-            {/* Bold Catchy Advertisement Headline */}
-            <div className="space-y-2">
-              <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white drop-shadow-lg">
-                Fresh, Hot &amp; Wood-Fired
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fde047] via-[#fbbf24] to-[#f59e0b]">
-                  Get 20% OFF Today!
-                </span>
-              </h1>
-              <p className="text-xs sm:text-sm lg:text-base text-neutral-200 leading-relaxed font-normal max-w-lg drop-shadow">
-                Discover artisan sourdough pizzas, slow-simmered rich sauces, and melted gourmet cheeses baked to golden perfection daily. Delivered hot in 30 minutes!
-              </p>
-            </div>
-
-            {/* Promo Code & Highlights Bar */}
-            <div className="flex flex-wrap items-center gap-3 pt-1">
-              <div className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-md px-3.5 py-2 text-xs sm:text-sm text-white shadow-md">
-                <span className="text-white/80 font-medium">Use Promo Code:</span>
-                <span className="rounded-md bg-black/60 px-2.5 py-0.5 font-mono text-xs sm:text-sm font-black tracking-wider text-amber-300 border border-amber-400/40">
-                  PIZZA20
-                </span>
-              </div>
-
-              <div className="hidden sm:inline-flex items-center gap-3 text-xs font-semibold text-neutral-300 backdrop-blur-sm bg-black/30 px-3.5 py-2 rounded-xl border border-white/10">
-                <span className="flex items-center gap-1">
-                  <Clock className="size-3.5 text-amber-400" /> 30-Min Fast Delivery
-                </span>
-                <span className="flex items-center gap-1">
-                  <Pizza className="size-3.5 text-rose-400" /> 100% Wood-Fired
-                </span>
-              </div>
-            </div>
+            </h1>
           </div>
         </motion.div>
       </section>
