@@ -109,109 +109,76 @@ function MenuBrowser() {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors">
-      {/* Page header & Featured Promo Banner */}
-      <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-muted/60 via-muted/30 to-background py-10 lg:py-14 text-foreground transition-colors">
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 items-center lg:grid-cols-12">
-            {/* Left Column: Heading, description & value props */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col justify-center lg:col-span-7"
-            >
-              <div className="inline-flex items-center gap-2 self-start rounded-full border border-orange-500/20 bg-orange-500/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[#c8402b] dark:text-[#f0a23c]">
-                <Flame className="size-3.5 text-orange-500" />
-                Freshly Baked Near You
-              </div>
+      {/* Full Image Billboard Advertisement Banner */}
+      <section className="relative mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="group relative min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] w-full overflow-hidden rounded-3xl border border-border/80 shadow-2xl flex items-center"
+        >
+          {/* Full Background High-Resolution Pizza Image */}
+          <Image
+            src="/images/menu-banner-pizza.jpg"
+            alt="Hot & Fresh Wood-Fired Artisan Pizza Deal"
+            fill
+            priority
+            sizes="(max-width: 1280px) 100vw, 1280px"
+            className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
+          />
 
-              <h1 className="mt-4 font-heading text-3xl font-extrabold tracking-tight sm:text-4xl lg:text-5xl text-foreground">
-                Browse Our Artisan Menu
-              </h1>
+          {/* Cinematic Lighting & Darkness Overlay for supreme readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/75 to-black/35 sm:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40 pointer-events-none" />
 
-              <p className="mt-3 max-w-xl text-sm sm:text-base text-muted-foreground leading-relaxed">
-                Explore hand-crafted sourdough pizzas, slow-simmered sauces, and fresh gourmet sides baked to golden perfection daily.
-              </p>
+          {/* Ad Content Container */}
+          <div className="relative z-10 flex flex-col justify-between p-6 sm:p-10 lg:p-14 max-w-2xl text-white space-y-4 sm:space-y-6">
+            {/* Top Floating Promo Badge & Rating */}
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#e11d48] to-[#f43f5e] px-3.5 py-1 text-xs font-black uppercase tracking-wider text-white shadow-lg shadow-rose-500/30">
+                <Flame className="size-3.5" />
+                Special Offer · Limited Time
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-xs font-bold text-white border border-white/10">
+                <Star className="size-3.5 fill-amber-400 text-amber-400" />
+                4.9 / 5 (2.5k+ Reviews)
+              </span>
+            </div>
 
-              {/* Value proposition badges */}
-              <div className="mt-6 flex flex-wrap items-center gap-2.5 text-xs sm:text-sm font-medium">
-                <div className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/80 px-3 py-2 text-foreground shadow-xs">
-                  <Clock className="size-4 text-orange-500" />
-                  <span>30-Min Fast Delivery</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/80 px-3 py-2 text-foreground shadow-xs">
-                  <Pizza className="size-4 text-orange-500" />
-                  <span>100% Wood-Fired Crust</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/80 px-3 py-2 text-foreground shadow-xs">
-                  <ShieldCheck className="size-4 text-emerald-500" />
-                  <span>Verified Artisan Chefs</span>
-                </div>
-              </div>
-
-              {/* Promo announcement banner */}
-              <div className="mt-6 inline-flex items-center gap-3 rounded-xl border border-orange-500/30 bg-orange-500/5 px-4 py-2.5 text-xs sm:text-sm text-foreground">
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-orange-500 text-xs font-bold text-white">
-                  %
+            {/* Bold Catchy Advertisement Headline */}
+            <div className="space-y-2">
+              <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white drop-shadow-lg">
+                Fresh, Hot &amp; Wood-Fired
+                <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fde047] via-[#fbbf24] to-[#f59e0b]">
+                  Get 20% OFF Today!
                 </span>
-                <p className="text-muted-foreground">
-                  <strong className="text-foreground">Today&apos;s Special:</strong> Get{" "}
-                  <span className="font-semibold text-orange-600 dark:text-orange-400">20% OFF</span> on orders above $30 with code{" "}
-                  <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs font-bold text-foreground">PIZZA20</code>
-                </p>
+              </h1>
+              <p className="text-xs sm:text-sm lg:text-base text-neutral-200 leading-relaxed font-normal max-w-lg drop-shadow">
+                Discover artisan sourdough pizzas, slow-simmered rich sauces, and melted gourmet cheeses baked to golden perfection daily. Delivered hot in 30 minutes!
+              </p>
+            </div>
+
+            {/* Promo Code & Highlights Bar */}
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              <div className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 backdrop-blur-md px-3.5 py-2 text-xs sm:text-sm text-white shadow-md">
+                <span className="text-white/80 font-medium">Use Promo Code:</span>
+                <span className="rounded-md bg-black/60 px-2.5 py-0.5 font-mono text-xs sm:text-sm font-black tracking-wider text-amber-300 border border-amber-400/40">
+                  PIZZA20
+                </span>
               </div>
-            </motion.div>
 
-            {/* Right Column: Visual Promotional Ad Card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.96, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:col-span-5"
-            >
-              <div className="group relative overflow-hidden rounded-2xl border border-border/80 bg-gradient-to-br from-card via-card to-muted/50 p-2.5 sm:p-3 shadow-xl shadow-orange-500/5 transition-all hover:border-orange-500/40 hover:shadow-orange-500/10">
-                <div className="relative aspect-[16/10] sm:aspect-[16/9] lg:aspect-[4/3] w-full overflow-hidden rounded-xl bg-muted">
-                  <Image
-                    src="/images/menu-banner-pizza.jpg"
-                    alt="Artisan Wood-Fired Specialty Pizza"
-                    fill
-                    priority
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 40vw, 480px"
-                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-
-                  {/* Gradient shadow for text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-
-                  {/* Top floating promo badge */}
-                  <div className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-orange-600/95 backdrop-blur-md px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-md">
-                    <Sparkles className="size-3.5" />
-                    Special Deal · 20% Off
-                  </div>
-
-                  {/* Rating pill */}
-                  <div className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-black/65 backdrop-blur-md px-2.5 py-1 text-xs font-semibold text-white">
-                    <Star className="size-3.5 fill-amber-400 text-amber-400" />
-                    <span>4.9 (1.4k+)</span>
-                  </div>
-
-                  {/* Bottom description overlay */}
-                  <div className="absolute bottom-3 left-3 right-3 text-left">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-orange-400">
-                      Featured Sensation
-                    </span>
-                    <h3 className="text-base sm:text-lg font-bold text-white leading-snug drop-shadow-sm">
-                      Truffle Burrata & Wood-Fired Margherita
-                    </h3>
-                    <p className="mt-0.5 line-clamp-1 text-xs text-white/80">
-                      Slow-fermented artisan crust, San Marzano tomatoes, and fresh basil.
-                    </p>
-                  </div>
-                </div>
+              <div className="hidden sm:inline-flex items-center gap-3 text-xs font-semibold text-neutral-300 backdrop-blur-sm bg-black/30 px-3.5 py-2 rounded-xl border border-white/10">
+                <span className="flex items-center gap-1">
+                  <Clock className="size-3.5 text-amber-400" /> 30-Min Fast Delivery
+                </span>
+                <span className="flex items-center gap-1">
+                  <Pizza className="size-3.5 text-rose-400" /> 100% Wood-Fired
+                </span>
               </div>
-            </motion.div>
+            </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
