@@ -105,7 +105,7 @@ function SignInForm() {
     setLoading(true);
     try {
       clearToken();
-      const { error: authError } = await signIn.email({ email: trimmedEmail, password });
+      const { data, error: authError } = await signIn.email({ email: trimmedEmail, password });
       if (authError) {
         const msg = authError.message || "Invalid email or password.";
         setError(msg);
@@ -116,8 +116,9 @@ function SignInForm() {
         return;
       }
 
-      await refreshToken();
-      const user = await getSessionUser();
+      const sessionToken = (data as any)?.token;
+      await refreshToken(sessionToken);
+      const user = await getSessionUser(sessionToken);
       if (!user) {
         const msg = "Signed in, but the session could not be verified. Please try again.";
         setError(msg);

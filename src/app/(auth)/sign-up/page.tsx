@@ -75,7 +75,7 @@ export default function SignUpPage() {
     setLoading(true);
     try {
       clearToken();
-      const { error: authError } = await signUp.email({
+      const { data, error: authError } = await signUp.email({
         email,
         password,
         name: name.trim(),
@@ -94,8 +94,9 @@ export default function SignUpPage() {
         return;
       }
 
-      await refreshToken();
-      const user = await getSessionUser();
+      const sessionToken = (data as any)?.token;
+      await refreshToken(sessionToken);
+      const user = await getSessionUser(sessionToken);
       if (!user) {
         const msg = "Account created, but we could not start your session. Please sign in.";
         setError(msg);
