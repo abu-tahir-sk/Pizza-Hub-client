@@ -62,6 +62,11 @@ function SignInForm() {
         description: desc,
         duration: 6000,
       });
+
+      // Clear error query parameter so refreshing does not show the toast again
+      if (typeof window !== "undefined") {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
     }
 
     if (searchParams.get("blocked") === "1") {
@@ -169,7 +174,7 @@ function SignInForm() {
       const res = await signIn.social({
         provider: "google",
         callbackURL: `${window.location.origin}/dashboard`,
-        errorCallbackURL: `${window.location.origin}/sign-in?error=google_failed`,
+        errorCallbackURL: `${window.location.origin}/sign-in`,
       });
       if (res?.error) {
         const msg = res.error.message || "Could not initiate Google sign-in. Please try again.";
