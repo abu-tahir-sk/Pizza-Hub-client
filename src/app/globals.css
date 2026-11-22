@@ -28,6 +28,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-heading-brand), var(--font-geist-sans), sans-serif;
 }
 
 @layer base {

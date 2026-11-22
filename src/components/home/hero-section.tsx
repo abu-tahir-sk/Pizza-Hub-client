@@ -5,278 +5,67 @@ import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import {
-  ArrowRight,
   Bike,
   CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  Clock,
   Headphones,
   ShieldCheck,
-  Sparkles,
 } from "lucide-react";
 
-interface FallingIngredient {
-  src: string;
-  alt: string;
-  className: string;
-  initialRotate: number;
-  finalRotate: number;
-  delay: number;
-  width: number;
-  height: number;
-}
-
-interface SlideData {
+interface PizzaSlide {
   id: number;
   tag: string;
-  titlePrefix: string;
-  titleHighlight: string;
-  titleSuffix?: string;
-  subtitle: string;
-  desc: string;
+  name: string;
+  ingredientsText: string;
+  price: string;
+  thumbnailPrice: string;
   pizzaSrc: string;
-  pizzaAlt: string;
-  ctaText: string;
-  ctaLink: string;
-  ingredients: FallingIngredient[];
+  alt: string;
 }
 
-const SLIDES: SlideData[] = [
+const PIZZAS: PizzaSlide[] = [
   {
     id: 1,
-    tag: "100% HANDMADE & WOOD-FIRED",
-    titlePrefix: "HOT & FRESH",
-    titleHighlight: "PIZZA",
-    titleSuffix: "DELIVERY",
-    subtitle: "HEALTHY FOOD FOR HEALTHY BODY",
-    desc: "Slow-fermented sourdough crust, sun-ripened San Marzano tomato sauce, and rich melted mozzarella baked to golden perfection in 450°C stone oven.",
-    pizzaSrc: "/images/slider/pizza-supreme.png",
-    pizzaAlt: "Artisan Supreme Pizza with Olives, Salami and Mozzarella",
-    ctaText: "EXPLORE PIZZA MENU",
-    ctaLink: "/menu",
-    ingredients: [
-      {
-        src: "/images/slider/ingredient-chili-1.png",
-        alt: "Fresh Red Chili",
-        className: "top-[-8%] left-[-2%] sm:left-[2%] w-14 sm:w-20",
-        initialRotate: -45,
-        finalRotate: -15,
-        delay: 0.15,
-        width: 80,
-        height: 120,
-      },
-      {
-        src: "/images/slider/ingredient-garlic.png",
-        alt: "Garlic Clove",
-        className: "top-[-6%] left-[38%] sm:left-[42%] w-9 sm:w-12",
-        initialRotate: 30,
-        finalRotate: 10,
-        delay: 0.25,
-        width: 50,
-        height: 60,
-      },
-      {
-        src: "/images/slider/ingredient-basil-1.png",
-        alt: "Organic Basil Leaves",
-        className: "top-[-4%] right-[-2%] sm:right-[6%] w-14 sm:w-20",
-        initialRotate: 40,
-        finalRotate: 20,
-        delay: 0.35,
-        width: 80,
-        height: 80,
-      },
-      {
-        src: "/images/slider/ingredient-tomato-slice.png",
-        alt: "Juicy Sliced Tomato",
-        className: "top-[40%] right-[-10%] sm:right-[-6%] w-12 sm:w-16",
-        initialRotate: -30,
-        finalRotate: 15,
-        delay: 0.45,
-        width: 70,
-        height: 70,
-      },
-      {
-        src: "/images/slider/ingredient-onion.png",
-        alt: "Aromatic Onion",
-        className: "bottom-[2%] right-[6%] sm:right-[12%] w-9 sm:w-12",
-        initialRotate: -20,
-        finalRotate: -5,
-        delay: 0.55,
-        width: 50,
-        height: 50,
-      },
-      {
-        src: "/images/slider/ingredient-chili-2.png",
-        alt: "Curved Red Pepper",
-        className: "bottom-[6%] left-[-6%] sm:left-[0%] w-14 sm:w-20",
-        initialRotate: 60,
-        finalRotate: 35,
-        delay: 0.65,
-        width: 80,
-        height: 100,
-      },
-      {
-        src: "/images/slider/ingredient-herb.png",
-        alt: "Fresh Green Herb",
-        className: "top-[46%] left-[-12%] sm:left-[-8%] w-12 sm:w-16",
-        initialRotate: -50,
-        finalRotate: -25,
-        delay: 0.75,
-        width: 70,
-        height: 70,
-      },
-    ],
+    tag: "Today's Special",
+    name: "Margherita Pizza",
+    ingredientsText:
+      "Fresh whole-milk mozzarella pearls, San Marzano sweet tomato sauce, aromatic garden basil leaves, and cold-pressed extra virgin olive oil on stone-baked crust.",
+    price: "$18.25",
+    thumbnailPrice: "$25.50",
+    pizzaSrc: "/images/slider/pizza-margherita.jpg",
+    alt: "Artisan Margherita Pizza with Fresh Basil and Melted Mozzarella",
   },
   {
     id: 2,
-    tag: "CHEF SIGNATURE SPECIAL",
-    titlePrefix: "WOOD-FIRED",
-    titleHighlight: "ARTISAN",
-    titleSuffix: "CRUST",
-    subtitle: "AUTHENTIC NEAPOLITAN TASTE",
-    desc: "Loaded with pan-roasted portobello mushrooms, fresh whole-milk mozzarella pearls, and fragrant sweet garden basil leaves.",
-    pizzaSrc: "/images/slider/pizza-mushroom.png",
-    pizzaAlt: "Portobello Mushroom and Mozzarella Pizza",
-    ctaText: "EXPLORE PIZZA MENU",
-    ctaLink: "/menu",
-    ingredients: [
-      {
-        src: "/images/slider/ingredient-tomato-parsley.png",
-        alt: "Cherry Tomato with Parsley",
-        className: "top-[-8%] left-[6%] sm:left-[10%] w-14 sm:w-20",
-        initialRotate: -35,
-        finalRotate: -10,
-        delay: 0.15,
-        width: 80,
-        height: 80,
-      },
-      {
-        src: "/images/slider/ingredient-basil-2.png",
-        alt: "Sweet Basil Branch",
-        className: "top-[-6%] right-[10%] sm:right-[15%] w-14 sm:w-22",
-        initialRotate: 45,
-        finalRotate: 25,
-        delay: 0.28,
-        width: 85,
-        height: 85,
-      },
-      {
-        src: "/images/slider/ingredient-chili-1.png",
-        alt: "Spicy Red Chili",
-        className: "top-[35%] right-[-10%] sm:right-[-6%] w-14 sm:w-20",
-        initialRotate: -40,
-        finalRotate: -15,
-        delay: 0.38,
-        width: 80,
-        height: 120,
-      },
-      {
-        src: "/images/slider/ingredient-garlic.png",
-        alt: "Garlic Clove",
-        className: "bottom-[5%] right-[14%] sm:right-[20%] w-9 sm:w-12",
-        initialRotate: 20,
-        finalRotate: 5,
-        delay: 0.48,
-        width: 50,
-        height: 60,
-      },
-      {
-        src: "/images/slider/ingredient-tomato-slice.png",
-        alt: "Fresh Tomato Slice",
-        className: "bottom-[4%] left-[4%] sm:left-[10%] w-12 sm:w-16",
-        initialRotate: -25,
-        finalRotate: 12,
-        delay: 0.58,
-        width: 70,
-        height: 70,
-      },
-      {
-        src: "/images/slider/ingredient-onion.png",
-        alt: "Onion Slice",
-        className: "top-[38%] left-[-10%] sm:left-[-6%] w-10 sm:w-14",
-        initialRotate: 50,
-        finalRotate: 20,
-        delay: 0.68,
-        width: 55,
-        height: 55,
-      },
-    ],
+    tag: "Chef's Recommendation",
+    name: "Pepperoni Feast",
+    ingredientsText:
+      "Crispy artisan pepperoni cups, aged provolone, spicy herb marinara, melted whole-milk mozzarella, and fragrant oregano on golden blistered sourdough crust.",
+    price: "$21.50",
+    thumbnailPrice: "$21.50",
+    pizzaSrc: "/images/slider/pizza-supreme.png",
+    alt: "Pepperoni Feast Pizza with Spicy Slices and Melted Cheese",
   },
   {
     id: 3,
-    tag: "CRISPY & CHEESY CRUST",
-    titlePrefix: "DELICIOUS &",
-    titleHighlight: "CRISPY",
-    titleSuffix: "SLICE",
-    subtitle: "FRESH HOT PIZZA AT YOUR DOOR",
-    desc: "Fresh vegetables, creamy mozzarella, rich tomato sauce, and crunchy crust seasoned with Mediterranean herbs delivered hot in 30 minutes.",
-    pizzaSrc: "/images/slider/pizza-veggie.png",
-    pizzaAlt: "Gourmet Artisan Veggie Pizza",
-    ctaText: "EXPLORE PIZZA MENU",
-    ctaLink: "/menu",
-    ingredients: [
-      {
-        src: "/images/slider/ingredient-basil-1.png",
-        alt: "Basil Leaves",
-        className: "top-[-6%] left-[4%] sm:left-[12%] w-14 sm:w-20",
-        initialRotate: -40,
-        finalRotate: -15,
-        delay: 0.15,
-        width: 80,
-        height: 80,
-      },
-      {
-        src: "/images/slider/ingredient-chili-2.png",
-        alt: "Red Chili",
-        className: "top-[-8%] right-[12%] sm:right-[18%] w-14 sm:w-20",
-        initialRotate: 50,
-        finalRotate: 20,
-        delay: 0.25,
-        width: 80,
-        height: 100,
-      },
-      {
-        src: "/images/slider/ingredient-tomato-slice.png",
-        alt: "Tomato Slice",
-        className: "top-[40%] right-[-10%] sm:right-[-6%] w-12 sm:w-16",
-        initialRotate: -35,
-        finalRotate: 10,
-        delay: 0.38,
-        width: 70,
-        height: 70,
-      },
-      {
-        src: "/images/slider/ingredient-herb.png",
-        alt: "Garden Herb",
-        className: "bottom-[4%] right-[10%] sm:right-[16%] w-12 sm:w-16",
-        initialRotate: 30,
-        finalRotate: 0,
-        delay: 0.48,
-        width: 70,
-        height: 70,
-      },
-      {
-        src: "/images/slider/ingredient-garlic.png",
-        alt: "Garlic",
-        className: "bottom-[5%] left-[8%] sm:left-[15%] w-9 sm:w-12",
-        initialRotate: -20,
-        finalRotate: -5,
-        delay: 0.58,
-        width: 50,
-        height: 60,
-      },
-      {
-        src: "/images/slider/ingredient-chili-1.png",
-        alt: "Hot Chili",
-        className: "top-[42%] left-[-10%] sm:left-[-5%] w-14 sm:w-20",
-        initialRotate: 45,
-        finalRotate: 25,
-        delay: 0.68,
-        width: 80,
-        height: 120,
-      },
-    ],
+    tag: "Wood-Fired Signature",
+    name: "Rustic Mushroom",
+    ingredientsText:
+      "Pan-roasted portobello and cremini mushrooms, slow-roasted garlic cloves, creamy fontina cheese, wild mountain thyme, and delicate white truffle drizzle.",
+    price: "$23.00",
+    thumbnailPrice: "$23.00",
+    pizzaSrc: "/images/slider/pizza-mushroom.png",
+    alt: "Rustic Portobello Mushroom and Fontina Pizza",
+  },
+  {
+    id: 4,
+    tag: "Garden Fresh",
+    name: "Veggie Supreme",
+    ingredientsText:
+      "Charred bell peppers, kalamata olives, red onions, roasted sweet corn, ripe cherry tomatoes, and seasoned feta on slow-fermented Italian sourdough crust.",
+    price: "$19.75",
+    thumbnailPrice: "$19.75",
+    pizzaSrc: "/images/slider/pizza-garden.jpg",
+    alt: "Garden Veggie Supreme Pizza with Fresh Vegetables",
   },
 ];
 
@@ -307,262 +96,256 @@ export function HeroSection() {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Auto-slide every 6.5 seconds when not paused
+  // Auto-rotate pizza slides every 6.5s unless hovered
   useEffect(() => {
     if (isPaused) return;
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % SLIDES.length);
+      setCurrent((prev) => (prev + 1) % PIZZAS.length);
     }, 6500);
     return () => clearInterval(timer);
   }, [isPaused]);
 
-  const prevSlide = () => {
-    setCurrent((prev) => (prev - 1 + SLIDES.length) % SLIDES.length);
-  };
-
-  const nextSlide = () => {
-    setCurrent((prev) => (prev + 1) % SLIDES.length);
-  };
-
-  const slide = SLIDES[current];
+  const active = PIZZAS[current];
 
   return (
     <section
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative overflow-hidden bg-gradient-to-b from-orange-500/5 via-background to-background dark:from-[#100f12] dark:via-[#141219] dark:to-[#100f12] text-foreground transition-colors selection:bg-[#fb923c] selection:text-black"
+      className="relative overflow-hidden bg-[#141316] text-white selection:bg-[#e31837] selection:text-white"
     >
-      {/* Pizza Doodle Texture Pattern */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.04] dark:opacity-[0.07] z-0"
-        style={{
-          backgroundImage: `radial-gradient(currentColor 1px, transparent 1px), radial-gradient(#fb923c 1px, transparent 1px)`,
-          backgroundSize: "32px 32px",
-          backgroundPosition: "0 0, 16px 16px",
-        }}
-      />
-
-      {/* Ambient background glows */}
-      <div className="pointer-events-none absolute -top-40 right-[-10%] size-[600px] rounded-full bg-orange-500/10 dark:bg-[#f97316]/15 blur-[160px] z-0" />
-      <div className="pointer-events-none absolute -bottom-40 left-[-10%] size-[600px] rounded-full bg-rose-500/10 dark:bg-[#ef4444]/15 blur-[160px] z-0" />
-
-      {/* Main Slider Area */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 pt-12 pb-24 sm:px-6 sm:pt-16 sm:pb-28 lg:px-8 lg:pt-20 lg:pb-32 min-h-[580px] sm:min-h-[640px] lg:min-h-[680px] flex items-center">
-        {/* Left Arrow Button */}
-        <button
-          onClick={prevSlide}
-          aria-label="Previous Slide"
-          className="group absolute left-2 sm:left-4 lg:left-2 top-1/2 -translate-y-1/2 z-30 flex size-10 sm:size-12 items-center justify-center rounded-full bg-background/80 dark:bg-black/40 hover:bg-[#f97316] border border-border dark:border-white/10 hover:border-[#f97316] text-foreground dark:text-white/80 hover:text-white backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
+      {/* Scattered Organic Floating Basil Leaves & Tomato Slices matching reference */}
+      <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
+        {/* Top-left floating basil leaf */}
+        <motion.div
+          animate={{ y: [-6, 6, -6], rotate: [-15, -5, -15] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-3 left-4 sm:left-12 w-16 sm:w-24 opacity-90 drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)]"
         >
-          <ChevronLeft className="size-6 sm:size-7 transition-transform group-hover:-translate-x-0.5" />
-        </button>
+          <Image
+            src="/images/slider/ingredient-basil-1.png"
+            alt="Fresh Basil Leaf"
+            width={90}
+            height={90}
+            className="object-contain"
+          />
+        </motion.div>
 
-        {/* Right Arrow Button */}
-        <button
-          onClick={nextSlide}
-          aria-label="Next Slide"
-          className="group absolute right-2 sm:right-4 lg:right-2 top-1/2 -translate-y-1/2 z-30 flex size-10 sm:size-12 items-center justify-center rounded-full bg-background/80 dark:bg-black/40 hover:bg-[#f97316] border border-border dark:border-white/10 hover:border-[#f97316] text-foreground dark:text-white/80 hover:text-white backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
+        {/* Mid-left floating basil leaf */}
+        <motion.div
+          animate={{ y: [6, -6, 6], rotate: [25, 40, 25] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+          className="absolute top-1/2 -left-4 sm:left-8 w-14 sm:w-20 opacity-80 drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]"
         >
-          <ChevronRight className="size-6 sm:size-7 transition-transform group-hover:translate-x-0.5" />
-        </button>
+          <Image
+            src="/images/slider/ingredient-basil-2.png"
+            alt="Organic Basil Branch"
+            width={80}
+            height={80}
+            className="object-contain"
+          />
+        </motion.div>
 
-        {/* Animated Slide Content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={slide.id}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            className="w-full grid items-center gap-10 lg:grid-cols-12 lg:gap-8 px-4 sm:px-8"
-          >
-            {/* Left Column: Animated Text */}
-            <div className="lg:col-span-6 space-y-6 sm:space-y-7 z-20">
-              {/* Badge Tag */}
+        {/* Center-bottom tilted basil leaf (near big pizza) */}
+        <motion.div
+          animate={{ y: [-5, 5, -5], rotate: [-20, -8, -20] }}
+          transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+          className="absolute bottom-28 left-1/2 -translate-x-12 sm:translate-x-0 sm:left-[45%] w-16 sm:w-22 opacity-90 drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]"
+        >
+          <Image
+            src="/images/slider/ingredient-basil-1.png"
+            alt="Tilted Basil Leaf"
+            width={85}
+            height={85}
+            className="object-contain"
+          />
+        </motion.div>
+
+        {/* Bottom-right juicy cut tomato slices */}
+        <motion.div
+          animate={{ y: [5, -5, 5], rotate: [10, 25, 10] }}
+          transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+          className="absolute bottom-16 right-4 sm:right-12 w-16 sm:w-24 opacity-90 drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)]"
+        >
+          <Image
+            src="/images/slider/ingredient-tomato-slice.png"
+            alt="Fresh Tomato Slice"
+            width={95}
+            height={95}
+            className="object-contain"
+          />
+        </motion.div>
+
+        {/* Far lower-right second tomato piece */}
+        <motion.div
+          animate={{ y: [-4, 4, -4], rotate: [-10, 5, -10] }}
+          transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+          className="absolute bottom-6 right-20 sm:right-32 w-12 sm:w-16 opacity-80 drop-shadow-[0_10px_20px_rgba(0,0,0,0.6)]"
+        >
+          <Image
+            src="/images/slider/ingredient-tomato-parsley.png"
+            alt="Ripe Cherry Tomato"
+            width={70}
+            height={70}
+            className="object-contain"
+          />
+        </motion.div>
+      </div>
+
+      {/* Main Hero Container */}
+      <div className="relative z-20 mx-auto max-w-7xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-20 lg:px-8 lg:pt-20 lg:pb-24 min-h-[580px] lg:min-h-[660px] flex items-center">
+        <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-8">
+          {/* Left Column: Text Content & Bottom Pizza Thumbnails */}
+          <div className="lg:col-span-6 space-y-6 sm:space-y-7 z-20">
+            {/* Animated Text Block */}
+            <AnimatePresence mode="wait">
               <motion.div
-                initial={{ opacity: 0, y: -20 }}
+                key={active.id}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-orange-600 dark:text-[#fb923c]"
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.35, ease: "easeOut" }}
+                className="space-y-4"
               >
-                <Sparkles className="size-3.5" />
-                <span>{slide.tag}</span>
-              </motion.div>
+                {/* Red Subtitle: Today's Special */}
+                <p className="text-sm sm:text-base font-semibold tracking-wide text-[#e31837]">
+                  {active.tag}
+                </p>
 
-              {/* Main Typography Header */}
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="space-y-3"
-              >
-                <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-foreground dark:text-white leading-tight">
-                  <span>{slide.titlePrefix}</span>{" "}
-                  <span className="text-orange-600 dark:text-[#fb923c] drop-shadow-[0_0_20px_rgba(251,146,60,0.35)]">
-                    {slide.titleHighlight}
-                  </span>
-                  {slide.titleSuffix ? <span> {slide.titleSuffix}</span> : null}
+                {/* Big Bold Headline: Pizza Name */}
+                <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight text-white leading-[1.08]">
+                  {active.name}
                 </h1>
 
-                <p className="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-orange-600 dark:text-[#fb923c]">
-                  {slide.subtitle}
+                {/* Ingredients description */}
+                <p className="max-w-md text-xs sm:text-sm md:text-base leading-relaxed text-neutral-300 font-normal">
+                  <span className="font-semibold text-white/90">Ingredient: </span>
+                  {active.ingredientsText}
                 </p>
-              </motion.div>
 
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.35 }}
-                className="max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground dark:text-neutral-300 font-normal"
-              >
-                {slide.desc}
-              </motion.p>
+                {/* Price and View Menu Action */}
+                <div className="flex items-center gap-6 pt-3">
+                  <span className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    {active.price}
+                  </span>
 
-              {/* CTA Buttons & Delivery Indicator */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.45 }}
-                className="flex flex-wrap items-center gap-4 pt-2"
-              >
-                <Link
-                  href={slide.ctaLink}
-                  className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-[#f97316] via-[#ea580c] to-[#c2410c] px-8 py-4 text-xs sm:text-sm font-black uppercase tracking-wider text-white shadow-[0_0_30px_rgba(249,115,22,0.35)] hover:shadow-[0_0_40px_rgba(249,115,22,0.55)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                >
-                  <span>{slide.ctaText}</span>
-                  <ArrowRight className="size-4" />
-                </Link>
-
-                <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-muted-foreground dark:text-neutral-300 bg-muted/70 dark:bg-white/5 border border-border dark:border-white/10 rounded-full px-4 py-2.5 backdrop-blur-sm">
-                  <Clock className="size-4 text-orange-500 dark:text-[#fb923c]" />
-                  <span>30 min average delivery</span>
+                  <Link
+                    href="/menu"
+                    className="inline-flex items-center justify-center rounded-full bg-[#e31837] hover:bg-[#c4122d] px-7 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  >
+                    View Menu
+                  </Link>
                 </div>
               </motion.div>
+            </AnimatePresence>
+
+            {/* Bottom-Left Pizza Thumbnails Row (Exactly Matching PizzaHut Mockup) */}
+            <div className="pt-4 sm:pt-6">
+              <div className="flex items-end gap-2.5 sm:gap-4 overflow-x-auto pb-2 scrollbar-none">
+                {PIZZAS.map((item, idx) => {
+                  const isActive = current === idx;
+                  return (
+                    <div key={item.id} className="relative shrink-0">
+                      {isActive ? (
+                        /* Selected Active Thumbnail: Elevated White Arch Card */
+                        <motion.div
+                          layoutId="active-pizza-indicator"
+                          transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                          className="relative bg-white text-neutral-900 rounded-t-full rounded-b-2xl pt-2 pb-3 px-2 sm:px-3 shadow-2xl flex flex-col items-center justify-center min-w-[85px] sm:min-w-[105px] text-center border-2 border-white cursor-pointer"
+                        >
+                          <div className="relative size-16 sm:size-20 rounded-full overflow-hidden shadow-md">
+                            <Image
+                              src={item.pizzaSrc}
+                              alt={item.name}
+                              fill
+                              sizes="80px"
+                              className="object-cover"
+                            />
+                          </div>
+                          <p className="text-[11px] sm:text-xs font-black text-neutral-900 leading-tight mt-1.5 max-w-[85px] sm:max-w-[100px] truncate">
+                            {item.name}
+                          </p>
+                          <p className="text-[10px] sm:text-[11px] font-bold text-neutral-800 mt-0.5">
+                            {item.thumbnailPrice}
+                          </p>
+                        </motion.div>
+                      ) : (
+                        /* Inactive Thumbnail: Simple circular pizza button */
+                        <button
+                          type="button"
+                          onClick={() => setCurrent(idx)}
+                          aria-label={`Select ${item.name}`}
+                          className="group relative rounded-full size-16 sm:size-20 p-0.5 transition-all duration-300 hover:scale-110 cursor-pointer opacity-75 hover:opacity-100 flex items-center justify-center"
+                        >
+                          <div className="size-full rounded-full overflow-hidden shadow-lg border-2 border-white/10 group-hover:border-[#e31837] transition-colors relative">
+                            <Image
+                              src={item.pizzaSrc}
+                              alt={item.name}
+                              fill
+                              sizes="80px"
+                              className="object-cover"
+                            />
+                          </div>
+                        </button>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
+          </div>
 
-            {/* Right Column: Pizza + Falling Animated Ingredients */}
-            <div className="lg:col-span-6 relative flex items-center justify-center min-h-[380px] sm:min-h-[460px] lg:min-h-[500px]">
-              {/* Radial warm lighting glow beneath the pizza */}
-              <motion.div
-                animate={{ scale: [1, 1.12, 1], opacity: [0.35, 0.6, 0.35] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute size-[320px] sm:size-[420px] rounded-full bg-[radial-gradient(circle,rgba(249,115,22,0.35)_0%,transparent_70%)] blur-2xl pointer-events-none"
-              />
+          {/* Right Column: Big Sliding/Rotating Pizza */}
+          <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end overflow-visible">
+            {/* Warm subtle ambient glow behind the pizza */}
+            <div className="absolute size-[340px] sm:size-[460px] lg:size-[560px] rounded-full bg-[radial-gradient(circle,rgba(227,24,55,0.25)_0%,transparent_70%)] blur-3xl pointer-events-none" />
 
-              {/* Main Rotating Pizza */}
+            {/* Sliding Big Pizza on Selection Change */}
+            <AnimatePresence mode="wait">
               <motion.div
-                initial={{ scale: 0.6, rotate: -40, opacity: 0 }}
-                animate={{ scale: 1, rotate: 0, opacity: 1 }}
-                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 w-[280px] sm:w-[380px] lg:w-[440px] xl:w-[480px] aspect-square select-none pointer-events-none drop-shadow-[0_20px_35px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)]"
+                key={active.id}
+                initial={{ x: 120, rotate: 40, opacity: 0, scale: 0.85 }}
+                animate={{ x: 0, rotate: 0, opacity: 1, scale: 1 }}
+                exit={{ x: -120, rotate: -40, opacity: 0, scale: 0.85 }}
+                transition={{ type: "spring", stiffness: 85, damping: 16 }}
+                className="relative z-10 w-[290px] sm:w-[420px] md:w-[480px] lg:w-[560px] xl:w-[620px] aspect-square select-none lg:-mr-12 xl:-mr-16 drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)]"
               >
-                {/* Continuous Slow 360-degree rotation */}
+                {/* Continuous Slow Ambient 360 Rotation Floating Effect */}
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 55, repeat: Infinity, ease: "linear" }}
-                  className="relative size-full"
+                  transition={{ duration: 65, repeat: Infinity, ease: "linear" }}
+                  className="relative size-full rounded-full overflow-hidden"
                 >
                   <Image
-                    src={slide.pizzaSrc}
-                    alt={slide.pizzaAlt}
+                    src={active.pizzaSrc}
+                    alt={active.alt}
                     fill
                     priority
-                    sizes="(max-width: 640px) 280px, (max-width: 1024px) 380px, 480px"
-                    className="object-contain"
+                    sizes="(max-width: 640px) 290px, (max-width: 1024px) 480px, 620px"
+                    className="object-cover"
                   />
                 </motion.div>
               </motion.div>
-
-              {/* Falling Ingredients around the Pizza */}
-              <div className="absolute inset-0 pointer-events-none z-20">
-                {slide.ingredients.map((item, idx) => (
-                  <motion.div
-                    key={`${slide.id}-${idx}`}
-                    initial={{
-                      y: -220,
-                      opacity: 0,
-                      rotate: item.initialRotate,
-                      scale: 0.5,
-                    }}
-                    animate={{
-                      y: 0,
-                      opacity: 1,
-                      rotate: item.finalRotate,
-                      scale: 1,
-                    }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 80,
-                      damping: 14,
-                      delay: item.delay,
-                    }}
-                    className={`absolute ${item.className} drop-shadow-[0_12px_24px_rgba(0,0,0,0.7)]`}
-                  >
-                    {/* Floating gentle hover animation once dropped */}
-                    <motion.div
-                      animate={{
-                        y: [-6, 6, -6],
-                        rotate: [
-                          item.finalRotate - 3,
-                          item.finalRotate + 3,
-                          item.finalRotate - 3,
-                        ],
-                      }}
-                      transition={{
-                        duration: 3.5 + idx * 0.4,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    >
-                      <Image
-                        src={item.src}
-                        alt={item.alt}
-                        width={item.width}
-                        height={item.height}
-                        className="object-contain select-none"
-                      />
-                    </motion.div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Slide Indicator Dots */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2.5">
-          {SLIDES.map((s, idx) => (
-            <button
-              key={s.id}
-              onClick={() => setCurrent(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                current === idx
-                  ? "w-8 bg-[#f97316] shadow-[0_0_12px_rgba(249,115,22,0.6)]"
-                  : "w-2.5 bg-neutral-300 dark:bg-white/25 hover:bg-neutral-400 dark:hover:bg-white/50"
-              }`}
-            />
-          ))}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
 
-      {/* Bottom Feature Strip: 4 High-Contrast Sleek Cards */}
-      <div className="relative z-10 w-full border-t border-border dark:border-white/10 bg-muted/40 dark:bg-[#141218]/90 backdrop-blur-md px-4 py-8 sm:px-6 lg:px-8 transition-colors">
+      {/* Bottom Feature Strip: 4 Sleek Clean Cards */}
+      <div className="relative z-20 w-full border-t border-white/10 bg-[#0e0d10]/95 backdrop-blur-md px-4 py-7 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="flex items-center gap-4 rounded-2xl border border-border dark:border-white/10 bg-card/90 dark:bg-white/5 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-orange-500/50 hover:shadow-md shadow-xs"
+                className="flex items-center gap-3.5 rounded-2xl border border-white/5 bg-white/[0.04] p-4 backdrop-blur-md transition-all duration-300 hover:border-red-500/40 hover:bg-white/[0.07] shadow-sm"
               >
-                <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-[#fb923c] border border-orange-500/20 dark:border-orange-500/30">
-                  <Icon className="size-6 stroke-[2]" />
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#e31837]/15 text-[#e31837] border border-[#e31837]/25">
+                  <Icon className="size-5 stroke-[2.2]" />
                 </span>
                 <div>
-                  <h3 className="text-sm sm:text-base font-bold text-foreground dark:text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs sm:text-sm font-normal text-muted-foreground dark:text-neutral-300 leading-relaxed">
+                  <h3 className="text-sm font-bold text-white">{item.title}</h3>
+                  <p className="mt-0.5 text-xs text-neutral-400 leading-relaxed font-normal">
                     {item.desc}
                   </p>
                 </div>
