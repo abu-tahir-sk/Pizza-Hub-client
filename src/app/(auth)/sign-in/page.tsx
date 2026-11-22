@@ -38,15 +38,16 @@ function SignInForm() {
 
   useEffect(() => {
     const errorParam = searchParams.get("error");
+    const errorDesc = searchParams.get("error_description");
     if (errorParam) {
       let title = "Sign-in Failed";
-      let desc = "Google sign-in was unsuccessful. Please sign in with your password.";
+      let desc = errorDesc || `Google sign-in was unsuccessful (${errorParam}). Please try again or sign in with your password.`;
       if (errorParam === "account_not_linked") {
         title = "Account Already Exists";
         desc = "This email is already registered with a password. Please sign in using your email & password.";
-      } else if (errorParam === "state_mismatch") {
+      } else if (errorParam === "state_mismatch" || errorParam === "state_not_found") {
         title = "Session Expired";
-        desc = "The authentication request timed out or was blocked by browser privacy settings. Please sign in using your password.";
+        desc = "The authentication request timed out or was blocked by browser privacy settings. Please try again.";
       } else if (errorParam === "access_denied") {
         title = "Access Denied";
         desc = "Google sign-in was cancelled or access was denied.";
