@@ -14,9 +14,14 @@
  * environment, we automatically route to the live production server.
  */
 function resolveApiBaseUrl(): string {
-  // 1. Explicit env variable (if set to a remote domain)
+  // 1. Explicit env variable (if set to a remote domain, ignoring outdated theta domain)
   const envUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
-  if (envUrl && !envUrl.includes("localhost") && !envUrl.includes("127.0.0.1")) {
+  if (
+    envUrl &&
+    !envUrl.includes("localhost") &&
+    !envUrl.includes("127.0.0.1") &&
+    !envUrl.includes("theta")
+  ) {
     return envUrl;
   }
 
