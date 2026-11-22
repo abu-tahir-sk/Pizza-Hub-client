@@ -13,7 +13,7 @@ export function BrandLogo({
   href = "/",
   className,
   size = "md",
-  showSubtitle = false,
+  showSubtitle = true,
 }: BrandLogoProps) {
   const iconSizes = {
     sm: "size-8 rounded-full",
@@ -22,34 +22,34 @@ export function BrandLogo({
   };
 
   const svgSizes = {
-    sm: "size-5 stroke-[2]",
-    md: "size-6 stroke-[2.2]",
-    lg: "size-6.5 stroke-[2.2]",
+    sm: "size-4.5 stroke-[2.2]",
+    md: "size-5 stroke-[2.2]",
+    lg: "size-6 stroke-[2.2]",
   };
 
   const textSizes = {
-    sm: "text-xl",
-    md: "text-2xl",
-    lg: "text-3xl",
+    sm: "text-lg",
+    md: "text-xl",
+    lg: "text-2xl",
   };
 
   const content = (
-    <div className={cn("flex items-center gap-2.5 sm:gap-3 group shrink-0", className)}>
+    <div className={cn("flex items-center gap-2.5 group shrink-0", className)}>
       <span
         className={cn(
-          "grid place-items-center bg-[#d4432d] text-white shadow-md shadow-[#d4432d]/25 transition-transform group-hover:scale-105 shrink-0",
+          "grid place-items-center bg-gradient-to-tr from-[#e11d48] to-[#f43f5e] text-white shadow-md shadow-[#f43f5e]/25 transition-transform group-hover:scale-105 shrink-0",
           iconSizes[size]
         )}
       >
-        <Pizza className={cn("text-white", svgSizes[size])} />
+        <Pizza className={cn("text-white fill-white/20", svgSizes[size])} />
       </span>
       <div className="flex flex-col">
-        <div className={cn("flex items-center font-extrabold tracking-tight leading-none", textSizes[size])}>
-          <span className="text-foreground">Pizza</span>
-          <span className="text-[#f19d38]">Hub</span>
+        <div className={cn("flex items-center font-bold tracking-tight leading-none text-white", textSizes[size])}>
+          <span>Pizza</span>
+          <span className="text-[#f43f5e]">Hub</span>
         </div>
         {showSubtitle && (
-          <span className="text-[10px] font-bold tracking-[0.2em] text-neutral-400 dark:text-neutral-500 uppercase mt-1 leading-none">
+          <span className="text-[9px] font-bold tracking-[0.22em] text-neutral-400 uppercase mt-0.5 leading-none">
             FRESH & FAST
           </span>
         )}

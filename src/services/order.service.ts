@@ -9,21 +9,12 @@ export interface PlaceOrderInput {
   quantity?: number;
 }
 
-export interface PlaceOrderResult {
-  order: Order;
-  checkoutUrl?: string | null;
-}
-
-export async function placeOrder(orderData: PlaceOrderInput): Promise<PlaceOrderResult> {
-  const res = await apiRequest<PlaceOrderResult | Order>("/api/orders", {
+export async function placeOrder(orderData: PlaceOrderInput): Promise<Order> {
+  const res = await apiRequest<Order>("/api/orders", {
     method: "POST",
     body: JSON.stringify(orderData),
   });
-  const data = res.data!;
-  if ("order" in data) {
-    return data as PlaceOrderResult;
-  }
-  return { order: data as Order, checkoutUrl: null };
+  return res.data!;
 }
 
 export async function fetchCustomerOrders(): Promise<Order[]> {

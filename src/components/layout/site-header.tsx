@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
+  ChevronDown,
   Heart,
   Home,
   LayoutDashboard,
@@ -106,19 +107,18 @@ export function SiteHeader() {
           {/* Logo / Name: PizzaHub */}
           <BrandLogo />
 
-          {/* Desktop Navigation Links - Same background as Navbar */}
-          <nav className="hidden items-center gap-2 lg:flex">
+          {/* Desktop Navigation Links */}
+          <nav className="hidden items-center gap-6 lg:flex">
             {/* 1. Home */}
             <Link
               href="/"
               className={cn(
-                "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all",
+                "relative py-1 text-sm font-bold transition-all",
                 isHomeActive
-                  ? "bg-[#c8402b]/10 text-[#c8402b] dark:text-[#f0a23c]"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                  ? "text-white after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
+                  : "text-neutral-400 hover:text-white"
               )}
             >
-              <Home className="size-4" />
               <span>Home</span>
             </Link>
 
@@ -126,47 +126,14 @@ export function SiteHeader() {
             <Link
               href="/menu"
               className={cn(
-                "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all",
+                "relative py-1 text-sm font-bold transition-all",
                 isMenuActive
-                  ? "bg-[#c8402b]/10 text-[#c8402b] dark:text-[#f0a23c]"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                  ? "text-white after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
+                  : "text-neutral-400 hover:text-white"
               )}
             >
-              <UtensilsCrossed className="size-4" />
               <span>Browse Menu</span>
             </Link>
-
-            {/* 3. Role-Relevant Dashboard Link (when logged in) */}
-            {user && (
-              <Link
-                href={dashboardPath(user.role)}
-                className={cn(
-                  "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all",
-                  isDashboardActive && !pathname.includes("/orders")
-                    ? "bg-[#c8402b]/10 text-[#c8402b] dark:text-[#f0a23c]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-                )}
-              >
-                <LayoutDashboard className="size-4" />
-                <span>Dashboard</span>
-              </Link>
-            )}
-
-            {/* 4. Customer Quick Link: My Orders */}
-            {user && user.role === "customer" && (
-              <Link
-                href="/dashboard/customer/orders"
-                className={cn(
-                  "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold transition-all",
-                  pathname.startsWith("/dashboard/customer/orders")
-                    ? "bg-[#c8402b]/10 text-[#c8402b] dark:text-[#f0a23c]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-                )}
-              >
-                <ShoppingBag className="size-4" />
-                <span>My Orders</span>
-              </Link>
-            )}
           </nav>
 
           {/* Header Right Actions */}
@@ -178,12 +145,12 @@ export function SiteHeader() {
               variant="outline"
               size="icon"
               aria-label="View saved favorites"
-              className="relative rounded-xl size-10 border-border text-muted-foreground hover:text-[#c8402b] hover:border-[#c8402b]/40 hover:bg-muted hidden sm:inline-flex"
+              className="relative rounded-full size-9 border-white/10 bg-white/5 text-neutral-300 hover:text-white hover:bg-white/10 hidden sm:inline-flex cursor-pointer"
             >
               <Link href="/favorites">
                 <Heart className="size-4" />
                 {favorites.length > 0 ? (
-                  <span className="absolute -right-1 -top-1 grid size-4.5 place-items-center rounded-full bg-[#c8402b] text-[10px] font-black text-white shadow-md animate-pulse">
+                  <span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-[#f43f5e] text-[9px] font-black text-white shadow-md">
                     {favorites.length}
                   </span>
                 ) : null}
@@ -192,107 +159,116 @@ export function SiteHeader() {
 
             {/* Auth Dependent Controls */}
             {isPending ? (
-              <div className="h-10 w-28 animate-pulse rounded-full bg-muted" />
+              <div className="h-10 w-28 animate-pulse rounded-full bg-white/5" />
             ) : user ? (
-              /* Profile Dropdown: User Name & Avatar */
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button className="flex items-center gap-2.5 rounded-full border border-border bg-card pl-3.5 pr-1.5 py-1.5 text-left transition-all hover:border-[#c8402b]/40 hover:shadow-sm focus:outline-none cursor-pointer">
-                    <span className="max-w-36 truncate text-sm font-bold text-foreground sm:block">
-                      {user.name}
-                    </span>
-                    <Avatar className="size-8 ring-2 ring-[#c8402b]/20">
-                      <AvatarImage src={user.image ?? undefined} alt={user.name} />
-                      <AvatarFallback className="bg-gradient-to-br from-[#c8402b] to-[#e65c47] text-white text-xs font-black">
+              <div className="flex items-center gap-3">
+                {/* 1. Primary Highlighted Dashboard Button */}
+                <Link
+                  href={dashboardPath(user.role)}
+                  className="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#f43f5e] to-[#e11d48] px-5 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_18px_rgba(244,63,94,0.4)] hover:shadow-[0_0_26px_rgba(244,63,94,0.6)] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                >
+                  <LayoutDashboard className="size-3.5" />
+                  <span>Dashboard</span>
+                </Link>
+
+                {/* 2. Theme Appearance Toggle */}
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  aria-label="Toggle appearance"
+                  className="size-9 rounded-full border border-white/10 bg-white/5 text-neutral-300 hover:text-white hover:bg-white/10 flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="size-4 text-amber-400" />
+                  ) : (
+                    <Moon className="size-4 text-neutral-300" />
+                  )}
+                </button>
+
+                {/* 3. User Avatar Pill Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="flex items-center gap-2 rounded-full border border-white/10 bg-[#1c130d] pl-1.5 pr-3 py-1 text-left transition-all hover:border-white/25 focus:outline-none cursor-pointer">
+                      <span className="grid size-7 place-items-center rounded-full bg-gradient-to-tr from-[#e11d48] to-[#f43f5e] text-white text-xs font-bold">
                         {initials(user.name)}
-                      </AvatarFallback>
-                    </Avatar>
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-64 p-2 rounded-2xl shadow-xl border-border bg-card">
-                  <DropdownMenuLabel className="font-normal px-3 py-2 bg-muted/50 rounded-xl mb-1">
-                    <p className="truncate text-sm font-bold text-foreground">{user.name}</p>
-                    <p className="truncate text-xs text-muted-foreground mt-0.5">{user.email}</p>
-                  </DropdownMenuLabel>
+                      </span>
+                      <span className="max-w-28 truncate text-xs font-bold text-white">
+                        {user.name?.split(" ")[0]}
+                      </span>
+                      <ChevronDown className="size-3 text-neutral-400" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-64 p-2 rounded-2xl shadow-xl border-white/10 bg-[#1a110a] text-white">
+                    <DropdownMenuLabel className="font-normal px-3 py-2 bg-white/5 rounded-xl mb-1">
+                      <p className="truncate text-sm font-bold text-white">{user.name}</p>
+                      <p className="truncate text-xs text-neutral-400 mt-0.5">{user.email}</p>
+                    </DropdownMenuLabel>
 
-                  <DropdownMenuSeparator className="my-1" />
+                    <DropdownMenuSeparator className="my-1 bg-white/5" />
 
-                  {/* 1. Dashboard (Required) */}
-                  <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5">
-                    <Link href={dashboardPath(user.role)}>
-                      <LayoutDashboard className="size-4 mr-2 text-[#c8402b]" />
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-white/10 text-white">
+                      <Link href={dashboardPath(user.role)}>
+                        <LayoutDashboard className="size-4 mr-2 text-[#f43f5e]" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
 
-                  {/* 2. Profile Settings (Required) */}
-                  <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5">
-                    <Link href="/profile">
-                      <Settings className="size-4 mr-2 text-muted-foreground" />
-                      Profile Settings
-                    </Link>
-                  </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-white/10 text-white">
+                      <Link href="/profile">
+                        <Settings className="size-4 mr-2 text-neutral-400" />
+                        Profile Settings
+                      </Link>
+                    </DropdownMenuItem>
 
-                  {/* Favorites on mobile */}
-                  <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 sm:hidden">
-                    <Link href="/favorites">
-                      <Heart className="size-4 mr-2 text-rose-500" />
-                      Favorites ({favorites.length})
-                    </Link>
-                  </DropdownMenuItem>
+                    <DropdownMenuItem asChild className="rounded-xl font-semibold cursor-pointer py-2.5 hover:bg-white/10 text-white sm:hidden">
+                      <Link href="/favorites">
+                        <Heart className="size-4 mr-2 text-rose-500" />
+                        Favorites ({favorites.length})
+                      </Link>
+                    </DropdownMenuItem>
 
-                  {/* Theme appearance toggle */}
-                  <DropdownMenuSeparator className="my-1" />
-                  <DropdownMenuItem
-                    onSelect={(e) => {
-                      e.preventDefault();
-                      toggleTheme();
-                    }}
-                    className="rounded-xl font-semibold cursor-pointer py-2.5 flex items-center justify-between"
-                  >
-                    <span className="flex items-center">
-                      {theme === "dark" ? (
-                        <Sun className="size-4 mr-2 text-amber-400" />
-                      ) : (
-                        <Moon className="size-4 mr-2 text-muted-foreground" />
-                      )}
-                      Appearance
-                    </span>
-                    <span className="text-xs font-bold text-muted-foreground bg-muted px-2 py-0.5 rounded-md">
-                      {theme === "dark" ? "Dark" : "Light"}
-                    </span>
-                  </DropdownMenuItem>
-
-                  {/* 3. Logout (Required) */}
-                  <DropdownMenuSeparator className="my-1" />
-                  <DropdownMenuItem
-                    onSelect={handleSignOut}
-                    className="rounded-xl font-bold cursor-pointer py-2.5 text-red-600 focus:bg-red-50 focus:text-red-700 dark:focus:bg-red-950/40"
-                  >
-                    <LogOut className="size-4 mr-2" />
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                    <DropdownMenuSeparator className="my-1 bg-white/5" />
+                    <DropdownMenuItem
+                      onSelect={handleSignOut}
+                      className="rounded-xl font-bold cursor-pointer py-2.5 text-red-400 focus:bg-red-950/40 focus:text-red-300"
+                    >
+                      <LogOut className="size-4 mr-2" />
+                      Logout
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             ) : (
               /* Public / Logged Out: Sign In & Sign Up Buttons */
               <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  aria-label="Toggle appearance"
+                  className="size-9 rounded-full border border-white/10 bg-white/5 text-neutral-300 hover:text-white hover:bg-white/10 flex items-center justify-center transition-colors cursor-pointer mr-1"
+                >
+                  {theme === "dark" ? (
+                    <Sun className="size-4 text-amber-400" />
+                  ) : (
+                    <Moon className="size-4 text-neutral-300" />
+                  )}
+                </button>
                 <Button
                   asChild
-                  className="rounded-full bg-[#d4432d] px-4 text-sm font-bold text-white shadow-md shadow-[#d4432d]/25 hover:bg-[#b83320] sm:px-5"
+                  className="rounded-full bg-gradient-to-r from-[#f43f5e] to-[#e11d48] px-5 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-[0_0_15px_rgba(244,63,94,0.35)] hover:shadow-[0_0_20px_rgba(244,63,94,0.5)] cursor-pointer"
                 >
                   <Link href="/sign-in">
-                    <LogIn className="size-4 mr-1.5" />
+                    <LogIn className="size-3.5 mr-1.5" />
                     <span>Sign In</span>
                   </Link>
                 </Button>
                 <Button
                   asChild
                   variant="outline"
-                  className="hidden rounded-full border-border bg-card px-4 text-sm font-bold text-foreground hover:border-[#d4432d]/40 hover:text-[#d4432d] sm:inline-flex sm:px-5"
+                  className="hidden rounded-full border-white/15 bg-white/5 px-4 text-xs font-bold uppercase tracking-wider text-white hover:bg-white/10 sm:inline-flex cursor-pointer"
                 >
                   <Link href="/sign-up">
-                    <UserPlus className="size-4 mr-1.5" />
+                    <UserPlus className="size-3.5 mr-1.5" />
                     <span>Sign Up</span>
                   </Link>
                 </Button>

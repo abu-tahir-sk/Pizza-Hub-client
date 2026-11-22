@@ -125,7 +125,7 @@ function ItemDetails() {
     if (!item) return;
     setSubmitting(true);
     try {
-      const res = await placeOrder({
+      const order = await placeOrder({
         itemId: item._id,
         deliveryDate: new Date(deliveryDate).toISOString(),
         deliveryAddress: address,
@@ -143,7 +143,7 @@ function ItemDetails() {
         // ignore
       }
       toast.success("Order placed successfully! Cash on delivery.");
-      router.push(`/dashboard/customer/orders?highlight=${res.order._id}`);
+      router.push(`/dashboard/customer/orders?highlight=${order._id}`);
     } catch (err) {
       const msg =
         err instanceof ApiError ? err.message : "Could not place your order. Please try again.";

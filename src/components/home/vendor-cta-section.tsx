@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { ArrowRight, Store, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, Store } from "lucide-react";
 
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
@@ -14,62 +14,68 @@ const fadeUp = {
 
 export function VendorCtaSection() {
   return (
-    <section className="bg-background pb-16 sm:pb-20">
+    <section className="bg-[#120b08] py-14 sm:py-20 border-t border-white/5 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           {...fadeUp}
-          className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#e2374a] via-[#d01f3a] to-[#9f1029] px-6 py-10 shadow-2xl shadow-[#d4432d]/25 sm:px-10 sm:py-12 lg:px-14"
+          className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#e11d48] via-[#e83d5a] to-[#f43f5e] px-6 py-10 shadow-2xl sm:px-10 sm:py-14 lg:px-14"
         >
-          {/* Ambient glows */}
-          <div className="pointer-events-none absolute -right-10 -top-16 size-72 rounded-full bg-white/10 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 left-1/3 size-72 rounded-full bg-[#f0a23c]/25 blur-3xl" />
+          {/* Subtle dotted background overlay */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#ffffff20_1.5px,transparent_1.5px)] [background-size:18px_18px] opacity-40" />
 
-          <div className="relative z-10 grid items-center gap-10 lg:grid-cols-[1.5fr_1fr]">
+          {/* Ambient lighting */}
+          <div className="pointer-events-none absolute -right-10 -top-16 size-80 rounded-full bg-white/15 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 left-1/3 size-72 rounded-full bg-amber-400/20 blur-3xl" />
+
+          <div className="relative z-10 grid items-center gap-10 lg:grid-cols-[1.3fr_0.7fr]">
+            {/* Left Content */}
             <div className="space-y-4">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-black/15 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur">
                 <Store className="size-3.5" />
-                Partner with PizzaHub
+                FOR PIZZA KITCHENS
               </span>
 
-              <h2 className="max-w-xl text-2xl font-black leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
-                Put your kitchen on the PizzaHub menu
+              <h2 className="max-w-xl text-2xl font-bold leading-tight tracking-tight text-white sm:text-3xl lg:text-4xl">
+                Put your kitchen on the{" "}
+                <span className="text-[#fde047]">PizzaHub menu</span>
               </h2>
 
-              <p className="max-w-xl text-sm leading-relaxed text-white/80">
-                Create a free vendor account, publish your signature dishes and start receiving
-                orders from hungry customers across your city today.
+              <p className="max-w-xl text-xs sm:text-sm leading-relaxed text-white/90">
+                Create a free vendor account, publish up to three approved menu items and
+                start receiving orders. Upgrade to Premium when you are ready to sell more.
               </p>
 
-              <div className="flex flex-wrap items-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-4 pt-3">
                 <Link
                   href="/sign-up"
-                  className="inline-flex h-11 items-center gap-2 rounded-full bg-white px-6 text-xs font-bold uppercase tracking-wider text-[#b8142c] shadow-lg transition-all hover:bg-[#fff5f2] active:scale-[0.98]"
+                  className="inline-flex h-11 items-center gap-2 rounded-full bg-neutral-950 px-6 text-xs font-bold uppercase tracking-wider text-white shadow-xl transition-all hover:bg-neutral-900 active:scale-[0.98] cursor-pointer"
                 >
-                  Become a Vendor
+                  <span>BECOME A VENDOR</span>
                   <ArrowRight className="size-4" />
                 </Link>
                 <Link
                   href="/menu"
-                  className="inline-flex h-11 items-center gap-2 rounded-full border border-white/40 px-6 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-white/10"
+                  className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-white/90 transition-colors hover:text-white hover:underline"
                 >
-                  <UtensilsCrossed className="size-4" />
-                  Explore Menu
+                  <span>Or order from a local kitchen</span>
+                  <ArrowRight className="size-3.5" />
                 </Link>
               </div>
             </div>
 
-            <div className="relative mx-auto hidden size-48 shrink-0 sm:block lg:size-56">
-              <div className="relative size-full overflow-hidden rounded-full ring-4 ring-white/20">
+            {/* Right Visual: Pizza plate with yellow badge */}
+            <div className="relative mx-auto hidden size-52 shrink-0 sm:block lg:size-64">
+              <div className="relative size-full overflow-hidden rounded-full border-4 border-white/20 bg-neutral-900 shadow-2xl">
                 <Image
-                  src="/images/auth/auth-pizza.jpg"
-                  alt="Signature wood-fired pizza"
+                  src="/images/auth-pizza.jpg"
+                  alt="Signature pizza platter"
                   fill
-                  sizes="224px"
+                  sizes="256px"
                   className="object-cover"
                 />
               </div>
-              <span className="absolute -bottom-2 -right-2 grid size-14 place-items-center rounded-full border-4 border-[#c01c36] bg-[#f0a23c] text-center text-sm font-black leading-none text-[#3b1c12] shadow-xl">
-                3+
+              <span className="absolute -bottom-2 -left-2 rounded-full border-2 border-neutral-950 bg-[#fbbf24] px-3.5 py-1.5 text-center text-[11px] font-black leading-tight text-neutral-950 shadow-xl">
+                1 slice away
               </span>
             </div>
           </div>
