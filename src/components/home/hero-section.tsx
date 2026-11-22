@@ -330,21 +330,21 @@ export function HeroSection() {
     <section
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative overflow-hidden bg-[#100f12] text-white selection:bg-[#fb923c] selection:text-black"
+      className="relative overflow-hidden bg-gradient-to-b from-orange-500/5 via-background to-background dark:from-[#100f12] dark:via-[#141219] dark:to-[#100f12] text-foreground transition-colors selection:bg-[#fb923c] selection:text-black"
     >
-      {/* Dark Pizza Doodle Texture Pattern */}
+      {/* Pizza Doodle Texture Pattern */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.07] z-0"
+        className="pointer-events-none absolute inset-0 opacity-[0.04] dark:opacity-[0.07] z-0"
         style={{
-          backgroundImage: `radial-gradient(#ffffff 1px, transparent 1px), radial-gradient(#fb923c 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(currentColor 1px, transparent 1px), radial-gradient(#fb923c 1px, transparent 1px)`,
           backgroundSize: "32px 32px",
           backgroundPosition: "0 0, 16px 16px",
         }}
       />
 
       {/* Ambient background glows */}
-      <div className="pointer-events-none absolute -top-40 right-[-10%] size-[600px] rounded-full bg-[#f97316]/15 blur-[160px] z-0" />
-      <div className="pointer-events-none absolute -bottom-40 left-[-10%] size-[600px] rounded-full bg-[#ef4444]/15 blur-[160px] z-0" />
+      <div className="pointer-events-none absolute -top-40 right-[-10%] size-[600px] rounded-full bg-orange-500/10 dark:bg-[#f97316]/15 blur-[160px] z-0" />
+      <div className="pointer-events-none absolute -bottom-40 left-[-10%] size-[600px] rounded-full bg-rose-500/10 dark:bg-[#ef4444]/15 blur-[160px] z-0" />
 
       {/* Main Slider Area */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 pt-12 pb-24 sm:px-6 sm:pt-16 sm:pb-28 lg:px-8 lg:pt-20 lg:pb-32 min-h-[580px] sm:min-h-[640px] lg:min-h-[680px] flex items-center">
@@ -352,7 +352,7 @@ export function HeroSection() {
         <button
           onClick={prevSlide}
           aria-label="Previous Slide"
-          className="group absolute left-2 sm:left-4 lg:left-2 top-1/2 -translate-y-1/2 z-30 flex size-10 sm:size-12 items-center justify-center rounded-full bg-black/40 hover:bg-[#f97316] border border-white/10 hover:border-[#f97316] text-white/80 hover:text-white backdrop-blur-md shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
+          className="group absolute left-2 sm:left-4 lg:left-2 top-1/2 -translate-y-1/2 z-30 flex size-10 sm:size-12 items-center justify-center rounded-full bg-background/80 dark:bg-black/40 hover:bg-[#f97316] border border-border dark:border-white/10 hover:border-[#f97316] text-foreground dark:text-white/80 hover:text-white backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
         >
           <ChevronLeft className="size-6 sm:size-7 transition-transform group-hover:-translate-x-0.5" />
         </button>
@@ -361,7 +361,7 @@ export function HeroSection() {
         <button
           onClick={nextSlide}
           aria-label="Next Slide"
-          className="group absolute right-2 sm:right-4 lg:right-2 top-1/2 -translate-y-1/2 z-30 flex size-10 sm:size-12 items-center justify-center rounded-full bg-black/40 hover:bg-[#f97316] border border-white/10 hover:border-[#f97316] text-white/80 hover:text-white backdrop-blur-md shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
+          className="group absolute right-2 sm:right-4 lg:right-2 top-1/2 -translate-y-1/2 z-30 flex size-10 sm:size-12 items-center justify-center rounded-full bg-background/80 dark:bg-black/40 hover:bg-[#f97316] border border-border dark:border-white/10 hover:border-[#f97316] text-foreground dark:text-white/80 hover:text-white backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
         >
           <ChevronRight className="size-6 sm:size-7 transition-transform group-hover:translate-x-0.5" />
         </button>
@@ -383,7 +383,7 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-[#fb923c]"
+                className="inline-flex items-center gap-2 rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1.5 text-xs font-black uppercase tracking-widest text-orange-600 dark:text-[#fb923c]"
               >
                 <Sparkles className="size-3.5" />
                 <span>{slide.tag}</span>
@@ -396,15 +396,15 @@ export function HeroSection() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="space-y-3"
               >
-                <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-white leading-tight">
+                <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-foreground dark:text-white leading-tight">
                   <span>{slide.titlePrefix}</span>{" "}
-                  <span className="text-[#fb923c] drop-shadow-[0_0_20px_rgba(251,146,60,0.45)]">
+                  <span className="text-orange-600 dark:text-[#fb923c] drop-shadow-[0_0_20px_rgba(251,146,60,0.35)]">
                     {slide.titleHighlight}
                   </span>
                   {slide.titleSuffix ? <span> {slide.titleSuffix}</span> : null}
                 </h1>
 
-                <p className="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-[#fb923c]">
+                <p className="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-orange-600 dark:text-[#fb923c]">
                   {slide.subtitle}
                 </p>
               </motion.div>
@@ -414,7 +414,7 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.35 }}
-                className="max-w-xl text-sm sm:text-base leading-relaxed text-neutral-300 font-normal"
+                className="max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground dark:text-neutral-300 font-normal"
               >
                 {slide.desc}
               </motion.p>
@@ -428,14 +428,14 @@ export function HeroSection() {
               >
                 <Link
                   href={slide.ctaLink}
-                  className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-[#f97316] via-[#ea580c] to-[#c2410c] px-8 py-4 text-xs sm:text-sm font-black uppercase tracking-wider text-white shadow-[0_0_30px_rgba(249,115,22,0.45)] hover:shadow-[0_0_40px_rgba(249,115,22,0.65)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-[#f97316] via-[#ea580c] to-[#c2410c] px-8 py-4 text-xs sm:text-sm font-black uppercase tracking-wider text-white shadow-[0_0_30px_rgba(249,115,22,0.35)] hover:shadow-[0_0_40px_rgba(249,115,22,0.55)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
                 >
                   <span>{slide.ctaText}</span>
                   <ArrowRight className="size-4" />
                 </Link>
 
-                <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-neutral-300 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 backdrop-blur-sm">
-                  <Clock className="size-4 text-[#fb923c]" />
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-muted-foreground dark:text-neutral-300 bg-muted/70 dark:bg-white/5 border border-border dark:border-white/10 rounded-full px-4 py-2.5 backdrop-blur-sm">
+                  <Clock className="size-4 text-orange-500 dark:text-[#fb923c]" />
                   <span>30 min average delivery</span>
                 </div>
               </motion.div>
@@ -455,7 +455,7 @@ export function HeroSection() {
                 initial={{ scale: 0.6, rotate: -40, opacity: 0 }}
                 animate={{ scale: 1, rotate: 0, opacity: 1 }}
                 transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="relative z-10 w-[280px] sm:w-[380px] lg:w-[440px] xl:w-[480px] aspect-square select-none pointer-events-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)]"
+                className="relative z-10 w-[280px] sm:w-[380px] lg:w-[440px] xl:w-[480px] aspect-square select-none pointer-events-none drop-shadow-[0_20px_35px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)]"
               >
                 {/* Continuous Slow 360-degree rotation */}
                 <motion.div
@@ -539,8 +539,8 @@ export function HeroSection() {
               aria-label={`Go to slide ${idx + 1}`}
               className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
                 current === idx
-                  ? "w-8 bg-[#f97316] shadow-[0_0_12px_rgba(249,115,22,0.8)]"
-                  : "w-2.5 bg-white/25 hover:bg-white/50"
+                  ? "w-8 bg-[#f97316] shadow-[0_0_12px_rgba(249,115,22,0.6)]"
+                  : "w-2.5 bg-neutral-300 dark:bg-white/25 hover:bg-neutral-400 dark:hover:bg-white/50"
               }`}
             />
           ))}
@@ -548,21 +548,21 @@ export function HeroSection() {
       </div>
 
       {/* Bottom Feature Strip: 4 High-Contrast Sleek Cards */}
-      <div className="relative z-10 w-full border-t border-white/10 bg-[#141218]/90 backdrop-blur-md px-4 py-8 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full border-t border-border dark:border-white/10 bg-muted/40 dark:bg-[#141218]/90 backdrop-blur-md px-4 py-8 sm:px-6 lg:px-8 transition-colors">
         <div className="mx-auto max-w-7xl grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-orange-500/50 hover:bg-white/10 shadow-lg"
+                className="flex items-center gap-4 rounded-2xl border border-border dark:border-white/10 bg-card/90 dark:bg-white/5 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-orange-500/50 hover:shadow-md shadow-xs"
               >
-                <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-orange-500/20 text-[#fb923c] border border-orange-500/30">
+                <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-[#fb923c] border border-orange-500/20 dark:border-orange-500/30">
                   <Icon className="size-6 stroke-[2]" />
                 </span>
                 <div>
-                  <h3 className="text-sm sm:text-base font-bold text-white">{item.title}</h3>
-                  <p className="mt-1 text-xs sm:text-sm font-normal text-neutral-300 leading-relaxed">
+                  <h3 className="text-sm sm:text-base font-bold text-foreground dark:text-white">{item.title}</h3>
+                  <p className="mt-1 text-xs sm:text-sm font-normal text-muted-foreground dark:text-neutral-300 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
