@@ -33,6 +33,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
+        {/* Apply the saved theme before first paint to avoid a light flash. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("pizzahub-theme");if(t!=="light"){document.documentElement.classList.add("dark");}else{document.documentElement.classList.remove("dark");}}catch(e){document.documentElement.classList.add("dark");}})();`,
+          }}
+        />
         <Providers>
           <AppShell>{children}</AppShell>
         </Providers>

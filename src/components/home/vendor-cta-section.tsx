@@ -61,7 +61,7 @@ export function VendorCtaSection() {
             <div className="relative mx-auto hidden size-48 shrink-0 sm:block lg:size-56">
               <div className="relative size-full overflow-hidden rounded-full ring-4 ring-white/20">
                 <Image
-                  src="/images/auth/auth-pizza-woodfired.jpg"
+                  src="/images/auth/auth-pizza.jpg"
                   alt="Signature wood-fired pizza"
                   fill
                   sizes="224px"
