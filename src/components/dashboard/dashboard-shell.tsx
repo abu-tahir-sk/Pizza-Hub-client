@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BarChart3,
   ChevronDown,
@@ -23,7 +23,7 @@ import {
   X,
 } from "lucide-react";
 import { signOut, useSession } from "@/lib/auth-client";
-import { clearToken } from "@/lib/api";
+import { clearToken, getSessionUser } from "@/lib/api";
 import type { AppUser } from "@/lib/types";
 import { useTheme } from "@/context/theme-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -70,11 +70,21 @@ const NAV: Record<string, NavItem[]> = {
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
-  const user = session?.user as unknown as AppUser | undefined;
+  const [user, setUser] = useState<AppUser | undefined>(session?.user as unknown as AppUser | undefined);
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+
+  useEffect(() => {
+    if (session?.user) {
+      setUser(session.user as unknown as AppUser);
+    } else {
+      void getSessionUser().then((u) => {
+        if (u) setUser(u as unknown as AppUser);
+      });
+    }
+  }, [session]);
 
   const role = user?.role ?? "customer";
   const items = NAV[role] ?? NAV.customer;

@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
+import { getSessionUser } from "@/lib/api";
 import type { AppUser, UserRole } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 
 /**
  * Client-side route guard.
+ * - Checks Better Auth session AND cross-domain token bridge
  * - Unauthenticated visitors are redirected to /sign-in?redirect=<path>
  * - Users with the wrong role are redirected to their own dashboard
  * - Blocked users are signed out and sent back to sign-in
- *
- * This is a UX guard only: every protected API also verifies the JWT and
- * role on the Express server (defense in depth).
  */
 export function AuthGuard({
   allow,
@@ -25,31 +24,68 @@ export function AuthGuard({
   const { data: session, isPending } = useSession();
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const urlSessionToken = searchParams?.get("session_token");
+
   const [ready, setReady] = useState(false);
 
-  const user = session?.user as unknown as AppUser | undefined;
-
   useEffect(() => {
-    if (isPending) return;
+    let cancelled = false;
 
-    if (!session) {
-      router.replace(`/sign-in?redirect=${encodeURIComponent(pathname)}`);
-      return;
+    async function evaluateAuth() {
+      // 1. Direct Better Auth session check
+      if (session?.user) {
+        const u = session.user as unknown as AppUser;
+        if (cancelled) return;
+        checkAccess(u);
+        return;
+      }
+
+      // If still waiting on better-auth isPending, give it a moment
+      if (isPending) return;
+
+      // 2. Token bridge check (with optional urlSessionToken from OAuth callback)
+      try {
+        const bridgeUser = await getSessionUser(urlSessionToken || undefined);
+        if (cancelled) return;
+        if (bridgeUser) {
+          if (urlSessionToken && typeof window !== "undefined") {
+            window.history.replaceState({}, document.title, window.location.pathname);
+          }
+          checkAccess(bridgeUser as unknown as AppUser);
+          return;
+        }
+      } catch {
+        // Fallback check failed
+      }
+
+      // 3. Unauthenticated visitors are redirected to /sign-in
+      if (!cancelled) {
+        router.replace(`/sign-in?redirect=${encodeURIComponent(pathname)}`);
+      }
     }
 
-    if (user?.isBlocked) {
-      void signOut();
-      router.replace("/sign-in?blocked=1");
-      return;
+    function checkAccess(u: AppUser) {
+      if (u.isBlocked) {
+        void signOut();
+        router.replace("/sign-in?blocked=1");
+        return;
+      }
+
+      if (allow && !allow.includes(u.role)) {
+        router.replace(roleHome(u.role));
+        return;
+      }
+
+      setReady(true);
     }
 
-    if (allow && user && !allow.includes(user.role)) {
-      router.replace(roleHome(user.role));
-      return;
-    }
+    void evaluateAuth();
 
-    setReady(true);
-  }, [isPending, session, user, allow, pathname, router]);
+    return () => {
+      cancelled = true;
+    };
+  }, [isPending, session, allow, pathname, router, urlSessionToken]);
 
   if (isPending || !ready) {
     return (

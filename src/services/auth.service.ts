@@ -36,6 +36,7 @@ async function requestToken(explicitSessionToken?: string): Promise<{ token: str
     try {
       if (typeof window !== "undefined") {
         sessionStorage.setItem("pizzahub:jwt_token", json.data.token);
+        sessionStorage.setItem("pizzahub:user", JSON.stringify(json.data.user));
       }
     } catch {
       // ignore storage access errors
@@ -92,6 +93,18 @@ export async function refreshToken(explicitSessionToken?: string): Promise<strin
 
 /** Returns the signed-in user (role, block state, plan) from the verified session. */
 export async function getSessionUser(explicitSessionToken?: string): Promise<User | null> {
+  if (!explicitSessionToken && typeof window !== "undefined") {
+    try {
+      const storedUser = sessionStorage.getItem("pizzahub:user");
+      const storedToken = sessionStorage.getItem("pizzahub:jwt_token");
+      if (storedUser && storedToken) {
+        clientToken = storedToken;
+        return JSON.parse(storedUser) as User;
+      }
+    } catch {
+      // ignore
+    }
+  }
   const result = await getTokenBridge(explicitSessionToken);
   return result?.user ?? null;
 }
@@ -101,7 +114,10 @@ export function setApiToken(token: string | null): void {
   try {
     if (typeof window !== "undefined") {
       if (token) sessionStorage.setItem("pizzahub:jwt_token", token);
-      else sessionStorage.removeItem("pizzahub:jwt_token");
+      else {
+        sessionStorage.removeItem("pizzahub:jwt_token");
+        sessionStorage.removeItem("pizzahub:user");
+      }
     }
   } catch {
     // ignore
@@ -117,6 +133,7 @@ export function clearToken(): void {
   try {
     if (typeof window !== "undefined") {
       sessionStorage.removeItem("pizzahub:jwt_token");
+      sessionStorage.removeItem("pizzahub:user");
     }
   } catch {
     // ignore

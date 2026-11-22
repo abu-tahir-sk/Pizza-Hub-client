@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -18,7 +18,7 @@ import {
   UtensilsCrossed,
 } from "lucide-react";
 import { useSession, signOut } from "@/lib/auth-client";
-import { clearToken } from "@/lib/api";
+import { clearToken, getSessionUser } from "@/lib/api";
 import { dashboardPath, type AppUser } from "@/lib/types";
 import { useTheme } from "@/context/theme-context";
 import { useFavorites } from "@/context/favorites-context";
@@ -39,11 +39,23 @@ import { BrandLogo } from "@/components/layout/brand-logo";
 
 export function SiteHeader() {
   const { data: session, isPending, refetch } = useSession();
-  const user = session?.user as unknown as AppUser | undefined;
+  const [activeUser, setActiveUser] = useState<AppUser | undefined>(session?.user as unknown as AppUser | undefined);
+  const user = activeUser;
   const pathname = usePathname();
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
   const { favorites } = useFavorites();
+
+  useEffect(() => {
+    if (session?.user) {
+      setActiveUser(session.user as unknown as AppUser);
+    } else {
+      void getSessionUser().then((u) => {
+        if (u) setActiveUser(u as unknown as AppUser);
+        else setActiveUser(undefined);
+      });
+    }
+  }, [session, pathname]);
 
   // Keep session state immediately updated when route or auth changes
   useEffect(() => {
@@ -53,6 +65,10 @@ export function SiteHeader() {
   useEffect(() => {
     const handleAuthEvent = () => {
       void refetch();
+      void getSessionUser().then((u) => {
+        if (u) setActiveUser(u as unknown as AppUser);
+        else setActiveUser(undefined);
+      });
     };
     window.addEventListener("pizzahub-auth-change", handleAuthEvent);
     window.addEventListener("storage", handleAuthEvent);
