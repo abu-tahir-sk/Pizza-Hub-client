@@ -74,8 +74,8 @@ export function VendorCtaSection() {
                   className="object-cover"
                 />
               </div>
-              <span className="absolute -bottom-2 -left-2 rounded-full border-2 border-neutral-950 bg-[#fbbf24] px-3.5 py-1.5 text-center text-[11px] font-black leading-tight text-neutral-950 shadow-xl">
-                1 slice away
+              <span className="absolute -bottom-2 -left-2 grid size-12 place-items-center rounded-full border-2 border-neutral-950 bg-[#fbbf24] text-center text-sm font-black leading-none text-neutral-950 shadow-xl">
+                3+
               </span>
             </div>
           </div>

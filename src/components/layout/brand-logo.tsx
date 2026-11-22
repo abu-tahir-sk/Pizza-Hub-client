@@ -13,7 +13,7 @@ export function BrandLogo({
   href = "/",
   className,
   size = "md",
-  showSubtitle = true,
+  showSubtitle = false,
 }: BrandLogoProps) {
   const iconSizes = {
     sm: "size-8 rounded-full",
@@ -50,7 +50,7 @@ export function BrandLogo({
         </div>
         {showSubtitle && (
           <span className="text-[9px] font-bold tracking-[0.22em] text-neutral-400 uppercase mt-0.5 leading-none">
-            FRESH & FAST
+            FRESH &amp; FAST
           </span>
         )}
       </div>

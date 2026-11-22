@@ -102,7 +102,7 @@ export function SiteHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md shadow-xs transition-colors">
+      <header className="sticky top-0 z-50 border-b border-white/5 bg-[#120b08]/95 backdrop-blur-md shadow-xs">
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           {/* Logo / Name: PizzaHub */}
           <BrandLogo />
@@ -133,6 +133,19 @@ export function SiteHeader() {
               )}
             >
               <span>Browse Menu</span>
+            </Link>
+
+            {/* 3. Favorites */}
+            <Link
+              href="/favorites"
+              className={cn(
+                "relative py-1 text-sm font-bold transition-all",
+                pathname === "/favorites"
+                  ? "text-white after:content-[''] after:absolute after:-bottom-2.5 after:left-1 after:right-1 after:h-[2px] after:bg-[#f43f5e] after:rounded-full"
+                  : "text-neutral-400 hover:text-white"
+              )}
+            >
+              <span>Favorites</span>
             </Link>
           </nav>
 
