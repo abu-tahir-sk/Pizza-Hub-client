@@ -45,13 +45,28 @@ const FEATURES = [
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-background text-foreground transition-colors">
-      {/* Background ambient lighting and subtle texture */}
-      <div className="pointer-events-none absolute -top-40 right-[-5%] size-[600px] rounded-full bg-[#f43f5e]/10 blur-[140px]" />
-      <div className="pointer-events-none absolute -bottom-40 left-[-10%] size-[500px] rounded-full bg-[#f59e0b]/10 blur-[140px]" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
+    <section className="relative overflow-hidden bg-[#0d0705] text-white">
+      {/* Background High-Resolution Restaurant Dining Image */}
+      <div className="absolute inset-0 z-0">
+        <Image
+          src="/images/hero/restaurant-hero-bg.jpg"
+          alt="Warm luxury Italian pizzeria dining ambiance"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {/* Cinematic rich warm vignette gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0d0705]/95 via-[#0d0705]/85 to-[#0d0705]/65" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0705] via-transparent to-[#0d0705]/60" />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-20 lg:px-8 lg:pt-20 lg:pb-24">
+      {/* Background ambient lighting and subtle texture */}
+      <div className="pointer-events-none absolute -top-40 right-[-5%] size-[600px] rounded-full bg-[#f43f5e]/15 blur-[140px] z-1" />
+      <div className="pointer-events-none absolute -bottom-40 left-[-10%] size-[500px] rounded-full bg-[#f59e0b]/15 blur-[140px] z-1" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:24px_24px] opacity-40 z-1" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 pt-12 pb-16 sm:px-6 sm:pt-16 sm:pb-20 lg:px-8 lg:pt-20 lg:pb-24">
         {/* Top Split: Left Headline & CTA, Right Pizza Platter Visual */}
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-10">
           {/* Left Column */}
@@ -63,7 +78,7 @@ export function HeroSection() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.12]">
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.12] drop-shadow-md">
               Delicious Pizza,
               <br />
               <span className="relative inline-block text-[#f59e0b]">
@@ -87,7 +102,7 @@ export function HeroSection() {
             </h1>
 
             {/* Description */}
-            <p className="max-w-xl text-sm sm:text-base leading-relaxed text-muted-foreground">
+            <p className="max-w-xl text-sm sm:text-base leading-relaxed text-neutral-200 drop-shadow-sm">
               Hand-tossed dough, stone-baked crusts and generous layers of melted cheese.
               Your next favourite pizza is hot, fresh and only minutes away.
             </p>
@@ -96,14 +111,14 @@ export function HeroSection() {
             <div className="flex flex-wrap items-center gap-5 pt-2">
               <Link
                 href="/menu"
-                className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-[#f43f5e] to-[#e11d48] px-7 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(244,63,94,0.45)] hover:shadow-[0_0_35px_rgba(244,63,94,0.6)] hover:scale-[1.02] active:scale-[0.99] transition-all cursor-pointer"
+                className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-[#f43f5e] to-[#e11d48] px-7 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-[0_0_25px_rgba(244,63,94,0.55)] hover:shadow-[0_0_35px_rgba(244,63,94,0.7)] hover:scale-[1.02] active:scale-[0.99] transition-all cursor-pointer"
               >
                 <span>BROWSE MENU</span>
                 <ArrowRight className="size-4" />
               </Link>
 
-              <div className="flex items-center gap-2.5 text-sm font-medium text-muted-foreground">
-                <span className="grid size-8 place-items-center rounded-full border border-border text-foreground">
+              <div className="flex items-center gap-2.5 text-sm font-medium text-neutral-300">
+                <span className="grid size-8 place-items-center rounded-full border border-white/20 text-neutral-200">
                   <Clock className="size-4" />
                 </span>
                 <span>30 min average delivery</span>
@@ -111,42 +126,56 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Right Column: Pizza on round stone pan with floating badges */}
+          {/* Right Column: Pizza on round stone pan with floating badges & continuous animation */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="relative mx-auto w-full max-w-[460px] lg:max-w-[500px]"
           >
-            {/* Round stone platter container */}
-            <div className="relative aspect-square">
-              {/* Outer decorative halo */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#f43f5e]/15 to-[#f59e0b]/15 blur-2xl" />
+            {/* Round stone platter container with smooth floating levitation */}
+            <motion.div
+              animate={{ y: [-8, 8, -8] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              className="relative aspect-square"
+            >
+              {/* Outer decorative halo with pulsing warm glow */}
+              <motion.div
+                animate={{ scale: [1, 1.15, 1], opacity: [0.35, 0.65, 0.35] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#f43f5e]/30 to-[#f59e0b]/30 blur-3xl pointer-events-none"
+              />
 
-              {/* Platter and Pizza Image */}
-              <div className="relative size-full overflow-hidden rounded-full border-8 border-[#20150e] bg-[#1a0f09] shadow-[0_20px_60px_rgba(0,0,0,0.85)]">
-                <Image
-                  src="/images/auth-pizza.jpg"
-                  alt="Delicious artisan stone-baked pizza"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 90vw, 500px"
-                  className="object-cover transition-transform duration-1000 ease-out hover:scale-105"
-                />
+              {/* Platter and Rotating Pizza Image */}
+              <div className="relative size-full overflow-hidden rounded-full border-8 border-[#20150e] bg-[#1a0f09] shadow-[0_25px_70px_rgba(0,0,0,0.95)]">
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                  className="relative size-full"
+                >
+                  <Image
+                    src="/images/auth-pizza.jpg"
+                    alt="Delicious artisan stone-baked pizza"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 90vw, 500px"
+                    className="object-cover scale-105"
+                  />
+                </motion.div>
               </div>
 
               {/* Floating Badge 1: Top-Right Rating (4.9 / 5, 2K+ FOODIES) */}
               <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute right-0 sm:-right-2 top-4 sm:top-6 flex items-center gap-3 rounded-2xl border border-border bg-card/90 text-card-foreground px-4 py-2.5 shadow-2xl backdrop-blur-md"
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute right-0 sm:-right-2 top-4 sm:top-6 flex items-center gap-3 rounded-2xl border border-white/15 bg-[#1a110a]/90 text-white px-4 py-2.5 shadow-2xl backdrop-blur-md"
               >
-                <span className="grid size-7 place-items-center rounded-full bg-amber-500/20 text-amber-500">
-                  <Star className="size-4 fill-amber-500 text-amber-500" />
+                <span className="grid size-7 place-items-center rounded-full bg-amber-500/20 text-amber-400">
+                  <Star className="size-4 fill-amber-400 text-amber-400" />
                 </span>
                 <div>
-                  <div className="text-sm font-black text-foreground">4.9 / 5</div>
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                  <div className="text-sm font-black text-white">4.9 / 5</div>
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-neutral-300">
                     2K+ FOODIES
                   </div>
                 </div>
@@ -154,42 +183,42 @@ export function HeroSection() {
 
               {/* Floating Badge 2: Bottom-Left (Hot & fresh, AT YOUR DOOR IN 30 MIN) */}
               <motion.div
-                animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -bottom-2 sm:bottom-4 left-0 sm:-left-4 flex items-center gap-3 rounded-2xl border border-border bg-card/90 text-card-foreground p-2.5 pr-4 shadow-2xl backdrop-blur-md"
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute -bottom-2 sm:bottom-4 left-0 sm:-left-4 flex items-center gap-3 rounded-2xl border border-white/15 bg-[#1a110a]/90 text-white p-2.5 pr-4 shadow-2xl backdrop-blur-md"
               >
                 <span className="grid size-9 place-items-center rounded-full bg-[#f43f5e] text-white">
                   <Bike className="size-5" />
                 </span>
                 <div>
-                  <div className="text-xs font-bold text-foreground">Hot & fresh</div>
-                  <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <div className="text-xs font-bold text-white">Hot & fresh</div>
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-neutral-300">
                     AT YOUR DOOR IN 30 MIN
                   </div>
                 </div>
               </motion.div>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
 
-        {/* Bottom Feature Strip: 4 rounded cards matching Image 1 */}
+        {/* Bottom Feature Strip: 4 rounded dark cards matching Image 1 */}
         <motion.div
           {...fadeUp}
-          className="mt-14 sm:mt-18 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4"
+          className="relative z-10 mt-14 sm:mt-18 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4"
         >
           {FEATURES.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="flex items-center gap-3.5 rounded-2xl border border-border bg-card/80 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-border/80 hover:bg-muted"
+                className="flex items-center gap-3.5 rounded-2xl border border-white/10 bg-[#140b07]/80 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-white/25 hover:bg-[#1f120c]/90 shadow-lg"
               >
                 <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#f43f5e]/15 text-[#f43f5e]">
                   <Icon className="size-5" />
                 </span>
                 <div>
-                  <h3 className="text-sm font-bold text-foreground">{item.title}</h3>
-                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">
+                  <h3 className="text-sm font-bold text-white">{item.title}</h3>
+                  <p className="mt-0.5 text-xs leading-relaxed text-neutral-300">
                     {item.desc}
                   </p>
                 </div>
