@@ -551,27 +551,36 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* Decorative Brush Wave Strip matching reference design */}
-      <div className="relative w-full h-8 sm:h-12 bg-gradient-to-r from-[#ea580c] via-[#f97316] to-[#fb923c] shadow-lg flex items-center justify-between px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff20_1px,transparent_1px)] [background-size:16px_16px] opacity-40" />
+      {/* Organic Up-and-Down Grunge Brush Splatter Wave matching uploaded reference */}
+      <div className="relative w-full overflow-hidden -mt-6 sm:-mt-10 lg:-mt-14 z-20 pointer-events-none select-none">
+        <div className="relative w-full h-16 sm:h-24 md:h-32 lg:h-36">
+          <Image
+            src="/images/slider/brush-divider.png"
+            alt="Artistic Paint Brush Splatter Wave"
+            fill
+            sizes="100vw"
+            priority
+            className="object-fill object-bottom"
+          />
+        </div>
       </div>
 
-      {/* Bottom Feature Strip: 4 rounded cards */}
-      <div className="relative z-10 mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Bottom Feature Strip on vibrant orange brush base matching reference */}
+      <div className="relative z-10 w-full bg-[#fa9b4b] text-neutral-900 px-4 pt-4 pb-12 sm:pb-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((item) => {
             const Icon = item.icon;
             return (
               <div
                 key={item.title}
-                className="flex items-center gap-3.5 rounded-2xl border border-white/10 bg-[#17151a]/80 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-orange-500/40 hover:bg-[#201d24]/90 shadow-lg"
+                className="flex items-center gap-3.5 rounded-2xl border border-black/10 bg-black/10 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:bg-black/15 hover:border-black/20 shadow-sm"
               >
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-orange-500/15 text-[#fb923c]">
-                  <Icon className="size-5" />
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-black/15 text-black">
+                  <Icon className="size-5 stroke-[2.2]" />
                 </span>
                 <div>
-                  <h3 className="text-sm font-bold text-white">{item.title}</h3>
-                  <p className="mt-0.5 text-xs leading-relaxed text-neutral-300">
+                  <h3 className="text-sm font-black text-black">{item.title}</h3>
+                  <p className="mt-0.5 text-xs font-medium leading-relaxed text-neutral-900/80">
                     {item.desc}
                   </p>
                 </div>
