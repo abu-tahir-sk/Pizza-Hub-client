@@ -26,12 +26,12 @@ function resolveApiBaseUrl(): string {
     window.location.hostname !== "localhost" &&
     window.location.hostname !== "127.0.0.1"
   ) {
-    return "https://pizza-hub-server-theta.vercel.app";
+    return "https://pizza-hub-server-six.vercel.app";
   }
 
   // 3. Server-side production build check
   if (process.env.NODE_ENV === "production") {
-    return "https://pizza-hub-server-theta.vercel.app";
+    return "https://pizza-hub-server-six.vercel.app";
   }
 
   // 4. Default for local development

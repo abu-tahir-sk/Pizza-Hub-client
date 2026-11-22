@@ -4,10 +4,12 @@ A modern pizza ordering & delivery web app built with **Next.js 16 (App Router)*
 Customers browse local menus and place orders; vendors manage their menu and subscriptions; admins
 moderate the platform.
 
-> **Live links** — replace these placeholders after deployment:
+> **Live links**
 >
-> - Client: `https://pizzahub-client.vercel.app`
-> - API server: `https://pizzahub-api.onrender.com`
+> - Client: `https://pizzahub-pink.vercel.app`
+> - API Server: `https://pizza-hub-server-six.vercel.app`
+> - Client GitHub Repository: `https://github.com/abu-tahir-sk/Pizza-Hub-client`
+> - Server GitHub Repository: `https://github.com/abu-tahir-sk/Pizza-Hub-server`
 
 ## Features
 
