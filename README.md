@@ -66,7 +66,7 @@ moderate the platform.
 # 1. install dependencies
 npm install
 
-# 2. create your env file
+# 2. create your env 
 cp .env.example .env.local
 #    then set NEXT_PUBLIC_API_URL to your running server
 
