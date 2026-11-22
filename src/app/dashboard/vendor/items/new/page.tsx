@@ -192,7 +192,7 @@ export default function AddMenuItemPage() {
                 htmlFor="images"
                 className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-muted/30 px-4 py-10 text-center transition-colors hover:border-primary/50 hover:bg-muted/50"
               >
-                <ImagePlus className="size-9 text-[#c8402b]" />
+                <ImagePlus className="size-9 text-[#f43f5e]" />
                 <span className="text-sm font-semibold text-foreground">
                   Click to upload images
                 </span>
@@ -235,7 +235,7 @@ export default function AddMenuItemPage() {
               <Button
                 type="submit"
                 disabled={submitting}
-                className="h-11 w-full bg-[#c8402b] hover:bg-[#ad3521]"
+                className="h-11 w-full bg-[#f43f5e] hover:bg-[#e11d48]"
               >
                 {submitting ? <Loader2 className="size-4 animate-spin" /> : <Upload className="size-4" />}
                 {submitting ? stage || "Submitting…" : "Submit for approval"}

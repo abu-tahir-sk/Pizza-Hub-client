@@ -287,7 +287,7 @@ function ProfileContent() {
               </div>
             ) : null}
 
-            <Button type="submit" disabled={saving || uploading} className="bg-[#c8402b] text-white hover:bg-[#b03523]">
+            <Button type="submit" disabled={saving || uploading} className="bg-[#f43f5e] text-white hover:bg-[#b03523]">
               {saving ? (
                 <>
                   <Loader2 className="mr-2 size-4 animate-spin" /> Saving…
@@ -356,7 +356,7 @@ function ProfileContent() {
                           type="button"
                           variant="outline"
                           size="sm"
-                          className="w-full border-[#c8402b]/40 text-[#c8402b] hover:bg-[#c8402b]/10 font-bold"
+                          className="w-full border-[#f43f5e]/40 text-[#f43f5e] hover:bg-[#f43f5e]/10 font-bold"
                         >
                           <Store className="size-4 mr-1.5" /> Become a Vendor
                         </Button>
@@ -365,7 +365,7 @@ function ProfileContent() {
                         <form onSubmit={handleBecomeVendor} className="space-y-4">
                           <DialogHeader>
                             <DialogTitle className="flex items-center gap-2">
-                              <Store className="size-5 text-[#c8402b]" /> Register as a Vendor
+                              <Store className="size-5 text-[#f43f5e]" /> Register as a Vendor
                             </DialogTitle>
                             <DialogDescription>
                               Enter your restaurant or pizzeria name to activate your vendor dashboard and begin publishing menu items.
@@ -400,7 +400,7 @@ function ProfileContent() {
                             <Button
                               type="submit"
                               disabled={upgradingRole}
-                              className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-bold"
+                              className="bg-[#f43f5e] hover:bg-[#e11d48] text-white font-bold"
                             >
                               {upgradingRole ? (
                                 <>
@@ -454,7 +454,7 @@ function ProfileHeading({ role }: { role: string }) {
       <div>
         <Link
           href={role === "admin" ? "/dashboard/admin" : role === "vendor" ? "/dashboard/vendor" : "/dashboard/customer"}
-          className="inline-flex items-center text-sm font-medium text-[#c8402b] hover:underline"
+          className="inline-flex items-center text-sm font-medium text-[#f43f5e] hover:underline"
         >
           &larr; Back to Dashboard
         </Link>

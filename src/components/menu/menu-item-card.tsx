@@ -31,7 +31,7 @@ export function MenuItemCard({ item, index = 0, priority = false }: MenuItemCard
   return (
     <motion.article
       whileHover={{ y: -8, scale: 1.015, transition: { duration: 0.25, ease: "easeOut" } }}
-      className="group relative flex h-full flex-col justify-between overflow-hidden rounded-[24px] border border-border/70 bg-card p-3 sm:p-3.5 text-card-foreground shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] transition-all duration-300 hover:border-[#c8402b]/40 hover:shadow-[0_22px_45px_-12px_rgba(200,64,43,0.18)] dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.4)] dark:hover:shadow-[0_22px_45px_-12px_rgba(200,64,43,0.25)]"
+      className="group relative flex h-full flex-col justify-between overflow-hidden rounded-[24px] border border-border/70 bg-card p-3 sm:p-3.5 text-card-foreground shadow-[0_4px_20px_-4px_rgba(0,0,0,0.06)] transition-all duration-300 hover:border-[#f43f5e]/40 hover:shadow-[0_22px_45px_-12px_rgba(244,63,94,0.18)] dark:shadow-[0_4px_20px_-4px_rgba(0,0,0,0.4)] dark:hover:shadow-[0_22px_45px_-12px_rgba(244,63,94,0.25)]"
     >
       {/* ─── Top Framed Image Container (Styled like the reference image) ─── */}
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[18px] bg-muted">
@@ -57,7 +57,7 @@ export function MenuItemCard({ item, index = 0, priority = false }: MenuItemCard
             {item.category}
           </span>
           {isPremium && (
-            <span className="inline-flex items-center gap-1 rounded-full bg-[#c8402b] px-2 py-0.5 text-[10px] font-extrabold text-white shadow-sm">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#f43f5e] px-2 py-0.5 text-[10px] font-extrabold text-white shadow-sm">
               <Star className="size-2.5 fill-current" /> Premium
             </span>
           )}
@@ -77,12 +77,12 @@ export function MenuItemCard({ item, index = 0, priority = false }: MenuItemCard
               : `Save ${item.itemName} to favorites`
           }
           aria-pressed={favorite}
-          className="absolute right-3 top-3 z-10 grid size-[34px] place-items-center rounded-full bg-background/90 text-[#c8402b] border border-border/70 shadow-sm backdrop-blur-md transition-all duration-200 hover:scale-115 active:scale-90"
+          className="absolute right-3 top-3 z-10 grid size-[34px] place-items-center rounded-full bg-background/90 text-[#f43f5e] border border-border/70 shadow-sm backdrop-blur-md transition-all duration-200 hover:scale-115 active:scale-90"
         >
           <Heart
             className={cn(
               "size-4 transition-all duration-300",
-              favorite ? "fill-[#c8402b] scale-110" : "hover:text-[#c8402b]"
+              favorite ? "fill-[#f43f5e] scale-110" : "hover:text-[#f43f5e]"
             )}
           />
         </button>
@@ -93,7 +93,7 @@ export function MenuItemCard({ item, index = 0, priority = false }: MenuItemCard
         <div className="space-y-1.5">
           {/* Title in bold uppercase matching reference */}
           <Link href={`/menu/${item._id}`} className="block group/title">
-            <h3 className="line-clamp-1 text-base sm:text-lg font-black tracking-wide uppercase text-foreground transition-colors duration-200 group-hover:text-[#c8402b]">
+            <h3 className="line-clamp-1 text-base sm:text-lg font-black tracking-wide uppercase text-foreground transition-colors duration-200 group-hover:text-[#f43f5e]">
               {item.itemName}
             </h3>
           </Link>
@@ -121,7 +121,7 @@ export function MenuItemCard({ item, index = 0, priority = false }: MenuItemCard
         {/* Vendor & Location info */}
         <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border/50">
           <p className="flex items-center gap-1.5 truncate max-w-[58%]">
-            <Store className="size-3.5 text-[#c8402b] shrink-0" />
+            <Store className="size-3.5 text-[#f43f5e] shrink-0" />
             <span className="truncate font-medium">{vendorName}</span>
           </p>
           <p className="flex items-center gap-1 text-[11px] shrink-0">
@@ -137,7 +137,7 @@ export function MenuItemCard({ item, index = 0, priority = false }: MenuItemCard
             asChild
             variant="outline"
             size="sm"
-            className="rounded-full border border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-[#c8402b] hover:text-white hover:border-[#c8402b] px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-foreground transition-all duration-300 shadow-xs hover:shadow-md hover:shadow-[#c8402b]/25 active:scale-95 group/btn"
+            className="rounded-full border border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-[#f43f5e] hover:text-white hover:border-[#f43f5e] px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-foreground transition-all duration-300 shadow-xs hover:shadow-md hover:shadow-[#f43f5e]/25 active:scale-95 group/btn"
           >
             <Link href={`/menu/${item._id}`} className="flex items-center gap-1.5">
               <ShoppingCart className="size-3.5 transition-transform duration-300 group-hover/btn:-translate-y-0.5" />
@@ -147,7 +147,7 @@ export function MenuItemCard({ item, index = 0, priority = false }: MenuItemCard
 
           {/* Price: e.g. "$24.00 USD" matching "$66.00 USD" in image */}
           <div className="flex items-baseline gap-1 text-right">
-            <span className="text-base sm:text-lg font-black tracking-tight text-foreground transition-colors duration-200 group-hover:text-[#c8402b]">
+            <span className="text-base sm:text-lg font-black tracking-tight text-foreground transition-colors duration-200 group-hover:text-[#f43f5e]">
               {formatPrice(item.price)}
             </span>
             <span className="text-[11px] font-extrabold text-muted-foreground uppercase">

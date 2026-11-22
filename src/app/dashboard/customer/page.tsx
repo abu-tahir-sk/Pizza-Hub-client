@@ -112,7 +112,7 @@ export default function CustomerOverviewPage() {
         title={`Hello, ${user?.name?.split(" ")[0] ?? "Pizza Lover"}`}
         description="Track your orders and discover your next favourite slice."
         action={
-          <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
+          <Button asChild className="bg-[#f43f5e] hover:bg-[#e11d48]">
             <Link href="/menu">
               <ShoppingBag className="size-4" /> Browse Menu
             </Link>
@@ -195,7 +195,7 @@ export default function CustomerOverviewPage() {
         <Card className="border-border bg-card">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-base text-foreground">Recent orders</CardTitle>
-            <Button asChild variant="ghost" size="sm" className="text-[#c8402b]">
+            <Button asChild variant="ghost" size="sm" className="text-[#f43f5e]">
               <Link href="/dashboard/customer/orders">View all</Link>
             </Button>
           </CardHeader>
@@ -242,10 +242,10 @@ export default function CustomerOverviewPage() {
       </div>
 
       {/* Become a Vendor Promotion Card & Upgrade Dialog */}
-      <Card className="border-[#c8402b]/20 bg-gradient-to-r from-[#c8402b]/5 via-[#f0a23c]/5 to-transparent">
+      <Card className="border-[#f43f5e]/20 bg-gradient-to-r from-[#f43f5e]/5 via-[#f0a23c]/5 to-transparent">
         <CardContent className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6">
           <div className="flex items-center gap-4">
-            <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#c8402b]/10 text-[#c8402b]">
+            <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#f43f5e]/10 text-[#f43f5e]">
               <Store className="size-6" />
             </div>
             <div>
@@ -258,7 +258,7 @@ export default function CustomerOverviewPage() {
 
           <Dialog open={vendorDialogOpen} onOpenChange={setVendorDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="bg-[#c8402b] hover:bg-[#ad3521] text-white shrink-0 font-bold">
+              <Button className="bg-[#f43f5e] hover:bg-[#e11d48] text-white shrink-0 font-bold">
                 <Store className="size-4 mr-2" /> Become a Vendor
               </Button>
             </DialogTrigger>
@@ -266,7 +266,7 @@ export default function CustomerOverviewPage() {
               <form onSubmit={handleBecomeVendor} className="space-y-4">
                 <DialogHeader>
                   <DialogTitle className="flex items-center gap-2">
-                    <Store className="size-5 text-[#c8402b]" /> Register as a Vendor
+                    <Store className="size-5 text-[#f43f5e]" /> Register as a Vendor
                   </DialogTitle>
                   <DialogDescription>
                     Enter your restaurant or business name to activate your vendor dashboard and begin publishing menu items.
@@ -301,7 +301,7 @@ export default function CustomerOverviewPage() {
                   <Button
                     type="submit"
                     disabled={upgrading}
-                    className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-bold"
+                    className="bg-[#f43f5e] hover:bg-[#e11d48] text-white font-bold"
                   >
                     {upgrading ? (
                       <>

@@ -162,7 +162,7 @@ export default function CustomerOrdersPage() {
                   </div>
 
                   <div className="flex shrink-0 flex-col items-start gap-3 lg:items-end">
-                    <span className="text-lg font-extrabold text-[#c8402b]">
+                    <span className="text-lg font-extrabold text-[#f43f5e]">
                       {formatPrice(order.totalAmount || (item?.price ?? 0) * (order.quantity || 1))}
                     </span>
                     {order.status === "pending" ? (

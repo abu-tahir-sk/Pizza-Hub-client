@@ -271,7 +271,7 @@ export function SiteHeader() {
             className={cn(
               "flex flex-col items-center gap-1 px-3 py-1.5 rounded-xl transition-all",
               pathname === "/"
-                ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
+                ? "text-[#f43f5e] bg-[#f43f5e]/10 font-bold"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -285,7 +285,7 @@ export function SiteHeader() {
             className={cn(
               "flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-all",
               pathname.startsWith("/menu")
-                ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
+                ? "text-[#f43f5e] bg-[#f43f5e]/10 font-bold"
                 : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -300,7 +300,7 @@ export function SiteHeader() {
               className={cn(
                 "flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-all",
                 pathname.startsWith("/dashboard")
-                  ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
+                  ? "text-[#f43f5e] bg-[#f43f5e]/10 font-bold"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -313,7 +313,7 @@ export function SiteHeader() {
               className={cn(
                 "flex flex-col items-center gap-1 px-4 py-1.5 rounded-xl transition-all",
                 pathname === "/sign-in"
-                  ? "text-[#c8402b] bg-[#c8402b]/10 font-bold"
+                  ? "text-[#f43f5e] bg-[#f43f5e]/10 font-bold"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >

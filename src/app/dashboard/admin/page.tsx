@@ -112,7 +112,7 @@ export default function AdminOverviewPage() {
   }
 
   const userChart = [
-    { name: "Customers", count: data?.customers ?? 0, fill: "#c8402b" },
+    { name: "Customers", count: data?.customers ?? 0, fill: "#f43f5e" },
     { name: "Vendors", count: data?.vendors ?? 0, fill: "#f0a23c" },
   ];
   const contentChart = [
@@ -134,7 +134,7 @@ export default function AdminOverviewPage() {
                 <ClipboardList className="mr-1.5 size-4" /> All Orders
               </Link>
             </Button>
-            <Button asChild className="bg-[#c8402b] hover:bg-[#a83422] text-white">
+            <Button asChild className="bg-[#f43f5e] hover:bg-[#a83422] text-white">
               <Link href="/dashboard/admin/items">Review items</Link>
             </Button>
           </div>
@@ -254,7 +254,7 @@ export default function AdminOverviewPage() {
                               <p className="line-clamp-1 text-xs font-semibold text-foreground">
                                 {item?.itemName ?? "Pizza"}
                               </p>
-                              <p className="text-[11px] font-bold text-[#c8402b]">
+                              <p className="text-[11px] font-bold text-[#f43f5e]">
                                 {formatPrice(item?.price ?? 0)}
                               </p>
                             </div>

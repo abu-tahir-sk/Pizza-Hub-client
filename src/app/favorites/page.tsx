@@ -55,7 +55,7 @@ export default function FavoritesPage() {
     <div className="min-h-screen bg-background text-foreground transition-colors">
       <section className="border-b border-border bg-muted/40 py-14 text-foreground transition-colors">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#c8402b] dark:text-[#f0a23c]">
+          <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-[#f43f5e] dark:text-[#f0a23c]">
             <Heart className="size-3.5 fill-current" /> Saved for later
           </span>
           <h1 className="mt-2 text-3xl font-extrabold tracking-tight sm:text-4xl text-foreground">Your Favorites</h1>
@@ -80,14 +80,14 @@ export default function FavoritesPage() {
           </div>
         ) : items.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border bg-card p-14 text-center">
-            <Heart className="mx-auto mb-3 size-10 text-[#c8402b]" />
+            <Heart className="mx-auto mb-3 size-10 text-[#f43f5e]" />
             <h2 className="text-lg font-bold text-foreground">
               {favorites.length === 0 ? "No favorites yet" : "Your favorites are no longer available"}
             </h2>
             <p className="mx-auto mt-1 max-w-sm text-sm text-muted-foreground">
               Browse the menu and tap the heart icon on a pizza to save it for next time.
             </p>
-            <Button asChild className="mt-5 bg-[#c8402b] hover:bg-[#ad3521]">
+            <Button asChild className="mt-5 bg-[#f43f5e] hover:bg-[#e11d48]">
               <Link href="/menu">
                 <Pizza className="size-4 mr-2" />
                 Browse the menu

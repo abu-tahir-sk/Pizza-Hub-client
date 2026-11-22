@@ -152,7 +152,7 @@ export default function AdminMenuItemsPage() {
         title="Manage Menu Items"
         description="Approve or reject vendor submissions, remove inappropriate listings, or upload new pizzas directly."
         action={
-          <Button asChild className="bg-[#c8402b] hover:bg-[#a83422] text-white">
+          <Button asChild className="bg-[#f43f5e] hover:bg-[#a83422] text-white">
             <Link href="/dashboard/admin/items/new">
               <Plus className="size-4" /> Add New Pizza
             </Link>
@@ -261,7 +261,7 @@ export default function AdminMenuItemsPage() {
       ) : items.length === 0 ? (
         <Card className="border-dashed border-border bg-card">
           <CardContent className="flex flex-col items-center gap-2 py-16 text-center">
-            <UtensilsCrossed className="size-9 text-[#c8402b]" />
+            <UtensilsCrossed className="size-9 text-[#f43f5e]" />
             <p className="font-semibold text-foreground">No items match your filters</p>
             <p className="text-sm text-muted-foreground">Try another search or status.</p>
           </CardContent>
@@ -328,7 +328,7 @@ export default function AdminMenuItemsPage() {
                       </TableCell>
 
                       {/* Price */}
-                      <TableCell className="py-3 font-black text-[#c8402b] text-sm whitespace-nowrap">
+                      <TableCell className="py-3 font-black text-[#f43f5e] text-sm whitespace-nowrap">
                         {formatPrice(item.price)}
                       </TableCell>
 
@@ -431,7 +431,7 @@ export default function AdminMenuItemsPage() {
                 <CardContent className="flex flex-1 flex-col gap-2 p-5">
                   <div className="flex items-start justify-between gap-2">
                     <h3 className="line-clamp-1 font-bold text-foreground">{item.itemName}</h3>
-                    <span className="shrink-0 font-extrabold text-[#c8402b]">
+                    <span className="shrink-0 font-extrabold text-[#f43f5e]">
                       {formatPrice(item.price)}
                     </span>
                   </div>

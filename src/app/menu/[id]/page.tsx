@@ -170,14 +170,14 @@ function ItemDetails() {
   if (notFound || !item) {
     return (
       <div className="mx-auto max-w-xl px-4 py-24 text-center">
-        <div className="mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-orange-500/10 text-[#c8402b]">
+        <div className="mx-auto mb-4 flex size-20 items-center justify-center rounded-full bg-orange-500/10 text-[#f43f5e]">
           <Pizza className="size-10" />
         </div>
         <h1 className="mt-4 text-2xl font-extrabold text-foreground">Menu item not found</h1>
         <p className="mt-2 text-muted-foreground">
           This item may have been removed, rejected, or the link is invalid.
         </p>
-        <Button asChild className="mt-6 bg-[#c8402b] hover:bg-[#ad3521]">
+        <Button asChild className="mt-6 bg-[#f43f5e] hover:bg-[#e11d48]">
           <Link href="/menu">Back to menu</Link>
         </Button>
       </div>
@@ -223,7 +223,7 @@ function ItemDetails() {
                 className="object-cover"
               />
               {vendor?.subscriptionPlan === "premium" ? (
-                <Badge className="absolute left-4 top-4 bg-[#c8402b] text-white">
+                <Badge className="absolute left-4 top-4 bg-[#f43f5e] text-white">
                   <Star className="size-3 fill-current" /> Premium Vendor
                 </Badge>
               ) : null}
@@ -234,8 +234,8 @@ function ItemDetails() {
                 aria-label={isFavorite(item._id) ? "Remove from favorites" : "Add to favorites"}
                 className={`absolute right-4 top-4 grid size-10 place-items-center rounded-full backdrop-blur transition-all ${
                   isFavorite(item._id)
-                    ? "bg-[#c8402b] text-white shadow"
-                    : "bg-background/80 text-foreground border border-border hover:bg-background hover:text-[#c8402b]"
+                    ? "bg-[#f43f5e] text-white shadow"
+                    : "bg-background/80 text-foreground border border-border hover:bg-background hover:text-[#f43f5e]"
                 }`}
               >
                 <Heart className={`size-5 ${isFavorite(item._id) ? "fill-current" : ""}`} />
@@ -249,7 +249,7 @@ function ItemDetails() {
                     type="button"
                     onClick={() => setActiveImage(index)}
                     className={`relative h-20 w-24 shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
-                      index === activeImage ? "border-[#c8402b]" : "border-transparent"
+                      index === activeImage ? "border-[#f43f5e]" : "border-transparent"
                     }`}
                     aria-label={`View image ${index + 1}`}
                   >
@@ -280,14 +280,14 @@ function ItemDetails() {
                   <MapPin className="size-4" /> {item.location}
                 </span>
               </div>
-              <p className="text-3xl font-extrabold text-[#c8402b]">{formatPrice(item.price)}</p>
+              <p className="text-3xl font-extrabold text-[#f43f5e]">{formatPrice(item.price)}</p>
               <p className="leading-relaxed text-muted-foreground">{item.description}</p>
             </div>
 
             <Card className="border-border bg-card">
               <CardContent className="space-y-4 p-6">
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 className="size-5 text-[#c8402b]" />
+                  <CheckCircle2 className="size-5 text-[#f43f5e]" />
                   <h2 className="text-lg font-bold text-foreground">Place your order</h2>
                 </div>
 
@@ -379,7 +379,7 @@ function ItemDetails() {
                     <Button
                       type="submit"
                       disabled={submitting}
-                      className="h-12 w-full bg-[#c8402b] text-base hover:bg-[#ad3521] shadow-sm font-bold cursor-pointer"
+                      className="h-12 w-full bg-[#f43f5e] text-base hover:bg-[#e11d48] shadow-sm font-bold cursor-pointer"
                     >
                       {submitting ? (
                         <Loader2 className="size-5 animate-spin mr-2" />
@@ -433,7 +433,7 @@ function ItemDetails() {
                   <CardContent className="space-y-2 p-5">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
-                        <span className="grid size-8 place-items-center rounded-full bg-orange-100 text-xs font-bold text-[#c8402b] dark:bg-stone-800 dark:text-orange-400">
+                        <span className="grid size-8 place-items-center rounded-full bg-orange-100 text-xs font-bold text-[#f43f5e] dark:bg-stone-800 dark:text-orange-400">
                           {rev.name.slice(0, 2).toUpperCase()}
                         </span>
                         <div>
@@ -464,7 +464,7 @@ function ItemDetails() {
               <Card className="border-border bg-card">
                 <CardContent className="space-y-4 p-6">
                   <div className="flex items-center gap-2">
-                    <MessageSquare className="size-4 text-[#c8402b]" />
+                    <MessageSquare className="size-4 text-[#f43f5e]" />
                     <h3 className="font-bold text-foreground">Leave a Review</h3>
                   </div>
                   <form onSubmit={handleReviewSubmit} className="space-y-3.5">
@@ -500,7 +500,7 @@ function ItemDetails() {
                       />
                     </div>
 
-                    <Button type="submit" size="sm" className="bg-[#c8402b] hover:bg-[#ad3521]">
+                    <Button type="submit" size="sm" className="bg-[#f43f5e] hover:bg-[#e11d48]">
                       <Send className="size-3.5" /> Submit Review
                     </Button>
                   </form>

@@ -129,8 +129,8 @@ export default function VendorSubscriptionPage() {
         </Card>
 
         {/* Premium */}
-        <Card className="relative overflow-hidden border-[#c8402b]/40 bg-card ring-1 ring-[#c8402b]/20">
-          <div className="absolute right-0 top-0 rounded-bl-xl bg-[#c8402b] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+        <Card className="relative overflow-hidden border-[#f43f5e]/40 bg-card ring-1 ring-[#f43f5e]/20">
+          <div className="absolute right-0 top-0 rounded-bl-xl bg-[#f43f5e] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
             Best value
           </div>
           <CardHeader>
@@ -147,7 +147,7 @@ export default function VendorSubscriptionPage() {
             <div className="space-y-3">
               {PREMIUM_FEATURES.map((f) => (
                 <p key={f} className="flex items-start gap-2 text-sm text-foreground">
-                  <Check className="mt-0.5 size-4 shrink-0 text-[#c8402b]" /> {f}
+                  <Check className="mt-0.5 size-4 shrink-0 text-[#f43f5e]" /> {f}
                 </p>
               ))}
             </div>
@@ -167,7 +167,7 @@ export default function VendorSubscriptionPage() {
               <Button
                 onClick={handleUpgrade}
                 disabled={upgrading}
-                className="h-11 w-full bg-[#c8402b] hover:bg-[#ad3521] text-white"
+                className="h-11 w-full bg-[#f43f5e] hover:bg-[#e11d48] text-white"
               >
                 {upgrading ? (
                   <Loader2 className="size-4 animate-spin" />

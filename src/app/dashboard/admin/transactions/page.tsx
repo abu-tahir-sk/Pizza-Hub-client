@@ -87,7 +87,7 @@ export default function AdminTransactionsPage() {
 
         <Card className="border-border bg-card sm:col-span-2">
           <CardContent className="flex items-start gap-3 p-5 text-xs leading-relaxed text-muted-foreground">
-            <Lock className="mt-0.5 size-4 shrink-0 text-[#c8402b]" />
+            <Lock className="mt-0.5 size-4 shrink-0 text-[#f43f5e]" />
             <p>
               This ledger is immutable by design. Admins can view payments but there is deliberately
               no endpoint to edit a transaction or mark a failed payment as paid. Only the Stripe
@@ -131,7 +131,7 @@ export default function AdminTransactionsPage() {
             <Skeleton className="h-64 w-full" />
           ) : transactions.length === 0 ? (
             <div className="flex flex-col items-center gap-2 py-14 text-center">
-              <ReceiptText className="size-9 text-[#c8402b]" />
+              <ReceiptText className="size-9 text-[#f43f5e]" />
               <p className="font-semibold text-foreground">No transactions yet</p>
               <p className="text-sm text-muted-foreground">
                 Vendor subscription payments will appear here.

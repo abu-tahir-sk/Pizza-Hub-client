@@ -214,7 +214,7 @@ export default function AdminOrdersPage() {
                             <p className="line-clamp-1 font-semibold text-foreground">
                               {item?.itemName ?? "Pizza Item"}
                             </p>
-                            <p className="text-xs font-bold text-[#c8402b]">
+                            <p className="text-xs font-bold text-[#f43f5e]">
                               {formatPrice(item?.price ?? 0)}
                             </p>
                             {item?.category ? (

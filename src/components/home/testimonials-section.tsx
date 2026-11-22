@@ -59,7 +59,7 @@ export function TestimonialsSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Uniform Section Heading */}
         <motion.div {...fadeUp} className="mb-14 text-center space-y-2.5">
-          <span className="text-xs font-bold uppercase tracking-widest text-[#d4432d]">
+          <span className="text-xs font-bold uppercase tracking-widest text-[#f43f5e]">
             Customer Testimonials
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-foreground">
@@ -74,7 +74,7 @@ export function TestimonialsSection() {
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {TESTIMONIALS.map((t, index) => (
             <motion.div key={t.name} {...get3ColSlide(index)} className="h-full">
-              <Card className="h-full flex flex-col justify-between rounded-[24px] border-border/80 bg-card p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-[#d4432d]/30">
+              <Card className="h-full flex flex-col justify-between rounded-[24px] border-border/80 bg-card p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-[#f43f5e]/30">
                 <CardContent className="p-0 space-y-4">
                   {/* Star Rating */}
                   <div className="flex gap-1 text-[#f59e0b]">
@@ -91,7 +91,7 @@ export function TestimonialsSection() {
 
                 {/* Author Info */}
                 <div className="flex items-center gap-3 border-t border-border/70 pt-4 mt-6">
-                  <div className="grid size-10 place-items-center rounded-full bg-[#d4432d]/10 text-[#d4432d] font-bold text-xs">
+                  <div className="grid size-10 place-items-center rounded-full bg-[#f43f5e]/10 text-[#f43f5e] font-bold text-xs">
                     {t.initials}
                   </div>
                   <div>

@@ -127,7 +127,7 @@ export default function VendorItemsPage() {
         title="My Menu Items"
         description="Manage your dishes, availability, and approval status."
         action={
-          <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-bold rounded-lg px-4 shadow-sm">
+          <Button asChild className="bg-[#f43f5e] hover:bg-[#e11d48] text-white font-bold rounded-lg px-4 shadow-sm">
             <Link href="/dashboard/vendor/items/new" className="flex items-center gap-1.5">
               <PlusCircle className="size-4" /> Add Menu Item
             </Link>
@@ -188,12 +188,12 @@ export default function VendorItemsPage() {
       ) : items.length === 0 ? (
         <Card className="border-dashed border-border bg-card">
           <CardContent className="flex flex-col items-center gap-3 py-16 text-center">
-            <UtensilsCrossed className="size-10 text-[#c8402b]" />
+            <UtensilsCrossed className="size-10 text-[#f43f5e]" />
             <h2 className="text-lg font-bold text-foreground">No menu items yet</h2>
             <p className="max-w-sm text-sm text-muted-foreground">
               Add your first pizza — it stays pending until an admin approves it.
             </p>
-            <Button asChild className="mt-2 bg-[#c8402b] hover:bg-[#ad3521]">
+            <Button asChild className="mt-2 bg-[#f43f5e] hover:bg-[#e11d48]">
               <Link href="/dashboard/vendor/items/new">Add your first item</Link>
             </Button>
           </CardContent>
@@ -258,7 +258,7 @@ export default function VendorItemsPage() {
                     </TableCell>
 
                     {/* Price */}
-                    <TableCell className="py-3 font-black text-[#c8402b] text-sm whitespace-nowrap">
+                    <TableCell className="py-3 font-black text-[#f43f5e] text-sm whitespace-nowrap">
                       {formatPrice(item.price)}
                     </TableCell>
 
@@ -340,7 +340,7 @@ export default function VendorItemsPage() {
               <CardContent className="space-y-3 p-5">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="line-clamp-1 font-bold text-foreground">{item.itemName}</h3>
-                  <span className="shrink-0 font-extrabold text-[#c8402b]">
+                  <span className="shrink-0 font-extrabold text-[#f43f5e]">
                     {formatPrice(item.price)}
                   </span>
                 </div>
@@ -442,7 +442,7 @@ export default function VendorItemsPage() {
                 <Button type="button" variant="outline" onClick={() => setEditing(null)}>
                   Cancel
                 </Button>
-                <Button type="submit" disabled={saving} className="bg-[#c8402b] hover:bg-[#ad3521]">
+                <Button type="submit" disabled={saving} className="bg-[#f43f5e] hover:bg-[#e11d48]">
                   {saving ? <Loader2 className="size-4 animate-spin" /> : null}
                   Save changes
                 </Button>

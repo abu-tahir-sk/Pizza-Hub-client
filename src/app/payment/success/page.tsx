@@ -126,7 +126,7 @@ function SuccessContent() {
             </span>
 
             <div className="space-y-1">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#c8402b]">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#f43f5e]">
                 <Sparkles className="size-3.5" />
                 PizzaHub Subscription
               </span>
@@ -156,9 +156,9 @@ function SuccessContent() {
               <div className="mx-auto flex max-w-sm flex-col gap-2.5 rounded-xl bg-muted/60 border border-border p-4 text-left text-xs text-muted-foreground">
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-1.5 font-semibold text-foreground">
-                    <ReceiptText className="size-3.5 text-[#c8402b]" /> Plan
+                    <ReceiptText className="size-3.5 text-[#f43f5e]" /> Plan
                   </span>
-                  <span className="font-bold uppercase text-[#c8402b]">{transaction.plan}</span>
+                  <span className="font-bold uppercase text-[#f43f5e]">{transaction.plan}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Amount Paid</span>
@@ -183,7 +183,7 @@ function SuccessContent() {
             ) : null}
 
             <div className="flex flex-col gap-2.5 pt-3 sm:flex-row sm:justify-center">
-              <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521] text-white font-semibold">
+              <Button asChild className="bg-[#f43f5e] hover:bg-[#e11d48] text-white font-semibold">
                 <Link href="/dashboard/vendor/items/new">
                   <PlusCircle className="size-4 mr-2" /> Publish Menu Item
                 </Link>

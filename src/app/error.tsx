@@ -18,10 +18,10 @@ export default function ErrorPage({
 
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center bg-background px-4 py-20 text-center transition-colors">
-      <span className="grid size-20 place-items-center rounded-full bg-red-100 text-[#c8402b] dark:bg-red-950/50 dark:text-red-400">
+      <span className="grid size-20 place-items-center rounded-full bg-red-100 text-[#f43f5e] dark:bg-red-950/50 dark:text-red-400">
         <AlertTriangle className="size-10" />
       </span>
-      <p className="mt-6 text-sm font-bold uppercase tracking-wider text-[#c8402b]">
+      <p className="mt-6 text-sm font-bold uppercase tracking-wider text-[#f43f5e]">
         Something went wrong
       </p>
       <h1 className="mt-2 text-2xl font-extrabold text-foreground sm:text-3xl">
@@ -31,7 +31,7 @@ export default function ErrorPage({
         An error occurred while loading this page. You can try refreshing or returning to the home page.
       </p>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <Button onClick={() => reset()} className="bg-[#c8402b] hover:bg-[#ad3521]">
+        <Button onClick={() => reset()} className="bg-[#f43f5e] hover:bg-[#e11d48]">
           <RefreshCw className="mr-2 size-4" /> Try again
         </Button>
         <Button asChild variant="outline" className="border-border text-foreground hover:bg-muted">

@@ -26,7 +26,7 @@ export default function PaymentCancelPage() {
             </p>
 
             <div className="mx-auto flex max-w-sm items-start gap-2 rounded-lg bg-muted/60 border border-border p-4 text-left text-xs leading-relaxed text-muted-foreground">
-              <CreditCard className="mt-0.5 size-3.5 shrink-0 text-[#c8402b]" />
+              <CreditCard className="mt-0.5 size-3.5 shrink-0 text-[#f43f5e]" />
               <span>
                 Premium unlocks unlimited menu items, a Premium badge, and featured placement — it
                 activates only after a verified Stripe payment.
@@ -34,7 +34,7 @@ export default function PaymentCancelPage() {
             </div>
 
             <div className="flex flex-col gap-2 pt-2 sm:flex-row sm:justify-center">
-              <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
+              <Button asChild className="bg-[#f43f5e] hover:bg-[#e11d48]">
                 <Link href="/dashboard/vendor/subscription">Try again</Link>
               </Button>
               <Button asChild variant="outline" className="border-border text-foreground hover:bg-muted">

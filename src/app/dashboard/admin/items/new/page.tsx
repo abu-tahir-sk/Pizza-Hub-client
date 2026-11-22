@@ -151,7 +151,7 @@ export default function AdminAddMenuItemPage() {
       />
 
       <div className="flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 p-4 text-sm text-foreground">
-        <ShieldCheck className="size-5 shrink-0 text-[#c8402b]" />
+        <ShieldCheck className="size-5 shrink-0 text-[#f43f5e]" />
         <div>
           <span className="font-semibold">Administrator Privilege:</span> Items created here can be published immediately without requiring separate approval, or assigned directly to a registered restaurant partner.
         </div>
@@ -225,7 +225,7 @@ export default function AdminAddMenuItemPage() {
                   <SelectContent>
                     <SelectItem value="admin">
                       <span className="flex items-center gap-2">
-                        <Pizza className="size-4 text-[#c8402b]" />
+                        <Pizza className="size-4 text-[#f43f5e]" />
                         <span>PizzaHub Official (Platform Admin)</span>
                       </span>
                     </SelectItem>
@@ -301,7 +301,7 @@ export default function AdminAddMenuItemPage() {
                 htmlFor="images"
                 className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-muted/30 px-4 py-10 text-center transition-colors hover:border-primary/50 hover:bg-muted/50"
               >
-                <ImagePlus className="size-9 text-[#c8402b]" />
+                <ImagePlus className="size-9 text-[#f43f5e]" />
                 <span className="text-sm font-semibold text-foreground">
                   Click to upload pizza photos
                 </span>
@@ -352,7 +352,7 @@ export default function AdminAddMenuItemPage() {
               <Button
                 type="submit"
                 disabled={submitting}
-                className="h-11 w-full bg-[#c8402b] hover:bg-[#ad3521] text-white"
+                className="h-11 w-full bg-[#f43f5e] hover:bg-[#e11d48] text-white"
               >
                 {submitting ? (
                   <Loader2 className="size-4 animate-spin" />

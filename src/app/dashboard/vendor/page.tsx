@@ -86,7 +86,7 @@ export default function VendorOverviewPage() {
             : "Here's what's happening at your restaurant today."
         }
         action={
-          <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
+          <Button asChild className="bg-[#f43f5e] hover:bg-[#e11d48]">
             <Link href="/dashboard/vendor/items/new">
               <PlusCircle className="size-4" /> Add Menu Item
             </Link>
@@ -191,7 +191,7 @@ export default function VendorOverviewPage() {
       <Card className="border-border bg-card">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-base text-foreground">Recent orders</CardTitle>
-          <Button asChild variant="ghost" size="sm" className="text-[#c8402b]">
+          <Button asChild variant="ghost" size="sm" className="text-[#f43f5e]">
             <Link href="/dashboard/vendor/orders">View all</Link>
           </Button>
         </CardHeader>

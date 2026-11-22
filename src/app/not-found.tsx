@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 export default function NotFound() {
   return (
     <div className="flex min-h-[70vh] flex-col items-center justify-center bg-background text-foreground px-4 py-20 text-center transition-colors">
-      <span className="grid size-20 place-items-center rounded-full bg-orange-100 text-[#c8402b] dark:bg-stone-800 dark:text-orange-400">
+      <span className="grid size-20 place-items-center rounded-full bg-orange-100 text-[#f43f5e] dark:bg-stone-800 dark:text-orange-400">
         <ChefHat className="size-10" />
       </span>
       <p className="mt-6 text-6xl font-extrabold tracking-tight text-foreground">404</p>
@@ -17,7 +17,7 @@ export default function NotFound() {
         you back to something delicious.
       </p>
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <Button asChild className="bg-[#c8402b] hover:bg-[#ad3521]">
+        <Button asChild className="bg-[#f43f5e] hover:bg-[#e11d48]">
           <Link href="/">
             <Home className="size-4" /> Back home
           </Link>

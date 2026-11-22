@@ -68,7 +68,7 @@ function DashboardRouter() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background text-foreground transition-colors">
       <div className="flex items-center gap-3 text-muted-foreground text-sm font-medium">
-        <span className="size-5 animate-spin rounded-full border-2 border-[#c8402b] border-t-transparent" />
+        <span className="size-5 animate-spin rounded-full border-2 border-[#f43f5e] border-t-transparent" />
         {checkingFallback ? "Verifying your session…" : "Opening your dashboard…"}
       </div>
     </div>
@@ -81,7 +81,7 @@ export default function DashboardIndexPage() {
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-background text-foreground transition-colors">
           <div className="flex items-center gap-3 text-muted-foreground text-sm font-medium">
-            <span className="size-5 animate-spin rounded-full border-2 border-[#c8402b] border-t-transparent" />
+            <span className="size-5 animate-spin rounded-full border-2 border-[#f43f5e] border-t-transparent" />
             Loading your dashboard…
           </div>
         </div>

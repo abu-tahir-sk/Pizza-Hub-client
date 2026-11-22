@@ -90,7 +90,7 @@ export default function VendorOrdersPage() {
           <Button
             size="sm"
             variant={viewMode === "table" ? "default" : "ghost"}
-            className={viewMode === "table" ? "bg-[#c8402b] hover:bg-[#a83422] text-white h-8" : "h-8 text-muted-foreground"}
+            className={viewMode === "table" ? "bg-[#f43f5e] hover:bg-[#a83422] text-white h-8" : "h-8 text-muted-foreground"}
             onClick={() => setViewMode("table")}
           >
             <List className="mr-1.5 size-4" /> Table View
@@ -98,7 +98,7 @@ export default function VendorOrdersPage() {
           <Button
             size="sm"
             variant={viewMode === "cards" ? "default" : "ghost"}
-            className={viewMode === "cards" ? "bg-[#c8402b] hover:bg-[#a83422] text-white h-8" : "h-8 text-muted-foreground"}
+            className={viewMode === "cards" ? "bg-[#f43f5e] hover:bg-[#a83422] text-white h-8" : "h-8 text-muted-foreground"}
             onClick={() => setViewMode("cards")}
           >
             <LayoutGrid className="mr-1.5 size-4" /> Cards View
@@ -181,7 +181,7 @@ export default function VendorOrdersPage() {
                               {order.quantity && order.quantity > 1 ? `(${order.quantity}x)` : ""}
                             </p>
                             <div className="flex items-center gap-1.5 mt-0.5">
-                              <p className="text-xs font-bold text-[#c8402b]">
+                              <p className="text-xs font-bold text-[#f43f5e]">
                                 {formatPrice(order.totalAmount || (item?.price ?? 0) * (order.quantity || 1))}
                               </p>
                               <span className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-bold bg-amber-500/10 text-amber-800 dark:text-amber-400">
@@ -309,7 +309,7 @@ export default function VendorOrdersPage() {
                         <Banknote className="size-3" /> Cash on Delivery
                       </span>
                     </div>
-                    <p className="text-sm font-semibold text-[#c8402b]">
+                    <p className="text-sm font-semibold text-[#f43f5e]">
                       {formatPrice(order.totalAmount || (item?.price ?? 0) * (order.quantity || 1))}
                     </p>
                     <p className="flex items-center gap-1.5 text-xs text-muted-foreground">

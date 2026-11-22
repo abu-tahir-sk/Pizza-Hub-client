@@ -111,7 +111,7 @@ export function HeroSection() {
     <section
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="relative overflow-hidden bg-[#141316] text-white selection:bg-[#e31837] selection:text-white"
+      className="relative overflow-hidden bg-[#141316] text-white selection:bg-[#f43f5e] selection:text-white"
     >
       {/* Scattered Organic Floating Basil Leaves & Tomato Slices matching reference */}
       <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden">
@@ -207,7 +207,7 @@ export function HeroSection() {
                 className="space-y-4"
               >
                 {/* Red Subtitle: Today's Special */}
-                <p className="text-sm sm:text-base font-semibold tracking-wide text-[#e31837]">
+                <p className="text-sm sm:text-base font-semibold tracking-wide text-[#f43f5e]">
                   {active.tag}
                 </p>
 
@@ -230,7 +230,7 @@ export function HeroSection() {
 
                   <Link
                     href="/menu"
-                    className="inline-flex items-center justify-center rounded-full bg-[#e31837] hover:bg-[#c4122d] px-7 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-red-600/30 hover:shadow-red-600/50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                    className="inline-flex items-center justify-center rounded-full bg-[#f43f5e] hover:bg-[#e11d48] px-7 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-[#f43f5e]/30 hover:shadow-[#f43f5e]/50 hover:scale-105 active:scale-95 transition-all cursor-pointer"
                   >
                     View Menu
                   </Link>
@@ -276,7 +276,7 @@ export function HeroSection() {
                           aria-label={`Select ${item.name}`}
                           className="group relative rounded-full size-16 sm:size-20 p-0.5 transition-all duration-300 hover:scale-110 cursor-pointer opacity-75 hover:opacity-100 flex items-center justify-center"
                         >
-                          <div className="size-full rounded-full overflow-hidden shadow-lg border-2 border-white/10 group-hover:border-[#e31837] transition-colors relative">
+                          <div className="size-full rounded-full overflow-hidden shadow-lg border-2 border-white/10 group-hover:border-[#f43f5e] transition-colors relative">
                             <Image
                               src={item.pizzaSrc}
                               alt={item.name}
@@ -297,7 +297,7 @@ export function HeroSection() {
           {/* Right Column: Big Sliding/Rotating Pizza */}
           <div className="lg:col-span-6 relative flex items-center justify-center lg:justify-end overflow-visible">
             {/* Warm subtle ambient glow behind the pizza */}
-            <div className="absolute size-[340px] sm:size-[460px] lg:size-[560px] rounded-full bg-[radial-gradient(circle,rgba(227,24,55,0.25)_0%,transparent_70%)] blur-3xl pointer-events-none" />
+            <div className="absolute size-[340px] sm:size-[460px] lg:size-[560px] rounded-full bg-[radial-gradient(circle,rgba(244,63,94,0.25)_0%,transparent_70%)] blur-3xl pointer-events-none" />
 
             {/* Sliding Big Pizza on Selection Change */}
             <AnimatePresence mode="wait">
@@ -338,9 +338,9 @@ export function HeroSection() {
             return (
               <div
                 key={item.title}
-                className="flex items-center gap-3.5 rounded-2xl border border-white/5 bg-white/[0.04] p-4 backdrop-blur-md transition-all duration-300 hover:border-red-500/40 hover:bg-white/[0.07] shadow-sm"
+                className="flex items-center gap-3.5 rounded-2xl border border-white/5 bg-white/[0.04] p-4 backdrop-blur-md transition-all duration-300 hover:border-[#f43f5e]/40 hover:bg-white/[0.07] shadow-sm"
               >
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#e31837]/15 text-[#e31837] border border-[#e31837]/25">
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[#f43f5e]/15 text-[#f43f5e] border border-[#f43f5e]/25">
                   <Icon className="size-5 stroke-[2.2]" />
                 </span>
                 <div>

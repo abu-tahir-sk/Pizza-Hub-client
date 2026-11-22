@@ -115,7 +115,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                 active
-                  ? "bg-[#c8402b] text-white shadow-sm"
+                  ? "bg-[#f43f5e] text-white shadow-sm"
                   : "text-muted-foreground hover:bg-muted hover:text-foreground"
               )}
             >
@@ -134,21 +134,21 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           className={cn(
             "flex items-center gap-3 rounded-lg p-2.5 transition-colors border",
             pathname === "/profile"
-              ? "bg-[#c8402b]/10 border-[#c8402b]/30 text-foreground"
+              ? "bg-[#f43f5e]/10 border-[#f43f5e]/30 text-foreground"
               : "bg-muted/50 border-border hover:bg-muted text-foreground"
           )}
           title="Click to view Profile Settings"
         >
           <Avatar className="size-9 ring-1 ring-border shrink-0">
             <AvatarImage src={user?.image ?? undefined} alt={user?.name ?? "User"} />
-            <AvatarFallback className="bg-[#c8402b] text-white font-semibold">
+            <AvatarFallback className="bg-[#f43f5e] text-white font-semibold">
               {(user?.name ?? "U").charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-foreground">{user?.name ?? "Loading…"}</p>
             <p className="truncate text-xs text-muted-foreground flex items-center gap-1.5">
-              <span className="text-[#c8402b] hover:underline font-medium">Profile Settings</span>
+              <span className="text-[#f43f5e] hover:underline font-medium">Profile Settings</span>
             </p>
           </div>
           <Settings className="size-4 text-muted-foreground shrink-0" />
@@ -219,7 +219,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
               <span className="text-base font-bold capitalize text-foreground">
                 {role} Console
               </span>
-              <Badge variant="outline" className="hidden sm:inline-flex border-[#c8402b]/30 bg-[#c8402b]/10 text-[#c8402b] text-[11px] font-semibold dark:border-[#f0a23c]/30 dark:bg-[#f0a23c]/10 dark:text-[#f0a23c]">
+              <Badge variant="outline" className="hidden sm:inline-flex border-[#f43f5e]/30 bg-[#f43f5e]/10 text-[#f43f5e] text-[11px] font-semibold dark:border-[#f0a23c]/30 dark:bg-[#f0a23c]/10 dark:text-[#f0a23c]">
                 PizzaHub Dashboard
               </Badge>
             </div>
@@ -229,7 +229,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
             {/* Quick Visit Store / Home button */}
             <Button asChild variant="outline" size="sm" className="hidden sm:inline-flex border-border bg-card text-xs font-semibold text-foreground hover:bg-muted">
               <Link href="/">
-                <Store className="mr-1.5 size-3.5 text-[#c8402b]" />
+                <Store className="mr-1.5 size-3.5 text-[#f43f5e]" />
                 Back to Site
               </Link>
             </Button>
@@ -253,9 +253,9 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
                   className="flex items-center gap-2 rounded-full p-1 transition-colors hover:bg-muted focus:outline-none"
                   aria-label="User menu"
                 >
-                  <Avatar className="size-8 ring-2 ring-[#c8402b]/20">
+                  <Avatar className="size-8 ring-2 ring-[#f43f5e]/20">
                     <AvatarImage src={user?.image ?? undefined} alt={user?.name ?? "User"} />
-                    <AvatarFallback className="bg-[#c8402b] text-xs font-bold text-white">
+                    <AvatarFallback className="bg-[#f43f5e] text-xs font-bold text-white">
                       {(user?.name ?? "U").charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>

@@ -152,7 +152,7 @@ export default function AdminUsersPage() {
       ) : users.length === 0 ? (
         <Card className="border-dashed border-border bg-card">
           <CardContent className="flex flex-col items-center gap-2 py-16 text-center">
-            <Users className="size-9 text-[#c8402b]" />
+            <Users className="size-9 text-[#f43f5e]" />
             <p className="font-semibold text-foreground">No users match your filters</p>
             <p className="text-sm text-muted-foreground">Try a different search or role.</p>
           </CardContent>

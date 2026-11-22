@@ -226,7 +226,7 @@ function MenuBrowser() {
             <Button
               variant="ghost"
               size="sm"
-              className="text-[#c8402b] hover:text-[#ad3521] flex items-center gap-1.5 font-semibold"
+              className="text-[#f43f5e] hover:text-[#e11d48] flex items-center gap-1.5 font-semibold"
               onClick={() => {
                 setSearch("");
                 setLocation("");
@@ -254,13 +254,13 @@ function MenuBrowser() {
         ) : error ? (
           <div className="rounded-xl border border-red-200 bg-red-50 p-10 text-center dark:border-red-900/50 dark:bg-red-950/30">
             <p className="font-medium text-red-700 dark:text-red-400">{error}</p>
-            <Button onClick={() => void load()} className="mt-4 bg-[#c8402b] hover:bg-[#ad3521]">
+            <Button onClick={() => void load()} className="mt-4 bg-[#f43f5e] hover:bg-[#e11d48]">
               Try again
             </Button>
           </div>
         ) : items.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border bg-card p-14 text-center">
-            <Pizza className="mx-auto mb-3 size-11 text-[#c8402b]" />
+            <Pizza className="mx-auto mb-3 size-11 text-[#f43f5e]" />
             <h2 className="text-lg font-bold text-foreground">No pizzas match your search</h2>
             <p className="mt-1 text-sm text-muted-foreground">
               Try a different keyword, category, or location.
