@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   ChevronDown,
+  Heart,
   Home,
   LayoutDashboard,
   LogIn,
@@ -21,6 +22,7 @@ import { useSession, signOut } from "@/lib/auth-client";
 import { clearToken, getSessionUser } from "@/lib/api";
 import { dashboardPath, type AppUser } from "@/lib/types";
 import { useTheme } from "@/context/theme-context";
+import { useFavorites } from "@/context/favorites-context";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -43,6 +45,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const { theme, toggleTheme } = useTheme();
+  const { favorites } = useFavorites();
 
   useEffect(() => {
     if (session?.user) {
@@ -135,6 +138,25 @@ export function SiteHeader() {
 
           {/* Header Right Actions */}
           <div className="flex items-center gap-3">
+            {/* Wishlist / Favorites quick icon button */}
+            <Button
+              asChild
+              type="button"
+              variant="outline"
+              size="icon"
+              aria-label="View saved favorites"
+              className="relative rounded-full size-9 border-border bg-muted/50 text-foreground hover:text-foreground hover:bg-muted inline-flex cursor-pointer"
+            >
+              <Link href="/favorites">
+                <Heart className="size-4" />
+                {favorites.length > 0 ? (
+                  <span className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full bg-[#f43f5e] text-[9px] font-black text-white shadow-md">
+                    {favorites.length}
+                  </span>
+                ) : null}
+              </Link>
+            </Button>
+
             {/* Auth Dependent Controls */}
             {isPending ? (
               <div className="h-10 w-28 animate-pulse rounded-full bg-muted" />
