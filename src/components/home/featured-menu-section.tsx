@@ -13,14 +13,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.15 },
+  viewport: { once: false, amount: 0.15 },
   transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
 };
 
 const getCardMotion = (index: number) => ({
   initial: { opacity: 0, y: 18 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.1 },
+  viewport: { once: false, amount: 0.1 },
   transition: {
     duration: 0.4,
     delay: (index % 4) * 0.06,

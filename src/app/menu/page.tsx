@@ -105,14 +105,9 @@ function MenuBrowser() {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors">
-      {/* Compact Advertisement Billboard Banner */}
-      <section className="relative mx-auto max-w-7xl px-4 pt-4 sm:pt-6 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-          className="group relative min-h-[150px] sm:min-h-[175px] lg:min-h-[200px] w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-border/70 shadow-lg flex items-center"
-        >
+      {/* Compact Advertisement Billboard Banner with Two-Sided Scroll-Reversible Animation */}
+      <section className="relative mx-auto max-w-7xl px-4 pt-4 sm:pt-6 sm:px-6 lg:px-8 overflow-hidden">
+        <div className="group relative min-h-[160px] sm:min-h-[190px] lg:min-h-[220px] w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-border/70 shadow-lg flex items-center bg-[#181312]">
           {/* Background Pizza Image */}
           <Image
             src="/images/menu-banner-pizza.jpg"
@@ -120,41 +115,99 @@ function MenuBrowser() {
             fill
             priority
             sizes="(max-width: 1280px) 100vw, 1280px"
-            className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            className="object-cover object-center opacity-85 transition-transform duration-1000 ease-out group-hover:scale-105"
           />
 
           {/* Lighting & Darkness Overlay for high contrast and readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/30 sm:to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/80 to-black/40 sm:to-black/25 pointer-events-none" />
           <div className="absolute inset-0 bg-black/20 pointer-events-none" />
 
-          {/* Ad Content Container */}
-          <div className="relative z-10 flex flex-col justify-center px-5 py-4 sm:px-8 sm:py-6 lg:px-12 max-w-2xl text-white">
-            <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#f43f5e] mb-1">
-              <Sparkles className="size-3.5" />
-              <span>Today Best Deal</span>
-            </span>
-
-            <h1 className="font-heading text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-black tracking-tight leading-tight text-white drop-shadow-md">
-              Fresh, Hot &amp; Wood-Fired
-              <br />
-              <span className="text-[#fbbf24] drop-shadow-sm">
-                Get 20% OFF Today!
+          <div className="relative z-10 grid w-full items-center grid-cols-1 md:grid-cols-12 gap-4 px-5 py-4 sm:px-8 sm:py-6 lg:px-12 text-white">
+            {/* Left Column: Heading, Badge, Coupon - Glides from Left & Top, Reverses on Scroll */}
+            <motion.div
+              initial={{ opacity: 0, x: -70, y: -25 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: false, amount: 0.25 }}
+              transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+              className="md:col-span-7 lg:col-span-8 flex flex-col justify-center"
+            >
+              <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#f43f5e] mb-1">
+                <Sparkles className="size-3.5" />
+                <span>Today Best Deal</span>
               </span>
-            </h1>
 
-            <p className="mt-1 text-xs sm:text-sm text-neutral-300 font-normal line-clamp-1">
-              Use code <span className="font-bold text-white bg-white/20 px-1.5 py-0.5 rounded">PIZZA20</span> at checkout on all handcrafted artisan pizzas.
-            </p>
+              <h1 className="font-heading text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-black tracking-tight leading-tight text-white drop-shadow-md">
+                Fresh, Hot &amp; Wood-Fired
+                <br />
+                <span className="text-[#fbbf24] drop-shadow-sm">
+                  Get 20% OFF Today!
+                </span>
+              </h1>
+
+              <p className="mt-1.5 text-xs sm:text-sm text-neutral-300 font-normal line-clamp-1">
+                Use coupon <span className="font-bold text-white bg-white/20 px-2 py-0.5 rounded border border-white/25">PIZZA20</span> on all handcrafted artisan pizzas.
+              </p>
+            </motion.div>
+
+            {/* Right Column: Floating Pizza, Chili & Deal Tag - Glides from Right & Bottom, Reverses on Scroll */}
+            <div className="hidden md:flex md:col-span-5 lg:col-span-4 relative items-center justify-end">
+              {/* Floating Delicious Pizza */}
+              <motion.div
+                initial={{ opacity: 0, x: 70, y: 35, rotate: 15 }}
+                whileInView={{ opacity: 1, x: 0, y: 0, rotate: 0 }}
+                viewport={{ once: false, amount: 0.25 }}
+                transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
+                className="relative size-32 lg:size-40 shrink-0 drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]"
+              >
+                <Image
+                  src="/images/slider/pizza-supreme.png"
+                  alt="Delicious Hot Pizza"
+                  fill
+                  sizes="160px"
+                  className="object-contain"
+                />
+              </motion.div>
+
+              {/* Floating Chili Pepper */}
+              <motion.div
+                initial={{ opacity: 0, y: -45, rotate: -35 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 10 }}
+                viewport={{ once: false, amount: 0.25 }}
+                transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                className="absolute -top-3 right-24 lg:right-32 w-10 lg:w-14 pointer-events-none drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)]"
+              >
+                <Image
+                  src="/images/slider/ingredient-chili-1.png"
+                  alt="Red Chili"
+                  width={60}
+                  height={80}
+                  className="object-contain"
+                />
+              </motion.div>
+
+              {/* Deal Price Tag Badge */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.7, y: 40 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.25 }}
+                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+                className="absolute bottom-0 right-0 bg-gradient-to-r from-[#f43f5e] to-[#e11d48] text-white font-black text-xs lg:text-sm px-3.5 py-1.5 rounded-full shadow-xl border border-white/20 flex items-center gap-1"
+              >
+                <span>ONLY</span>
+                <span className="text-[#fbbf24] text-sm lg:text-base font-extrabold">$14.99</span>
+              </motion.div>
+            </div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pt-6 pb-12 sm:px-6 lg:px-8">
-        {/* Filters */}
+        {/* Filters - Glides from Top and Reverses on Scroll */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: -25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, amount: 0.2 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           className="mb-8 grid gap-3 rounded-xl border border-border bg-card p-4 shadow-sm md:grid-cols-[1.6fr_1fr_1fr_1fr]"
         >
           <div className="relative">
@@ -283,10 +336,10 @@ function MenuBrowser() {
               return (
                 <motion.div
                   key={item._id}
-                  initial={{ opacity: 0, x: xOffset, y: 30, scale: 0.96 }}
+                  initial={{ opacity: 0, x: xOffset, y: 35, scale: 0.95 }}
                   whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-                  viewport={{ once: true, amount: 0.15 }}
-                  transition={{ duration: 0.5, delay: (index % 6) * 0.06, ease: [0.22, 1, 0.36, 1] }}
+                  viewport={{ once: false, amount: 0.15 }}
+                  transition={{ duration: 0.65, delay: (index % 3) * 0.08, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <MenuItemCard item={item} index={index} />
                 </motion.div>

@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.15 },
+  viewport: { once: false, amount: 0.15 },
   transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
 };
 
@@ -17,7 +17,7 @@ const get3ColSlide = (index: number) => {
   return {
     initial: { opacity: 0, x, y: 20, scale: 0.98 },
     whileInView: { opacity: 1, x: 0, y: 0, scale: 1 },
-    viewport: { once: true, amount: 0.15 },
+    viewport: { once: false, amount: 0.15 },
     transition: {
       duration: 0.45,
       delay: (index % 3) * 0.08,
