@@ -105,42 +105,51 @@ function MenuBrowser() {
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors">
-      {/* Full Image Billboard Advertisement Banner */}
-      <section className="relative mx-auto max-w-7xl px-4 pt-6 sm:px-6 lg:px-8">
+      {/* Compact Advertisement Billboard Banner */}
+      <section className="relative mx-auto max-w-7xl px-4 pt-4 sm:pt-6 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="group relative min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] w-full overflow-hidden rounded-3xl border border-border/80 shadow-2xl flex items-center"
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="group relative min-h-[150px] sm:min-h-[175px] lg:min-h-[200px] w-full overflow-hidden rounded-2xl sm:rounded-3xl border border-border/70 shadow-lg flex items-center"
         >
-          {/* Full Background High-Resolution Pizza Image */}
+          {/* Background Pizza Image */}
           <Image
             src="/images/menu-banner-pizza.jpg"
-            alt="Hot & Fresh Wood-Fired Artisan Pizza Deal"
+            alt="Fresh, Hot & Wood-Fired Pizza Deal"
             fill
             priority
             sizes="(max-width: 1280px) 100vw, 1280px"
-            className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
+            className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
           />
 
-          {/* Cinematic Lighting & Darkness Overlay for supreme readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/75 to-black/35 sm:to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/40 pointer-events-none" />
+          {/* Lighting & Darkness Overlay for high contrast and readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/30 sm:to-transparent" />
+          <div className="absolute inset-0 bg-black/20 pointer-events-none" />
 
           {/* Ad Content Container */}
-          <div className="relative z-10 flex flex-col justify-center p-6 sm:p-10 lg:p-16 max-w-3xl text-white">
-            <h1 className="font-heading text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] text-white drop-shadow-2xl">
+          <div className="relative z-10 flex flex-col justify-center px-5 py-4 sm:px-8 sm:py-6 lg:px-12 max-w-2xl text-white">
+            <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-black uppercase tracking-widest text-[#f43f5e] mb-1">
+              <Sparkles className="size-3.5" />
+              <span>Today Best Deal</span>
+            </span>
+
+            <h1 className="font-heading text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-black tracking-tight leading-tight text-white drop-shadow-md">
               Fresh, Hot &amp; Wood-Fired
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#fde047] via-[#fbbf24] to-[#f59e0b]">
+              <span className="text-[#fbbf24] drop-shadow-sm">
                 Get 20% OFF Today!
               </span>
             </h1>
+
+            <p className="mt-1 text-xs sm:text-sm text-neutral-300 font-normal line-clamp-1">
+              Use code <span className="font-bold text-white bg-white/20 px-1.5 py-0.5 rounded">PIZZA20</span> at checkout on all handcrafted artisan pizzas.
+            </p>
           </div>
         </motion.div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 pt-6 pb-12 sm:px-6 lg:px-8">
         {/* Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
