@@ -27,6 +27,15 @@ export const metadata: Metadata = {
   },
   description:
     "PizzaHub is a pizza ordering & delivery platform. Discover local pizza shops, browse menus, and place orders.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.png",
+  },
 };
 
 export default function RootLayout({
