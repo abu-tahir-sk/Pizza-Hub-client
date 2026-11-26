@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Bar,
@@ -93,42 +93,38 @@ export default function CustomerOverviewPage() {
     }
   }
 
-  useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      try {
-        const [orderStatsRes, myOrdersRes] = await Promise.allSettled([
-          fetchOrderStats(),
-          fetchCustomerOrders(),
-        ]);
-        if (!cancelled) {
-          if (orderStatsRes.status === "fulfilled") {
-            setStats(orderStatsRes.value);
-          } else {
-            setStats({ total: 0, pending: 0, accepted: 0, rejected: 0, cancelled: 0 });
-          }
-          if (myOrdersRes.status === "fulfilled") {
-            setOrders(myOrdersRes.value);
-          } else {
-            setOrders([]);
-          }
-          if (orderStatsRes.status === "rejected" && myOrdersRes.status === "rejected") {
-            setError("Could not load your dashboard data. Please refresh.");
-          } else {
-            setError(null);
-          }
-        }
-      } catch {
-        if (!cancelled) setError("Could not load your dashboard data. Please refresh.");
-      } finally {
-        if (!cancelled) setLoading(false);
+  const loadDashboardData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [orderStatsRes, myOrdersRes] = await Promise.allSettled([
+        fetchOrderStats(),
+        fetchCustomerOrders(),
+      ]);
+      if (orderStatsRes.status === "fulfilled") {
+        setStats(orderStatsRes.value);
+      } else {
+        setStats({ total: 0, pending: 0, accepted: 0, rejected: 0, cancelled: 0 });
       }
+      if (myOrdersRes.status === "fulfilled") {
+        setOrders(myOrdersRes.value);
+      } else {
+        setOrders([]);
+      }
+      if (orderStatsRes.status === "rejected" && myOrdersRes.status === "rejected") {
+        setError("Could not load your dashboard data. Please try again.");
+      } else {
+        setError(null);
+      }
+    } catch {
+      setError("Could not load your dashboard data. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    void load();
-    return () => {
-      cancelled = true;
-    };
   }, []);
+
+  useEffect(() => {
+    void loadDashboardData();
+  }, [loadDashboardData]);
 
   const chartData = [
     { name: "Pending", count: stats?.pending ?? 0, fill: "#f59e0b" },
@@ -152,8 +148,16 @@ export default function CustomerOverviewPage() {
       />
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
-          {error}
+        <div className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
+          <span>{error}</span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => void loadDashboardData()}
+            className="border-red-300 hover:bg-red-100 dark:hover:bg-red-900/40"
+          >
+            Retry
+          </Button>
         </div>
       ) : null}
 

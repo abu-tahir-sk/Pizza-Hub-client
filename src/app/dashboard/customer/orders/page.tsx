@@ -83,8 +83,11 @@ export default function CustomerOrdersPage() {
       </Tabs>
 
       {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
-          {error}
+        <div className="flex items-center justify-between rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
+          <span>{error}</span>
+          <Button variant="outline" size="sm" onClick={() => void load()} className="border-red-300 hover:bg-red-100 dark:hover:bg-red-900/40">
+            Retry
+          </Button>
         </div>
       ) : null}
 
