@@ -44,15 +44,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${plusJakartaSans.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${plusJakartaSans.variable} dark h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <link rel="icon" href="/favicon.ico?v=20261126v3" sizes="any" />
-        <link rel="icon" href="/icon.svg?v=20261126v3" type="image/svg+xml" />
-        <link rel="icon" href="/icon.png?v=20261126v3" type="image/png" sizes="48x48" />
-        <link rel="apple-touch-icon" href="/apple-icon.png?v=20261126v3" />
-      </head>
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
         {/* Apply the saved theme before first paint to avoid a light flash. */}
         <script
