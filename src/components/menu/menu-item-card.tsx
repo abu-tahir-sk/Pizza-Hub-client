@@ -130,20 +130,30 @@ export function MenuItemCard({ item, index = 0, priority = false }: MenuItemCard
           </p>
         </div>
 
-        {/* ─── Bottom Action Row (Matching Reference: "ADD TO CART" pill on Left, "$XX.XX USD" on Right) ─── */}
-        <div className="flex items-center justify-between gap-3 pt-2">
-          {/* "ADD TO CART" Pill Button */}
-          <Button
-            asChild
-            variant="outline"
-            size="sm"
-            className="rounded-full border border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-[#f43f5e] hover:text-white hover:border-[#f43f5e] px-4 py-1.5 text-[11px] font-extrabold uppercase tracking-wider text-foreground transition-all duration-300 shadow-xs hover:shadow-md hover:shadow-[#f43f5e]/25 active:scale-95 group/btn"
-          >
-            <Link href={`/menu/${item._id}`} className="flex items-center gap-1.5">
-              <ShoppingCart className="size-3.5 transition-transform duration-300 group-hover/btn:-translate-y-0.5" />
-              <span>Add to Cart</span>
-            </Link>
-          </Button>
+        {/* ─── Bottom Action Row: View Details + Order on Left, Price on Right ─── */}
+        <div className="flex items-center justify-between gap-2 pt-2">
+          <div className="flex items-center gap-1.5">
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className="rounded-full border border-neutral-300 dark:border-neutral-700 bg-transparent hover:bg-muted px-2.5 py-1 text-[11px] font-bold text-foreground transition-all duration-200 active:scale-95"
+            >
+              <Link href={`/menu/${item._id}`}>
+                View Details
+              </Link>
+            </Button>
+            <Button
+              asChild
+              size="sm"
+              className="rounded-full bg-[#f43f5e] hover:bg-[#e11d48] text-white px-3 py-1 text-[11px] font-bold tracking-wide transition-all duration-200 shadow-xs hover:shadow-md hover:shadow-[#f43f5e]/25 active:scale-95"
+            >
+              <Link href={`/menu/${item._id}`} className="flex items-center gap-1">
+                <ShoppingCart className="size-3" />
+                Order
+              </Link>
+            </Button>
+          </div>
 
           {/* Price: e.g. "$24.00 USD" matching "$66.00 USD" in image */}
           <div className="flex items-baseline gap-1 text-right">

@@ -291,13 +291,13 @@ function ItemDetails() {
                   <h2 className="text-lg font-bold text-foreground">Place your order</h2>
                 </div>
 
-                {!isCustomer ? (
+                {user?.role === "admin" ? (
                   <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-4 text-sm text-amber-800 dark:text-amber-300">
-                    {isOwner
-                      ? "This is your own menu item — vendors cannot order their own items."
-                      : user?.role === "vendor"
-                        ? "Vendor accounts cannot place customer orders."
-                        : "Only customer accounts can place orders. Admin accounts cannot order."}
+                    Admin accounts cannot place customer orders.
+                  </div>
+                ) : isOwner ? (
+                  <div className="rounded-lg bg-amber-500/10 border border-amber-500/30 p-4 text-sm text-amber-800 dark:text-amber-300">
+                    This is your own menu item — vendors cannot order their own items.
                   </div>
                 ) : (
                   <form onSubmit={handleOrder} className="space-y-4">
@@ -360,10 +360,10 @@ function ItemDetails() {
                       />
                     </div>
 
-                    {/* Special Instructions */}
+                    {/* Additional Message / Special Instructions */}
                     <div className="space-y-1.5">
                       <Label htmlFor="message">
-                        Special Instructions <span className="font-normal text-muted-foreground">(optional)</span>
+                        Additional Message / Special Instructions <span className="font-normal text-muted-foreground">(optional)</span>
                       </Label>
                       <Textarea
                         id="message"

@@ -185,24 +185,26 @@ export function FeaturedMenuSection() {
                         {item.description || "Handcrafted artisan pizza with freshly melted mozzarella and secret tomato sauce."}
                       </p>
 
-                      {/* Price */}
-                      <div className="mt-3 flex items-baseline gap-1">
+                      {/* Vendor & Location info */}
+                      <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                        <span className="inline-flex items-center gap-1.5 truncate max-w-[60%]">
+                          <Store className="size-3 text-[#f59e0b] shrink-0" />
+                          <span className="truncate">{vendorName(item)}</span>
+                        </span>
+                        <span className="truncate text-[11px]">{item.location || "Local"}</span>
+                      </div>
+
+                      {/* Price & View Details button */}
+                      <div className="mt-3 flex items-center justify-between gap-2 pt-2 border-t border-border/50">
                         <span className="text-base font-bold text-[#f43f5e]">
                           ${Number(item.price).toFixed(2)}
                         </span>
-                      </div>
-
-                      {/* Bottom action button */}
-                      <div className="mt-auto pt-3">
                         <Link
                           href={`/menu/${item._id}`}
-                          className="flex h-9 w-full items-center justify-between rounded-xl bg-muted px-3 text-xs font-semibold text-foreground transition-colors hover:bg-muted/80"
+                          className="inline-flex items-center gap-1 rounded-full bg-[#f43f5e] px-3 py-1 text-xs font-bold text-white transition-colors hover:bg-[#e11d48]"
                         >
-                          <span className="inline-flex items-center gap-1.5 truncate">
-                            <Store className="size-3 text-[#f59e0b]" />
-                            <span className="truncate">{vendorName(item)}</span>
-                          </span>
-                          <ArrowRight className="size-3.5 shrink-0 text-muted-foreground" />
+                          View Details
+                          <ArrowRight className="size-3" />
                         </Link>
                       </div>
                     </div>

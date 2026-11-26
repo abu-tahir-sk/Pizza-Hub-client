@@ -170,15 +170,15 @@ export default function CustomerOverviewPage() {
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard label="Total Orders" value={stats?.total ?? 0} icon={ShoppingBag} />
-          <StatCard label="Pending" value={stats?.pending ?? 0} icon={Clock} tone="warning" />
+          <StatCard label="Pending Orders" value={stats?.pending ?? 0} icon={Clock} tone="warning" />
           <StatCard
-            label="Accepted"
+            label="Accepted Orders"
             value={stats?.accepted ?? 0}
             icon={CheckCircle2}
             tone="success"
           />
           <StatCard
-            label="Rejected"
+            label="Rejected Orders"
             value={stats?.rejected ?? 0}
             icon={XCircle}
             tone="danger"
