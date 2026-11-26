@@ -180,7 +180,7 @@ export function SiteHeader() {
             </Button>
 
             {/* Auth Dependent Controls */}
-            {isPending ? (
+            {isPending && !user ? (
               <div className="h-10 w-28 animate-pulse rounded-full bg-muted" />
             ) : user ? (
               <div className="flex items-center gap-3">
