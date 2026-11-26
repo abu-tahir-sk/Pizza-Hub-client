@@ -70,7 +70,17 @@ const NAV: Record<string, NavItem[]> = {
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
-  const [user, setUser] = useState<AppUser | undefined>(session?.user as unknown as AppUser | undefined);
+  const [user, setUser] = useState<AppUser | undefined>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = sessionStorage.getItem("pizzahub:user") || localStorage.getItem("pizzahub:user");
+        if (stored) return JSON.parse(stored) as AppUser;
+      } catch {
+        // ignore
+      }
+    }
+    return session?.user as unknown as AppUser | undefined;
+  });
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);

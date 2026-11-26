@@ -40,7 +40,17 @@ import { BrandLogo } from "@/components/layout/brand-logo";
 
 export function SiteHeader() {
   const { data: session, isPending, refetch } = useSession();
-  const [activeUser, setActiveUser] = useState<AppUser | undefined>(session?.user as unknown as AppUser | undefined);
+  const [activeUser, setActiveUser] = useState<AppUser | undefined>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = sessionStorage.getItem("pizzahub:user") || localStorage.getItem("pizzahub:user");
+        if (stored) return JSON.parse(stored) as AppUser;
+      } catch {
+        // ignore
+      }
+    }
+    return session?.user as unknown as AppUser | undefined;
+  });
   const user = activeUser;
   const pathname = usePathname();
   const router = useRouter();
@@ -52,23 +62,35 @@ export function SiteHeader() {
       setActiveUser(session.user as unknown as AppUser);
     } else {
       void getSessionUser().then((u) => {
-        if (u) setActiveUser(u as unknown as AppUser);
-        else setActiveUser(undefined);
+        if (u) {
+          setActiveUser(u as unknown as AppUser);
+        } else {
+          try {
+            const stored = sessionStorage.getItem("pizzahub:user") || localStorage.getItem("pizzahub:user");
+            if (!stored) setActiveUser(undefined);
+          } catch {
+            setActiveUser(undefined);
+          }
+        }
       });
     }
-  }, [session, pathname]);
-
-  // Keep session state immediately updated when route or auth changes
-  useEffect(() => {
-    void refetch();
-  }, [pathname, refetch]);
+  }, [session]);
 
   useEffect(() => {
     const handleAuthEvent = () => {
       void refetch();
       void getSessionUser().then((u) => {
-        if (u) setActiveUser(u as unknown as AppUser);
-        else setActiveUser(undefined);
+        if (u) {
+          setActiveUser(u as unknown as AppUser);
+        } else {
+          try {
+            const stored = sessionStorage.getItem("pizzahub:user") || localStorage.getItem("pizzahub:user");
+            if (stored) setActiveUser(JSON.parse(stored) as AppUser);
+            else setActiveUser(undefined);
+          } catch {
+            setActiveUser(undefined);
+          }
+        }
       });
     };
     window.addEventListener("pizzahub-auth-change", handleAuthEvent);

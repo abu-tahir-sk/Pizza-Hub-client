@@ -94,9 +94,44 @@ export default function SignUpPage() {
         return;
       }
 
-      const sessionToken = (data as any)?.token;
+      const sessionToken = (data as any)?.token || (data as any)?.session?.token;
+      if (sessionToken && typeof window !== "undefined") {
+        try {
+          sessionStorage.setItem("pizzahub:session_token", sessionToken);
+          localStorage.setItem("pizzahub:session_token", sessionToken);
+        } catch {
+          // ignore
+        }
+      }
+
       await refreshToken(sessionToken);
-      const user = await getSessionUser(sessionToken);
+      let user = await getSessionUser(sessionToken);
+      const returnedUser = (data as any)?.user;
+      if (!user && returnedUser) {
+        user = {
+          id: returnedUser.id,
+          name: returnedUser.name || name.trim(),
+          email: returnedUser.email,
+          image: returnedUser.image || null,
+          role: (returnedUser.role || role) as UserRole,
+          isBlocked: false,
+          businessName: returnedUser.businessName || businessName.trim() || null,
+          subscriptionPlan: "free",
+        };
+      }
+      if (user && typeof window !== "undefined") {
+        try {
+          sessionStorage.setItem("pizzahub:user", JSON.stringify(user));
+          localStorage.setItem("pizzahub:user", JSON.stringify(user));
+          if (sessionToken && !localStorage.getItem("pizzahub:jwt_token")) {
+            sessionStorage.setItem("pizzahub:jwt_token", sessionToken);
+            localStorage.setItem("pizzahub:jwt_token", sessionToken);
+          }
+          window.dispatchEvent(new Event("pizzahub-auth-change"));
+        } catch {
+          // ignore
+        }
+      }
       if (!user) {
         const msg = "Account created, but we could not start your session. Please sign in.";
         setError(msg);

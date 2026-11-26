@@ -13,18 +13,35 @@ let tokenRequest: Promise<{ token: string; user: User } | null> | null = null;
 
 async function requestToken(explicitSessionToken?: string): Promise<{ token: string; user: User } | null> {
   try {
+    const sessionTokenToUse =
+      explicitSessionToken ||
+      (typeof window !== "undefined"
+        ? localStorage.getItem("pizzahub:session_token") || sessionStorage.getItem("pizzahub:session_token")
+        : undefined) ||
+      undefined;
+
     const headers: Record<string, string> = { "Content-Type": "application/json" };
-    if (explicitSessionToken) {
-      headers["x-session-token"] = explicitSessionToken;
+    if (sessionTokenToUse) {
+      headers["x-session-token"] = sessionTokenToUse;
     }
-    const url = explicitSessionToken
-      ? `${API_BASE_URL}/api/auth-extra/token?session_token=${encodeURIComponent(explicitSessionToken)}`
+    const currentJwt =
+      clientToken ||
+      (typeof window !== "undefined"
+        ? localStorage.getItem("pizzahub:jwt_token") || sessionStorage.getItem("pizzahub:jwt_token")
+        : null);
+    if (currentJwt) {
+      headers["Authorization"] = `Bearer ${currentJwt}`;
+    }
+
+    const url = sessionTokenToUse
+      ? `${API_BASE_URL}/api/auth-extra/token?session_token=${encodeURIComponent(sessionTokenToUse)}`
       : `${API_BASE_URL}/api/auth-extra/token`;
 
     const res = await fetch(url, {
       method: "POST",
       credentials: "include",
       headers,
+      body: JSON.stringify(sessionTokenToUse ? { session_token: sessionTokenToUse } : {}),
     });
     if (!res.ok) return null;
 
@@ -32,6 +49,8 @@ async function requestToken(explicitSessionToken?: string): Promise<{ token: str
       success: boolean;
       data: { token: string; user: User };
     };
+    if (!json?.data?.token) return null;
+
     clientToken = json.data.token;
     try {
       if (typeof window !== "undefined") {
@@ -39,6 +58,10 @@ async function requestToken(explicitSessionToken?: string): Promise<{ token: str
         sessionStorage.setItem("pizzahub:user", JSON.stringify(json.data.user));
         localStorage.setItem("pizzahub:jwt_token", json.data.token);
         localStorage.setItem("pizzahub:user", JSON.stringify(json.data.user));
+        if (sessionTokenToUse) {
+          sessionStorage.setItem("pizzahub:session_token", sessionTokenToUse);
+          localStorage.setItem("pizzahub:session_token", sessionTokenToUse);
+        }
         window.dispatchEvent(new Event("pizzahub-auth-change"));
       }
     } catch {
@@ -83,18 +106,13 @@ export async function ensureToken(): Promise<string | null> {
 
 /** Discard the cached token and re-issue it from the Better Auth session. */
 export async function refreshToken(explicitSessionToken?: string): Promise<string | null> {
-  clientToken = null;
   tokenRequest = null;
-  try {
-    if (typeof window !== "undefined") {
-      sessionStorage.removeItem("pizzahub:jwt_token");
-      localStorage.removeItem("pizzahub:jwt_token");
-    }
-  } catch {
-    // ignore
-  }
   const result = await getTokenBridge(explicitSessionToken);
-  return result?.token ?? null;
+  if (result?.token) {
+    clientToken = result.token;
+    return result.token;
+  }
+  return null;
 }
 
 /** Returns the signed-in user (role, block state, plan) from the verified session. */
@@ -116,7 +134,20 @@ export async function getSessionUser(explicitSessionToken?: string): Promise<Use
     }
   }
   const result = await getTokenBridge(explicitSessionToken);
-  return result?.user ?? null;
+  if (result?.user) return result.user;
+  if (typeof window !== "undefined") {
+    try {
+      const storedUser =
+        sessionStorage.getItem("pizzahub:user") ||
+        localStorage.getItem("pizzahub:user");
+      if (storedUser) {
+        return JSON.parse(storedUser) as User;
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return null;
 }
 
 export function setApiToken(token: string | null): void {
@@ -129,8 +160,10 @@ export function setApiToken(token: string | null): void {
       } else {
         sessionStorage.removeItem("pizzahub:jwt_token");
         sessionStorage.removeItem("pizzahub:user");
+        sessionStorage.removeItem("pizzahub:session_token");
         localStorage.removeItem("pizzahub:jwt_token");
         localStorage.removeItem("pizzahub:user");
+        localStorage.removeItem("pizzahub:session_token");
       }
       window.dispatchEvent(new Event("pizzahub-auth-change"));
     }
@@ -145,12 +178,15 @@ export function getApiToken(): string | null {
 
 export function clearToken(): void {
   clientToken = null;
+  tokenRequest = null;
   try {
     if (typeof window !== "undefined") {
       sessionStorage.removeItem("pizzahub:jwt_token");
       sessionStorage.removeItem("pizzahub:user");
+      sessionStorage.removeItem("pizzahub:session_token");
       localStorage.removeItem("pizzahub:jwt_token");
       localStorage.removeItem("pizzahub:user");
+      localStorage.removeItem("pizzahub:session_token");
       window.dispatchEvent(new Event("pizzahub-auth-change"));
     }
   } catch {

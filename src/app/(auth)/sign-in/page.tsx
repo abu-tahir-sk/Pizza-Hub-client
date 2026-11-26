@@ -122,14 +122,23 @@ function SignInForm() {
         return;
       }
 
-      const sessionToken = (data as any)?.token;
+      const sessionToken = (data as any)?.token || (data as any)?.session?.token;
       const returnedUser = (data as any)?.user;
+
+      if (sessionToken && typeof window !== "undefined") {
+        try {
+          sessionStorage.setItem("pizzahub:session_token", sessionToken);
+          localStorage.setItem("pizzahub:session_token", sessionToken);
+        } catch {
+          // ignore
+        }
+      }
 
       let user = await getSessionUser(sessionToken);
       if (!user && returnedUser) {
         user = {
           id: returnedUser.id,
-          name: returnedUser.name || "Platform Admin",
+          name: returnedUser.name || "Customer",
           email: returnedUser.email,
           image: returnedUser.image || null,
           role: (returnedUser.role || "customer") as UserRole,
@@ -137,16 +146,16 @@ function SignInForm() {
           businessName: returnedUser.businessName || null,
           subscriptionPlan: (returnedUser.subscriptionPlan || "free") as "free" | "premium",
         };
+      }
+      if (user && typeof window !== "undefined") {
         try {
-          if (typeof window !== "undefined") {
-            sessionStorage.setItem("pizzahub:user", JSON.stringify(user));
-            localStorage.setItem("pizzahub:user", JSON.stringify(user));
-            if (sessionToken) {
-              sessionStorage.setItem("pizzahub:jwt_token", sessionToken);
-              localStorage.setItem("pizzahub:jwt_token", sessionToken);
-            }
-            window.dispatchEvent(new Event("pizzahub-auth-change"));
+          sessionStorage.setItem("pizzahub:user", JSON.stringify(user));
+          localStorage.setItem("pizzahub:user", JSON.stringify(user));
+          if (sessionToken && !localStorage.getItem("pizzahub:jwt_token")) {
+            sessionStorage.setItem("pizzahub:jwt_token", sessionToken);
+            localStorage.setItem("pizzahub:jwt_token", sessionToken);
           }
+          window.dispatchEvent(new Event("pizzahub-auth-change"));
         } catch {
           // ignore storage failures
         }

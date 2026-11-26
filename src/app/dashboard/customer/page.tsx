@@ -40,7 +40,23 @@ import { formatDate, formatPrice } from "@/lib/utils";
 export default function CustomerOverviewPage() {
   const router = useRouter();
   const { data: session, refetch } = useSession();
-  const user = session?.user as unknown as AppUser | undefined;
+  const [currentUser, setCurrentUser] = useState<AppUser | undefined>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = sessionStorage.getItem("pizzahub:user") || localStorage.getItem("pizzahub:user");
+        if (stored) return JSON.parse(stored) as AppUser;
+      } catch {
+        // ignore
+      }
+    }
+    return session?.user as unknown as AppUser | undefined;
+  });
+
+  useEffect(() => {
+    if (session?.user) setCurrentUser(session.user as unknown as AppUser);
+  }, [session]);
+
+  const user = currentUser;
 
   const [stats, setStats] = useState<OrderStats | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -81,11 +97,26 @@ export default function CustomerOverviewPage() {
     let cancelled = false;
     async function load() {
       try {
-        const [orderStats, myOrders] = await Promise.all([fetchOrderStats(), fetchCustomerOrders()]);
+        const [orderStatsRes, myOrdersRes] = await Promise.allSettled([
+          fetchOrderStats(),
+          fetchCustomerOrders(),
+        ]);
         if (!cancelled) {
-          setStats(orderStats);
-          setOrders(myOrders);
-          setError(null);
+          if (orderStatsRes.status === "fulfilled") {
+            setStats(orderStatsRes.value);
+          } else {
+            setStats({ total: 0, pending: 0, accepted: 0, rejected: 0, cancelled: 0 });
+          }
+          if (myOrdersRes.status === "fulfilled") {
+            setOrders(myOrdersRes.value);
+          } else {
+            setOrders([]);
+          }
+          if (orderStatsRes.status === "rejected" && myOrdersRes.status === "rejected") {
+            setError("Could not load your dashboard data. Please refresh.");
+          } else {
+            setError(null);
+          }
         }
       } catch {
         if (!cancelled) setError("Could not load your dashboard data. Please refresh.");
