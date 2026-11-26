@@ -29,12 +29,12 @@ export const metadata: Metadata = {
     "PizzaHub is a pizza ordering & delivery platform. Discover local pizza shops, browse menus, and place orders.",
   icons: {
     icon: [
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/icon.png", type: "image/png" },
-      { url: "/favicon.ico" },
+      { url: "/favicon.ico?v=20261126v3", sizes: "any" },
+      { url: "/icon.svg?v=20261126v3", type: "image/svg+xml" },
+      { url: "/icon.png?v=20261126v3", type: "image/png", sizes: "48x48" },
     ],
-    shortcut: "/icon.svg",
-    apple: "/icon.png",
+    shortcut: "/favicon.ico?v=20261126v3",
+    apple: "/apple-icon.png?v=20261126v3",
   },
 };
 
@@ -47,6 +47,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${plusJakartaSans.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="icon" href="/favicon.ico?v=20261126v3" sizes="any" />
+        <link rel="icon" href="/icon.svg?v=20261126v3" type="image/svg+xml" />
+        <link rel="icon" href="/icon.png?v=20261126v3" type="image/png" sizes="48x48" />
+        <link rel="apple-touch-icon" href="/apple-icon.png?v=20261126v3" />
+      </head>
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
         {/* Apply the saved theme before first paint to avoid a light flash. */}
         <script
